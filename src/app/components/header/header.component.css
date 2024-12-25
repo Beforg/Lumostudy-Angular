@@ -1,0 +1,43 @@
+
+@media (min-width: 1080px) {
+    header {
+        background-color: var(--laranja-p);
+        color: var(--branco-p);
+        padding: 1.5% 5%;
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        height: 355px;
+    }
+    
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }	
+    
+    h1 {
+        margin-top: 3%;
+        text-align: left;
+    }
+    
+    .botoes {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    
+    }
+    
+    .banner {
+        position: absolute;
+        margin-top: 200px;
+        margin-left: 65%;
+        width: 318px;
+        height: 369px;
+        
+    }
+}

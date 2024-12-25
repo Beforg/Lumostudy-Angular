@@ -1,0 +1,24 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px var(--cinza-borda);
+    color: var(--laranja-p);
+    padding: 0.2% 1%;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    border-left: solid 1px var(--cinza-borda);
+    padding-left: 5%;
+}

@@ -1,0 +1,43 @@
+<section>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <img [src]="logo" alt="Logo do Lumostudy" id="logo">
+        <h1>Registrar</h1>
+        <span class="span-inputs">
+            <label for="name"></label>
+            <app-input id="name" [placeholder]="'Nome'" [type]="'text'" [placeholder]="'Digite seu nome'" formControlName="nome"></app-input>
+            <div *ngIf="registerForm.get('nome')!.invalid && registerForm.get('nome')!.touched">
+                <small *ngIf="registerForm.get('nome')?.errors?.['required']">Nome é obrigatório.</small>
+                <small *ngIf="registerForm.get('nome')?.errors?.['minlength']">Nome deve ter pelo menos 3 caracteres.</small>
+            </div>
+
+            <label for="email"></label>
+            <app-input id="email" [placeholder]="'Email'" [type]="'text'" [placeholder]="'Digite seu Email'" formControlName="email"></app-input>
+            <div *ngIf="registerForm.get('email')!.invalid && registerForm.get('email')!.touched">
+                <small *ngIf="registerForm.get('email')?.errors?.['required']">Email é obrigatório.</small>
+                <small *ngIf="registerForm.get('email')?.errors?.['email']">Email inválido.</small>
+            </div>
+
+            <label for="confirmEmail"></label>
+            <app-input id="confirmEmail" [placeholder]="'Confirm seu Email'" [type]="'text'" [placeholder]="'Confirme seu Email'" formControlName="confirmEmail"></app-input>
+            <div *ngIf="registerForm.get('confirmEmail')!.invalid && registerForm.get('confirmEmail')!.touched">
+                <small *ngIf="registerForm.get('confirmEmail')?.errors?.['required']">Confirmação de Email é obrigatória.</small>
+                <small *ngIf="registerForm.get('confirmEmail')?.errors?.['email']">Email inválido.</small>
+            </div>
+
+            <label for="password"></label>
+            <app-input id="password" [placeholder]="'Senha'" [type]="'password'" [placeholder]="'Digite sua senha'" formControlName="password"></app-input>
+            <div *ngIf="registerForm.get('password')!.invalid && registerForm.get('password')!.touched">
+                <small *ngIf="registerForm.get('password')?.errors?.['required']">Senha é obrigatória.</small>
+                <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Senha deve ter pelo menos 6 caracteres.</small>
+            </div>
+
+            <label for="confirmPassword"></label>
+            <app-input id="confirmPassword" [placeholder]="'Confirme sua senha'" [type]="'password'" [placeholder]="'Confirme sua senha'" formControlName="confirmPassword"></app-input>
+            <div *ngIf="registerForm.get('confirmPassword')!.invalid && registerForm.get('confirmPassword')!.touched">
+                <small *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirmação de senha é obrigatória.</small>
+                <small *ngIf="registerForm.get('confirmPassword')?.errors?.['minlength']">Confirmação de senha deve ter pelo menos 6 caracteres.</small>
+            </div>
+        </span>
+        <app-button texto="Registrar" type="submit"></app-button>
+    </form>
+</section>

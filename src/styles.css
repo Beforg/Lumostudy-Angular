@@ -1,1 +1,170 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=M+PLUS+Rounded+1c:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    --laranja-p: #ffc117;
+    --preto-p: #131313;
+    --branco-p: #f7f7f7;
+    --cinza-sec: #F6F6F6;
+    --cinza-p: #828282;
+    --cinza-borda: #E0E0E0;
+    --box-shadow: 0 0 8px rgb(255, 193, 23, 0.3);
+    --verde-p: #28a745;
+    --vermelho-p: #dc3545;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.toast-top-right {
+    top: 12px;
+    right: 12px;
+    position: fixed;
+    z-index: 9999;
+}
+
+.toast-success, .toast-error, .toast-info, .toast-warning {
+    width: 300px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.toast-success {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.toast-error {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.toast-info {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+.toast-warning {
+    background-color: #ffc107 !important;
+    color: black !important;
+}
+
+small {
+    color: red;
+    display: block;
+    margin-top: 3px;
+  }
+
+.pagAtivo {
+    background-color: var(--cinza-borda);
+    width: 200px;
+    margin-left: 1%;
+    border-radius: 8px;
+    border-left: 6px solid var(--laranja-p);
+}
+
+.aba-opcoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 10px;
+    margin-top: 10px;
+    border-bottom: 1px solid var(--cinza-borda);
+    text-decoration: none;
+    a {
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--cinza-p);
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    a:hover {
+        transition: transform 0.2s;
+        transform: scale(1.03);
+    }
+}
+
+.aba-selecionada {
+    border-bottom: 4px solid var(--laranja-p);
+    border-radius: 2px;
+    color: var(--laranja-p);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%); 
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%); 
+    }
+}
+
+@keyframes fadeInTab {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); 
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); 
+    }
+}
+
+table {
+    text-align: left;
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: 1px solid var(--cinza-borda);
+    margin-top: 20px;
+    animation: fadeInTab 0.5s ease-in-out;
+    transition: transform 0.2s;
+    
+    
+}
+
+
+table th {
+    background-color: var(--cinza-sec);
+    color: var(--cinza-p);
+    padding: 2%;
+    
+}
+
+table td {
+    padding: 2%;
+    border-bottom: 1px solid var(--cinza-borda);
+    text-align: left;
+    
+}
+
+.span-bt {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    gap: 5px;
+    margin-top: auto;
+    
+    button {
+        background-color: transparent;
+        border: none;
+        transition: transform 0.2s;
+        cursor: pointer;
+    }
+
+    button:hover {
+        transition: transform 0.2s;
+        transform: scale(1.1);
+    }
+}

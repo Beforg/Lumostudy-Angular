@@ -1,0 +1,10 @@
+<ng-container [ngSwitch]="type">
+  <input *ngSwitchCase="'text'" [type]="type" [placeholder]="placeholder" [value]="value" (input)="onInput($event)" [disabled]="isDisabled">
+  <input *ngSwitchCase="'password'" [type]="type" [placeholder]="placeholder" [value]="value" (input)="onInput($event)" [disabled]="isDisabled">
+  <input *ngSwitchCase="'date'" [type]="type" [placeholder]="placeholder" [value]="value" (input)="onInput($event)" [disabled]="isDisabled">
+  <input *ngSwitchCase="'email'" [type]="type" [placeholder]="placeholder" [value]="value" (input)="onInput($event)" [disabled]="isDisabled">
+  <input *ngSwitchCase="'checkbox'" [type]="type" [checked]="value" (change)="onInput($event)" [disabled]="isDisabled">
+  <select *ngSwitchCase="'choose'" [value]="value" (change)="onSelect($event)" [disabled]="isDisabled">
+    <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+  </select>
+</ng-container>

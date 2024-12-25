@@ -1,0 +1,98 @@
+<app-header-lumoapp></app-header-lumoapp>
+<section>
+    <app-menu-lumoapp></app-menu-lumoapp>
+    <div class="conteudo-principal">
+        <div class="aba-opcoes">
+            <a (click)="trocarAba()" [ngClass]="{'aba-selecionada': isEstudarAtivo}">Estudar</a>
+            <a (click)="trocarAba()" [ngClass]="{'aba-selecionada': isConfiguracoesAtivo}">Configurações do Pomodoro</a>
+        </div>
+        <div class="display"  *ngIf="isEstudarAtivo">
+            <div class="inputs">
+                <h2 class="titulo">O que vai estudar?</h2>
+                <form [formGroup]="reesForm" (ngSubmit)="registrarEstudo()">
+                    <label for="materia">Matéria*</label>
+                    <app-input id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="codMateria" (change)="alterarConteudoPorMateria()"></app-input>
+                    <label for="conteudo" *ngIf="!isNovoConteudo">Conteúdo*</label>
+                    <app-input *ngIf="!isNovoConteudo" id="conteudo" [placeholder]="'Selecione o Conteúdo'" [type]="'choose'" [options]="conteudo" formControlName="conteudo"></app-input>
+                    <label for="conteudo-tf" *ngIf="isNovoConteudo">Novo Conteúdo*</label>
+                    <app-input id="conteudo-tf" [placeholder]="'Insira o novo conteúdo'" [type]="'text'" formControlName="conteudoTexto" *ngIf="isNovoConteudo"></app-input>
+                    <div class="div-checkbox">
+                        <label for="checkbox" >Novo conteúdo</label>
+                        <input id="checkbox" type="checkbox" (change)="novoConteudo()" formControlName="isNovoConteudo">
+                    </div>
+                    <label for="descricao">Observações (opcional)</label>
+                    <app-input id="descricao" [placeholder]="''" [type]="'text'" formControlName="descricao" ></app-input>
+                    <span class="finalizar">
+                        <app-button texto="Finalizar estudo" type="submit"></app-button>
+                    </span>
+                </form>
+            </div>
+            <div class="timers">
+                <h2 class="titulo">Cronometros</h2>
+                <label for="pomodoro" class="label-timer">{{pomodoroAtual}}</label>
+                
+                <div class="span-timers">
+                    <h2 id="pomodoro" class="pomodoro">{{tempoPomodoro}}</h2>    
+                </div>
+                <label for="total" class="label-timer">Tempo total</label>
+                <div>
+                    <p id="total" class="total">{{tempoTotal}}</p>
+                </div>
+                <span class="timers-botoes">
+                    <app-button texto="Iniciar" (click)="iniciarPomodoro()"></app-button>
+                    <app-button texto="Pausar" (click)="pausarPomodoro()"></app-button>
+                    <app-button texto="Reiniciar" (click)="resetarPomodoro()"></app-button>
+                    <app-button texto="Passar sessão" (click)="passarSessao()"></app-button>
+                </span>
+            </div>
+            <div class="cronograma">
+                <span class="aba-opcoes">
+                    <a class="titulo" [ngClass]="{'aba-selecionada': !isEstudosAtrasados}" (click)="trocarAbaCronograma()">Estudos do Dia</a>
+                    <a class="titulo" [ngClass]="{'aba-selecionada': isEstudosAtrasados}" (click)="trocarAbaCronograma()">Estudos Atrasados</a>
+                </span>
+                
+                <hr>
+                <ul *ngFor="let item of itensCronograma">
+                    <li [ngClass]="{'li concluido': item.concluido}">
+                      <span class="span-cronograma">
+                        <p class="conteudo"><strong>{{item.conteudo}}</strong></p>
+                        <p class="descricao">{{item.descricao}}</p>
+                        
+                      </span>
+                      <span id="span-concluido">
+                        <label for="checkbox-{{item.cod}}">Concluído</label>
+                        <input type="checkbox" id="checkbox-{{item.cod}}" [checked]="item.concluido" (change)="concluirEstudo(item)">
+                        <p *ngIf="isEstudosAtrasados">| Atrasado  ({{ item.data | date: 'dd/MM/yyyy' }})</p>
+                      </span>
+                    </li>
+                  </ul>
+                <span class="span-bt">
+                    <button type="button" (click)="voltarPagina()"><</button>
+                    <p>{{page}}</p>
+                    <button type="button" (click)="proximaPagina()">></button>
+                </span>
+            </div>
+        </div>
+        <div class="display" *ngIf="isConfiguracoesAtivo">
+            <div class="configs-pomodoro">
+                <form [formGroup]="pomodoroForm" (ngSubmit)="configurarPomodoro()">
+                    <label for="tempo-pomodoro">Tempo Pomodoro</label>
+                    <app-input id="tempo-pomodoro" [placeholder]="'Tempo Pomodoro'" type="text" formControlName="timer"></app-input>
+                    <label for="tempo-descanso">Descanso</label>
+                    <app-input id="tempo-descanso" [placeholder]="'Tempo Descanso'" type="text" formControlName="shortBreak"></app-input>
+                    <label for="tempo-descanso-longo">Descanso Longo</label>
+                    <app-input id="tempo-descanso-longo" [placeholder]="'Tempo Descanso Longo'" type="text" formControlName="longBreak"></app-input>
+                    <label for="quantidade-pomodoros">Quantidade de Pomodoros</label>
+                    <app-input id="quantidade-pomodoros" [placeholder]="'Quantidade de Pomodoros'" type="text" formControlName="cycles"></app-input>
+                    <app-button texto="Salvar" type="submit" ></app-button>   
+                </form>
+            </div>
+            <p class="texto">
+                    Configure o pomodoro de acordo com sua preferência! O recomendado é blocos de 50 minutos com 10 minutos de intervalo,
+                    mas você pode ajustar de acordo com sua necessidade. Você pode encontrar mais sobre na seção de Dicas.
+            </p>
+
+        </div>
+    </div>
+
+</section>

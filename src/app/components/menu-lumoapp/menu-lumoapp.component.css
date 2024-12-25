@@ -1,0 +1,47 @@
+div {
+    display: flex;
+    flex-direction: column;
+    width: 30vh;
+    border-right: 1px solid var(--cinza-borda);
+    height: 70vh;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    justify-content: center;
+    align-items: baseline;
+    padding: 0;
+}
+
+li {
+    padding: 20px;
+    text-align: center; 
+    list-style-type: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+img {
+    margin: 0 20px;
+}
+
+a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: var(--cinza-p);
+    text-decoration: none;
+
+
+}
+
+li:hover {
+    transition: transform 0.2s;
+    transform: scale(1.05);
+}
+
+.pagAtivoBt {
+    font-weight: bold;
+    color: var(--laranja-p);
+}

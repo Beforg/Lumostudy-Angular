@@ -1,0 +1,84 @@
+<app-header-lumoapp></app-header-lumoapp>
+<section>
+    <app-menu-lumoapp></app-menu-lumoapp>
+    <div class="conteudo-principal">
+        <div class="aba-opcoes">
+            <a (click)="alterarAba()" [ngClass]="{'aba-selecionada': !isNovaMateriaAtivo}">Minhas Matérias</a>
+            <a (click)="alterarAba()" [ngClass]="{'aba-selecionada': isNovaMateriaAtivo}">Nova Matéria</a>
+        </div>
+        <div class="conteudo-tabela" *ngIf="isMateriaAtivo">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Sessões de Estudo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let materia of materias">
+                        <td>{{materia.nome}} </td>
+                        <td>{{materia.categoria}}</td>
+                        <td class="registros">{{materia.estudosRegistrados}}</td>
+                        <td>
+                            <button class="bt-acoes-materias" (click)="abrirModalEditarMateria(materia)">
+                                <img [src]="edit" alt="Icone para edição da matéria">
+                            </button>
+                            <button class="bt-acoes-materias">
+                                <img [src]="x" alt="Icone para exclusão da matéria" (click)="abrirModalExcluirMateria(materia)">
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <span id="pagination" *ngIf="showPagination">
+            <button id="bt-nav" (click)="previousPage()"><</button>
+            <p>{{pag}}</p>
+            <button id="bt-nav" (click)="nextPage()">></button>
+        </span>
+        <div *ngIf="isNovaMateriaAtivo" class="conteudo-formulario">
+            <form [formGroup]="materiasForm" (ngSubmit)="cadastrarMateria()">
+                <label for="nome" >Nome da Matéria</label>
+                <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
+                <label for="categoria" *ngIf="!isNovaCategoria">Selecione a categoria</label>
+                <app-input id="categoria" [placeholder]="'Categoria'" type="choose" *ngIf="!isNovaCategoria" [options]="categoriasMaterias" formControlName="categoria"></app-input>
+                <label for="novaCategoria" *ngIf="isNovaCategoria">Nova Categoria</label>
+                <app-input [placeholder]="'Insira a nova Categoria'" type="text" *ngIf="isNovaCategoria" formControlName="categoriaTexto"></app-input>
+                <div class="div-checkbox">
+                    <label for="checkbox">Inserir nova categoria</label>
+                    <input id="checkbox" type="checkbox" (change)="alterarCategoria()" formControlName="novaCategoria">
+                </div>
+                <app-button texto="Cadastrar" type="submit"></app-button>
+            </form>
+            <div>
+                <p>Adicione uma nova matéria para começar a estudar! você pode editar ou excluir na aba "Minhas Matérias", de
+                    acordo com sua necessidade!
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" *ngIf="isEdicaoAtivo">
+        <form [formGroup]="materiasForm" class="editar-materia" (ngSubmit)="editarMateria()">
+            <button (click)="fecharEdicao()" type="button">x</button>
+            <h2>Editar Matéria</h2>
+            <label for="nome" >Nome da Matéria</label>
+            <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
+            <label for="novaCategoria" *ngIf="isNovaCategoria">Nova Categoria</label>
+            <app-input [placeholder]="'Insira a nova Categoria'" type="text" formControlName="categoria"></app-input>
+            <app-button texto="Atualizar" type="submit"></app-button>
+        </form>
+    </div>
+    <div class="overlay" *ngIf="isExclusaoAtivo">
+        <form [formGroup]="materiasForm" class="editar-materia excluir" (ngSubmit)="excluirMateria()">
+            <button (click)="fecharExclusao()" type="button">x</button>
+            <h2>Excluir Matéria</h2>
+            <p>Atenção! essa ação é irreversível e irá excluir todos os registros vinculados! <br>
+            Digite <strong>{{this.materiasForm.get('categoria')?.value}}</strong> para confirmar a exclusão.
+            </p>
+            <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
+            <app-button id="excluir" texto="Excluir" type="submit"></app-button>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,45 @@
+input {
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid var(--cinza-borda);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+input:focus {
+    outline: none;
+}
+
+select {
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid var(--cinza-borda);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    background-color: white;
+    appearance: none;
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><path d="M6 9l6 6 6-6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 16px;
+}
+
+select:focus {
+    outline: none;
+
+}
+
+select:hover {
+    background-color: white; 
+}
+

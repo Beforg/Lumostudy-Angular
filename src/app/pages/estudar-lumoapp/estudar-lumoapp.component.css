@@ -1,0 +1,183 @@
+section {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.conteudo-principal {
+    border: 1px solid var(--cinza-borda);
+    height: 500px;
+    width: 90%;
+    padding: 1%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.display {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    animation: fadeInTab 0.5s ease-in-out;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cinza-borda);
+    padding-right: 1%;
+    margin-bottom: auto;
+    height: 450px;
+    
+}
+
+.timers {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    padding: 0;
+    width: 600px;
+    margin: 0;
+    border-right: solid 1px var(--cinza-borda);
+    height: 450px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--laranja-p);
+    border-radius: 10px;
+    min-height: 60px;
+}
+
+.titulo {
+    margin: 10px;
+    padding: 0;
+    color: var(--cinza-p);
+
+}
+
+.concluido {
+    background-color: var(--verde-p);
+}
+
+.atrasado {
+    background-color: var(--vermelho-p);
+}
+
+.cronograma {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 67vh;
+}
+
+.cronograma h2 {
+    margin: 6px;
+    text-align: center;
+    align-items: center;
+}
+
+.span-timers {
+    display: flex;
+    flex-direction: inherit;
+    text-align: top;
+    justify-content: center;
+    align-items: center;
+}
+
+.timers-botoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 2%;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 10px;
+}
+
+.pomodoro {
+    font-size: 45px;
+    padding: 1%;
+}
+
+.finalizar {
+    margin-left: auto;
+}
+
+.total {
+    font-size: 34px;
+    padding: 1%;
+}
+
+.label-timer {
+    margin-right: auto;
+    border-bottom: 1px solid var(--cinza-borda);
+    width: 100%;
+}
+
+.configs-pomodoro {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin-right: auto;
+    padding: 2%;
+    animation: fadeInTab 0.5s ease-in-out;
+}
+
+.texto {
+    text-align: left;
+    font-size: 20px;
+}
+
+.conteudo-revisoes {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+#revisoes {
+    display: flex;
+    flex-direction: row;
+    justify-items: space-between;
+    align-items: center;
+    gap: 2px;
+    padding: 2%;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 5px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#span-concluido {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+}
+
+.span-cronograma {
+    flex-grow: 1;
+}
+
+.conteudo {
+    margin-bottom: 5px;
+}
+
+.conteudo,
+.descricao {
+    margin: 0;
+}
