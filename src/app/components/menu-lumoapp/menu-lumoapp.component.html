@@ -1,22 +1,29 @@
 <div>
     <ul>
         <li routerLinkActive="pagAtivo">
-            <a routerLink="/app/home" routerLinkActive="pagAtivoBt" ><img [src]="inicio" alt="Icone de Início">Início</a>
+            <a routerLink="/app/home" routerLinkActive="pagAtivoBt">
+                <img [src]="getIconeAtivo('/app/home', inicio, inicioAtivo)" alt="Icone de Início">Início
+            </a>
         </li>
         <li routerLinkActive="pagAtivo">
-            <a routerLink="/app/estudar" routerLinkActive="pagAtivoBt"><img [src]="estudar" alt="Icone de Estudar">Estudar</a>
+            <a routerLink="/app/estudar" routerLinkActive="pagAtivoBt">
+                <img [src]="getIconeAtivo('/app/estudar', estudar, estudarAtivo)" alt="Icone de Estudar">Estudar
+            </a>
         </li>
         <li routerLinkActive="pagAtivo">
-            <a routerLink="/app/materias" routerLinkActive="pagAtivoBt"><img [src]="materia" alt="Icone de Matérias">Matérias</a>
+            <a routerLink="/app/materias" routerLinkActive="pagAtivoBt">
+                <img [src]="getIconeAtivo('/app/materias', materia, materiaAtivo)" alt="Icone de Matérias">Matérias
+            </a>
         </li>
         <li routerLinkActive="pagAtivo">
-            <a routerLink="/app/cronograma" routerLinkActive="pagAtivoBt"><img [src]="cronograma" alt="Icone do Cronograma">Cronograma</a>
+            <a routerLink="/app/cronograma" routerLinkActive="pagAtivoBt">
+                <img [src]="getIconeAtivo('/app/cronograma', cronograma, cronomgramaAtivo)" alt="Icone do Cronograma">Cronograma
+            </a>
         </li>
         <li routerLinkActive="pagAtivo">
-            <a routerLink="/app/historico" routerLinkActive="pagAtivoBt"><img [src]="historico" alt="Icone do Histórico" >Histórico</a>
-        </li>
-        <li>
-            <a routerLink="/auth"><img [src]="ranking" alt="Icone de Início">Dicas</a>
+            <a routerLink="/app/historico" routerLinkActive="pagAtivoBt">
+                <img [src]="getIconeAtivo('/app/historico', historico, inicioAtivo)" alt="Icone do Histórico">Histórico
+            </a>
         </li>
     </ul>
 </div>

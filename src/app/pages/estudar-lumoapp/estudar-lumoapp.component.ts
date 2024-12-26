@@ -43,8 +43,10 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   tempoIntervaloCurto: number = 0;
   tempoIntervaloLongo: number = 0;
   isBreak: boolean = false;
+  isCicloConcluido: boolean = false;
   b: boolean = false;
   isEstudando: boolean = false;
+  isSessaoAtiva: boolean = false;
   ciclos: number = 0;
   tempoTotal: string = '';
   pomodoroAtual: string = `Sessão do Pomodoro #${this.ciclos + 1}`;
@@ -102,6 +104,13 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     }
   }
 
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    if (this.isEstudando || this.isBreak) {
+      $event.returnValue = 'Você tem uma sessão de estudo em andamento. Tem certeza de que deseja sair?';
+    }
+  }
+
   getCronogramaDoDia(): void {
     this.cronogramaService.listarCronogramaDeHoje(this.page - 1).subscribe((cronograma: Cronograma[]) => {
       this.itensCronograma = cronograma
@@ -126,9 +135,17 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     }
   }
 
-  voltarPagina(): void {
+    voltarPagina(): void {
     if (this.page > 1) {
       this.page--;
+      this.abaEscolhida();
+    }
+  }
+
+  abaEscolhida(): void {
+    if (this.isEstudosAtrasados) { 
+      this.getCronogramaAtrasados();
+    } else {
       this.getCronogramaDoDia();
     }
   }
@@ -136,17 +153,17 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   proximaPagina(): void {
     if (this.qtdeItensCronograma == 4) {
       this.page++;
-      this.getCronogramaDoDia();
+      this.abaEscolhida();
     }
   }
 
   concluirEstudo(item: Cronograma) {
-    if (confirm("Deseja concluir o estudo?")) {
       this.cronogramaService.concluirItemCronograma(item.cod, !item.concluido).subscribe(() => {
         this.getCronogramaDoDia();
+        this.toastr.success('Estudo atualizado!');
+        
       })
       this.isEstudosAtrasados = false;
-    }
   }
 
   ngOnInit(): void {
@@ -174,7 +191,12 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
           this.startBreak();
         } else if (data === 'breakEnd') {
           this.tempoTotalEstudoSegundos += 1;
-          this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos + 1}: Intervalo concluído!`;
+          if (this.isCicloConcluido) {
+            this.pomodoroAtual = `Sessão do Pomodoro #${this.pomodoroConfiguration[3]}: Intervalo concluído!`;
+            this.isCicloConcluido = false;
+          } else {
+            this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos}: Intervalo concluído!`;
+          }
           this.audio.play();
           this.isBreak = false;
           this.isEstudando = false;
@@ -262,6 +284,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   }
 
   iniciarPomodoro(): void {
+    this.isSessaoAtiva = true;
     if (!this.isEstudando && !this.isBreak) {
       this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos + 1}`;
       this.isEstudando = true;
@@ -273,8 +296,11 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
         });
       }
     } else {
-      this.despausarBreak();
-      console.log(this.tempoIntervaloCurto);
+      if (this.b) {
+        this.b = false;
+        this.despausarBreak();
+        console.log(this.tempoIntervaloCurto);
+      }
     }
   }
 
@@ -290,30 +316,44 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   }
 
   passarSessao(): void {
-    if (this.worker) {
-      this.worker.postMessage({ action: 'passarSessao' });
-    }
+    if (confirm("Deseja passar a sessão do Timer?")) {
+      this.iniciarPomodoro();
+      if (this.worker) {
+        this.worker.postMessage({ action: 'passarSessao' });
+      }
   }
-  
+}
 
   pausarPomodoro(): void { 
-    this.isEstudando = false;
-    if (this.worker) {
-      this.worker.postMessage({ action: 'stop' });
+    if (this.isEstudando) {
+      this.isEstudando = false;
+      if (this.worker) {
+        this.worker.postMessage({ action: 'stopStudy' });
+      }
+      console.log("StopStudy");
+    } else {
+      this.b = true;
+      if (this.worker) {
+        this.worker.postMessage({ action: 'stop' });
+      }
+      console.log("StopBreak");
     }
   }
 
   resetarPomodoro(): void {
-    this.isEstudando = false
-    if (this.worker) {
-      this.worker.postMessage({ action: 'stop' });
+    if (confirm("Deseja reiniciar o Timer?")) {
+      this.isEstudando = false
+      if (this.worker) {
+        this.worker.postMessage({ action: 'stop' });
+      }
+      this.tempoPomodoroSegundos = this.pomodoroConfiguration[0] * 60;
+      this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
     }
-    this.tempoPomodoroSegundos = this.pomodoroConfiguration[0] * 60;
-    this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
   }
 
   startBreak(): void {
-
+    this.b = false;
+    this.isEstudando = false;
     if (this.ciclos == this.pomodoroConfiguration[3] - 1) {
       this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos + 1} Concluída! Iniciando Intervalo Longo`;
       this.ciclos = 0;
@@ -323,6 +363,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
           tempoIntervalo: this.tempoIntervaloLongo
         });
       }
+      this.isCicloConcluido = true;
     } else {
       this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos + 1} Concluída! Iniciando Intervalo Curto`;
       this.ciclos++;
@@ -336,6 +377,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   }
 
   trocarAba(): void {
+    if (!this.isSessaoAtiva) {
     if (this.isEstudarAtivo) {
       this.isEstudarAtivo = false;
       this.isConfiguracoesAtivo = true;
@@ -343,7 +385,10 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
       this.isEstudarAtivo = true;
       this.isConfiguracoesAtivo = false;
     }
+  } else {
+    this.toastr.warning("As configurações não podem ser alteradas durante uma sessão ativa!");
   }
+}
 
   novoConteudo(): void {
     if (this.isNovoConteudo) {
@@ -371,6 +416,15 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
         this.isNovoConteudo = false;
         this.reesForm.reset();
         this.alterarConteudoPorMateria();
+        this.toastr.success("Estudo registrado com sucesso!");
+        if (this.worker) {
+          this.worker.postMessage({ 
+            action: 'finalizarSessao',
+            tempoPomodoroSegundos: this.pomodoroConfiguration[0] * 60 
+          });
+        }
+        this.isSessaoAtiva = false;
+        this.ciclos = 0;
       });
     } else {
       this.toastr.error("Preencha todos os campos obrigatórios!");

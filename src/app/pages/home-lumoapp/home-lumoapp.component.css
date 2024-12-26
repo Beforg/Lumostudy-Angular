@@ -1,0 +1,99 @@
+section {
+    display: flex;
+    flex-direction: row;
+}
+
+.conteudo-principal {
+    border: 1px solid var(--cinza-borda);
+    height: 600px;
+    width: 82%;
+    padding: 1%;
+    border-radius: 10px;
+    justify-content: space-between;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    animation: fadeInTab 0.5s ease-in-out;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    animation: fadeInTab 0.5s ease-in-out;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--laranja-p);
+    border-radius: 10px;
+    min-height: 60px;
+}
+
+
+.concluido {
+    background-color: var(--verde-p);
+}
+
+.principal-atividades {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 55vh;
+    border-left: 1px solid var(--cinza-borda);
+    padding-left: 10px;
+}
+
+.principal-atividades h2 {
+    margin: 6px;
+    text-align: center;
+    align-items: center;
+}
+
+.span-cronograma {
+    flex-grow: 1;
+}
+
+
+#span-concluido {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+}
+
+.registros {
+    background-color: var(--cinza-sec);
+    border: 1px solid var(--cinza-borda);
+    height: 60px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.span-data {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.tempoEstudo {
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--branco-p);
+    text-align: center;
+    background-color: var(--laranja-p);
+    border-radius: 15px;
+}
+
+#borda {
+    border-bottom: 1px solid var(--cinza-borda);
+    width: auto;
+    font-size: 20px;
+}

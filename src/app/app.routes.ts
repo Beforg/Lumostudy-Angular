@@ -8,13 +8,14 @@ import { EstudarLumoappComponent } from './pages/estudar-lumoapp/estudar-lumoapp
 import { MateriasLumoappComponent } from './pages/materias-lumoapp/materias-lumoapp.component';
 import { CronogramaComponent } from './pages/cronograma/cronograma.component';
 import { HistoricoComponent } from './pages/historico/historico.component';
+import { CanDeactivateGuard } from './utils/candeactivateguard';
 
 export const routes: Routes = [
     {path:'home', component: HomeComponent},
     {path: 'auth', component: AuthComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'app/home', component: HomeLumoappComponent,canActivate: [AuthGuard]},
-    {path: 'app/estudar', component: EstudarLumoappComponent, canActivate: [AuthGuard]},
+    {path: 'app/estudar', component: EstudarLumoappComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard]},
     {path: 'app/materias', component: MateriasLumoappComponent, canActivate: [AuthGuard]},
     {path: 'app/cronograma', component: CronogramaComponent, canActivate: [AuthGuard]},
     {path: 'app/historico', component: HistoricoComponent, canActivate: [AuthGuard]},

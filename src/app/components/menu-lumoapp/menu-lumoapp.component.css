@@ -2,17 +2,19 @@ div {
     display: flex;
     flex-direction: column;
     width: 30vh;
+    height: 100%;
     border-right: 1px solid var(--cinza-borda);
-    height: 70vh;
 }
 
 ul {
     display: flex;
     flex-direction: column;
     list-style-type: none;
-    justify-content: center;
+    justify-content: left;
     align-items: baseline;
     padding: 0;
+    margin: 0;
+    
 }
 
 li {
@@ -32,6 +34,7 @@ a {
     font-size: 24px;
     color: var(--cinza-p);
     text-decoration: none;
+    margin-bottom: 100px;
 
 
 }
@@ -42,6 +45,8 @@ li:hover {
 }
 
 .pagAtivoBt {
-    font-weight: bold;
+    font-weight: 500;
     color: var(--laranja-p);
+    text-align: center;
+
 }

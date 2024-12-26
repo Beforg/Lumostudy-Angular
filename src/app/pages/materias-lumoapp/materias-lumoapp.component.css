@@ -5,10 +5,10 @@ section {
 
 .conteudo-principal {
     border: 1px solid var(--cinza-borda);
-    width: 45%;
-    height: 500px;
+    width: 80%;
+    min-height: 250px;
     padding: 2%;
-    margin: auto;
+    margin-left: 10px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -144,4 +144,7 @@ transition: transform 0.2s;
     
 }
 
-
+.ilustracao {
+    width: 40%;
+    margin-left: 300px;
+}

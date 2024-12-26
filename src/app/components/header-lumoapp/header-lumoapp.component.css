@@ -22,3 +22,51 @@ h1 {
     border-left: solid 1px var(--cinza-borda);
     padding-left: 5%;
 }
+
+.profile {
+    transition: transform 0.2s;
+}
+
+.profile:hover {
+    cursor: pointer;
+    transition: transform 0.2s;
+    transform: scale(1.1);
+}
+
+.profile-opcoes {
+    position: absolute;
+    top: 70px; 
+    right: 20px; 
+    background-color: var(--branco-p);
+    border: 1px solid var(--cinza-borda);
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    z-index: 1000;
+
+    animation: fadeInTab 0.5s ease-in-out;
+  }
+  
+  .opcoes {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  .opcoes button {
+    background: none;
+    border: none;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    color: var(--preto-p);
+    cursor: pointer;
+    transition: transform 0.2s;
+    
+  }
+  
+  .opcoes button:hover {
+    transition: transform 0.2s;
+    transform: scale(1.1);
+  }

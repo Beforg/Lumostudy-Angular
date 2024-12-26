@@ -44,6 +44,6 @@ export class AuthService {
    }
 
    logout(): void {
-      this.cookieService.delete('usuarioAtual');
+      this.cookieService.delete('usuarioAtual', '/');
    }
 }

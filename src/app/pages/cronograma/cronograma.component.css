@@ -69,14 +69,17 @@ li {
     padding: 5%;
     font-weight: bold;
     font-size: 14px;
+    height: 50px;
+    width: 180px;
     transition: transform 0.2s;
     align-items: center;
     cursor: pointer;
 }
 
-p {
-    font-weight: lighter;
+.concluido {
+    background-color: var(--verde-p);
 }
+
 
 li:hover {
     transition: transform 0.2s;
@@ -129,6 +132,22 @@ form {
     border: 2px solid var(--cinza-borda);
     filter: blur(50%);
     animation: fadeIn 0.5s ease-in-out;
+
+}
+
+    
+button {
+    background-color: white;
+    border: none;
+    font-size: 20px;
+    margin-left: auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transition: transform 0.2s;
+    transform: scale(1.1);
 }
 
 .item-detalhes {

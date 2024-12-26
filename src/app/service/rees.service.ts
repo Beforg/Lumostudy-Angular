@@ -39,7 +39,16 @@ export class ReesService {
     }))
   }
 
-
+  listarRegistrosDeEstudoPorData(page:number, data: string): Observable<Rees[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.user?.getToken()}`
+    })
+    return this.http.get<{content: Rees[]}>(`${this.APIURL}/listar/${this.user?.getCod()}/${data}/page?page=${page}`, { headers }).pipe(tap(response =>{
+      console.log(`Registros recebidos da data ${data}:`, response);
+    }), map(response => {
+      return response.content;
+    }))
+  }
 
   excluirRegistroDeEstudo(codRegistro: string): Observable<any> {
     const headers = new HttpHeaders({

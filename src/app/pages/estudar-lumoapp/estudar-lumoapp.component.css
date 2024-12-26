@@ -6,7 +6,7 @@ section {
 
 .conteudo-principal {
     border: 1px solid var(--cinza-borda);
-    height: 500px;
+    height: 600px;
     width: 90%;
     padding: 1%;
     border-radius: 10px;
@@ -27,8 +27,8 @@ section {
     flex-direction: column;
     border-right: 1px solid var(--cinza-borda);
     padding-right: 1%;
-    margin-bottom: auto;
-    height: 450px;
+    margin: auto;
+    height: 580px;
     
 }
 
@@ -41,13 +41,14 @@ section {
     width: 600px;
     margin: 0;
     border-right: solid 1px var(--cinza-borda);
-    height: 450px;
+    height: 580px;
 }
 
 ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    animation: fadeInTab 0.5s ease-in-out;
 }
 
 li {
@@ -180,4 +181,14 @@ form {
 .conteudo,
 .descricao {
     margin: 0;
+}
+
+.desativado {
+    color: var(--desativado);
+}
+
+.aviso {
+    text-align: center;
+    animation: fadeInTab 0.5s ease-in-out;
+    color: var(--cinza-p);
 }

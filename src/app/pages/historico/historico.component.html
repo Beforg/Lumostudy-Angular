@@ -4,7 +4,8 @@
     <div class="conteudo-principal">
         <div class="infos">
             <h2>Seu Histórico de Estudos</h2>
-            <h4>Veja suas sessões de estudos realizadas</h4>
+            <p>Veja suas sessões de estudos realizadas. Você pode achar mais informações dentro do seu Perfil.</p>
+            <p>Você pode Editar ou Excluir um registro selecionando na tabela abaixo.</p>
         </div>
         <table>
             <thead>
@@ -31,17 +32,17 @@
             </tbody>
         </table>
         <span class="span-bt">
-            <button type="button" (click)="voltarPagina()"><</button>
+            <button type="button" (click)="voltarPagina()" class="btNav"><</button>
             <p>{{page}}</p>
-            <button type="button" (click)="proximaPagina()">></button>
+            <button type="button" (click)="proximaPagina()" class="btNav">></button>
         </span>
     </div>
     <div class="overlay" *ngIf="isEditarOpen">
-        <button type="button" (click)="fecharEdicaoRegistroEstudo()">x</button>
+        
         <form [formGroup]="reesForm" (ngSubmit)="editarRegistroDeEstudos()">
+            <button type="button" (click)="fecharEdicaoRegistroEstudo()">x</button>
             <h2>Editar Registro de Estudo</h2>
             <hr>
-            
             <label for="materia">Matéria*</label>
             <app-input id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="codMateria" (change)="alterarConteudoPorMateria()"></app-input>
             <label for="conteudo" *ngIf="!isNovoConteudo">Conteúdo*</label>

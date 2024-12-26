@@ -6,6 +6,7 @@
             <a (click)="alterarAba()" [ngClass]="{'aba-selecionada': !isNovaMateriaAtivo}">Minhas Matérias</a>
             <a (click)="alterarAba()" [ngClass]="{'aba-selecionada': isNovaMateriaAtivo}">Nova Matéria</a>
         </div>
+
         <div class="conteudo-tabela" *ngIf="isMateriaAtivo">
             <table>
                 <thead>
@@ -18,9 +19,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let materia of materias">
-                        <td>{{materia.nome}} </td>
+                        <td ><strong>{{materia.nome}}</strong></td>
                         <td>{{materia.categoria}}</td>
-                        <td class="registros">{{materia.estudosRegistrados}}</td>
+                        <td>{{materia.estudosRegistrados}} Registros</td>
                         <td>
                             <button class="bt-acoes-materias" (click)="abrirModalEditarMateria(materia)">
                                 <img [src]="edit" alt="Icone para edição da matéria">
@@ -42,10 +43,23 @@
             <form [formGroup]="materiasForm" (ngSubmit)="cadastrarMateria()">
                 <label for="nome" >Nome da Matéria</label>
                 <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
-                <label for="categoria" *ngIf="!isNovaCategoria">Selecione a categoria</label>
-                <app-input id="categoria" [placeholder]="'Categoria'" type="choose" *ngIf="!isNovaCategoria" [options]="categoriasMaterias" formControlName="categoria"></app-input>
-                <label for="novaCategoria" *ngIf="isNovaCategoria">Nova Categoria</label>
-                <app-input [placeholder]="'Insira a nova Categoria'" type="text" *ngIf="isNovaCategoria" formControlName="categoriaTexto"></app-input>
+                <div *ngIf="materiasForm.get('nome')?.hasError('required') && materiasForm.get('nome')?.touched">
+                    <small class="error-message">O nome da matéria é obrigatório.</small>
+                </div>
+                <div *ngIf="!isNovaCategoria" @fadeInOut>
+                    <label for="categoria" >Selecione a categoria</label>
+                    <app-input id="categoria" [placeholder]="'Categoria'" type="choose" [options]="categoriasMaterias" formControlName="categoria"></app-input>
+                </div>
+                <div *ngIf="materiasForm.get('categoria')?.hasError('required') && materiasForm.get('categoria')?.touched">
+                    <small class="error-message">A categoria é obrigatória.</small>
+                </div>
+                <div *ngIf="isNovaCategoria" @fadeInOut>
+                    <label for="novaCategoria">Nova Categoria</label>
+                    <app-input [placeholder]="'Insira a nova Categoria'" type="text" formControlName="categoriaTexto"></app-input>
+                </div>
+                <div *ngIf="materiasForm.get('categoriaTexto')?.hasError('required') && materiasForm.get('categoriaTexto')?.touched">
+                    <small class="error-message">A categoria é obrigatória.</small>
+                </div>
                 <div class="div-checkbox">
                     <label for="checkbox">Inserir nova categoria</label>
                     <input id="checkbox" type="checkbox" (change)="alterarCategoria()" formControlName="novaCategoria">
@@ -53,9 +67,11 @@
                 <app-button texto="Cadastrar" type="submit"></app-button>
             </form>
             <div>
-                <p>Adicione uma nova matéria para começar a estudar! você pode editar ou excluir na aba "Minhas Matérias", de
-                    acordo com sua necessidade!
+                <p><strong>Adicione novas matérias para começar a estudar! você pode editar ou excluir matérias na aba "Minhas Matérias", de
+                    acordo com sua necessidade!</strong> 
                 </p>
+                <p>Escolha um nome e uma categoria para a sua Matéria, ao inserir uma nova categoria ela será salva para ser usada futuramente.</p>
+                <img [src]="materiabg" alt="Ilustração de Estudante" class="ilustracao">
             </div>
         </div>
     </div>

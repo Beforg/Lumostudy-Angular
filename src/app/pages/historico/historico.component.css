@@ -18,6 +18,8 @@ table tr {
     transition: background-color 0.5s;
 }
 
+
+
 table tr:hover {
     cursor: pointer;
     background-color: var(--laranja-p);
@@ -57,19 +59,26 @@ form {
         border-bottom: 1px solid var(--cinza-borda);
     }
 
-    button {
-        background-color: white;
-        border: none;
-        font-size: 20px;
-        margin-left: auto;
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
+}
 
-    button:hover {
-        transition: transform 0.2s;
-        transform: scale(1.1);
-    }
+.btNav {
+    background-color: transparent;
+    transition: transform 0.2s;
+    margin: 0;
 
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    margin-left: auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover, .btNav:hover {
+    transition: transform 0.2s;
+    transform: scale(1.1);
 }
 

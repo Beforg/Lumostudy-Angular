@@ -51,6 +51,16 @@ export class CronogramaService {
       }))
     }
 
+    listarCronogramaPorData(page:number, data: String): Observable<Cronograma[]> {
+      const user = this.authService.getUsuarioAtual();
+      const headers = { Authorization: `Bearer ${user?.getToken()}` };
+      return this.http.get<{content: Cronograma[]}>(`${this.API}/listar/${user?.getCod()}/${data}/page?page=${page}`, { headers }).pipe(tap(response =>{
+        console.log(`Estudos recebidos da data: ${data}`, response);
+      }), map(response => {
+        return response.content;
+      }))
+    }
+
     listarCronogramaAtrasados(page:number): Observable<Cronograma[]> {
       const user = this.authService.getUsuarioAtual();
       const headers = { Authorization: `Bearer ${user?.getToken()}` };

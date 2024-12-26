@@ -42,14 +42,22 @@ addEventListener('message', ({ data }) => {
         clearInterval(interval);
         postMessage('breakEnd');
       } else {
-        postMessage({ tempoIntervalo });
+        postMessage({ tempoIntervalo});
       }
     }, 1000)
   } else if (data.action === 'stop') {
     clearInterval(interval);
-    postMessage({ tempoIntervalo }); // Envie o tempo restante ao parar
+    postMessage({ tempoIntervalo});
   } else if (data.action === 'passarSessao') {
     tempoIntervalo = 1;
     tempoPomodoroSegundos = 1;
+  } else if (data.action === 'finalizarSessao') {
+    tempoTotalEstudoSegundos = 0;
+    tempoPomodoroSegundos = data.tempoPomodoroSegundos;
+    postMessage({ tempoTotalEstudoSegundos, tempoPomodoroSegundos });
+    clearInterval(interval);
+  } else if (data.action === 'stopStudy') {
+    clearInterval(interval);
+    postMessage({ tempoTotalEstudoSegundos, tempoPomodoroSegundos });
   }
 });

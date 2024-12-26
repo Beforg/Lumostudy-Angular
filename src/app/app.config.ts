@@ -4,9 +4,12 @@ import { provideHttpClient, withFetch} from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideNgxMask } from 'ngx-mask';
-
+import localePt from '@angular/common/locales/pt';
+import { LOCALE_ID } from '@angular/core';
 import { routes } from './app.routes';
-import { NgModel } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localePt)
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +22,7 @@ export const appConfig: ApplicationConfig = {
       preventDuplicates: true,
     }),
     provideAnimations(),
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
     provideNgxMask(),
   ]
 };

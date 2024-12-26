@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CadastrarMateriaForm } from '../../models/cadastrar.materia.form';
 import { ButtonComponent } from "../../shared/button/button.component";
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-materias-lumoapp',
@@ -20,6 +21,17 @@ import { ButtonComponent } from "../../shared/button/button.component";
     ReactiveFormsModule,
     ButtonComponent,],
   providers: [MateriaService],
+  animations: [
+    trigger('fadeInOut', [
+        transition(':enter', [
+            style({ opacity: 0 }),
+            animate('300ms', style({ opacity: 1 }))
+        ]),
+        transition(':leave', [
+            animate('300ms', style({ opacity: 0 }))
+        ])
+    ])
+],
   templateUrl: './materias-lumoapp.component.html',
   styleUrl: './materias-lumoapp.component.css'
 })
@@ -30,6 +42,7 @@ export class MateriasLumoappComponent {
   isNovaCategoria: boolean = false;
   isEdicaoAtivo: boolean = false;
   isExclusaoAtivo: boolean = false;
+  materiabg: string = '/app/materias-bg.png';
   materias: Materia[] = [];
   categoriasMaterias: { value: string, label: string }[] = [];
   edit: string = '/app/edit.png';

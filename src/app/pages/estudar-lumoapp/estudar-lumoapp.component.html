@@ -4,7 +4,7 @@
     <div class="conteudo-principal">
         <div class="aba-opcoes">
             <a (click)="trocarAba()" [ngClass]="{'aba-selecionada': isEstudarAtivo}">Estudar</a>
-            <a (click)="trocarAba()" [ngClass]="{'aba-selecionada': isConfiguracoesAtivo}">Configurações do Pomodoro</a>
+            <a (click)="trocarAba()" [ngClass]="{'aba-selecionada': isConfiguracoesAtivo, 'desativado': isSessaoAtiva}">Configurações do Pomodoro</a>
         </div>
         <div class="display"  *ngIf="isEstudarAtivo">
             <div class="inputs">
@@ -29,6 +29,8 @@
             </div>
             <div class="timers">
                 <h2 class="titulo">Cronometros</h2>
+                <p>Selecione a Matéria e o Conteúdo para registrar a sua sessão de estudos.
+                    Você pode alterar as configurações do cronometro na aba <strong>"Configurações do Pomodoro"</strong></p>
                 <label for="pomodoro" class="label-timer">{{pomodoroAtual}}</label>
                 
                 <div class="span-timers">
@@ -44,20 +46,20 @@
                     <app-button texto="Reiniciar" (click)="resetarPomodoro()"></app-button>
                     <app-button texto="Passar sessão" (click)="passarSessao()"></app-button>
                 </span>
+
             </div>
             <div class="cronograma">
                 <span class="aba-opcoes">
                     <a class="titulo" [ngClass]="{'aba-selecionada': !isEstudosAtrasados}" (click)="trocarAbaCronograma()">Estudos do Dia</a>
                     <a class="titulo" [ngClass]="{'aba-selecionada': isEstudosAtrasados}" (click)="trocarAbaCronograma()">Estudos Atrasados</a>
                 </span>
-                
+                <h3 class="aviso" *ngIf="qtdeItensCronograma === 0">Não há estudos.</h3>
                 <hr>
                 <ul *ngFor="let item of itensCronograma">
                     <li [ngClass]="{'li concluido': item.concluido}">
                       <span class="span-cronograma">
                         <p class="conteudo"><strong>{{item.conteudo}}</strong></p>
-                        <p class="descricao">{{item.descricao}}</p>
-                        
+                        <p class="descricao">{{item.descricao}}</p>    
                       </span>
                       <span id="span-concluido">
                         <label for="checkbox-{{item.cod}}">Concluído</label>
@@ -66,6 +68,7 @@
                       </span>
                     </li>
                   </ul>
+
                 <span class="span-bt">
                     <button type="button" (click)="voltarPagina()"><</button>
                     <p>{{page}}</p>

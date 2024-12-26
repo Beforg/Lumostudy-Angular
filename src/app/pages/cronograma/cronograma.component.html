@@ -14,7 +14,7 @@
                 <span class="conteudo-semanal-item">
                     <h3>{{dia | date: 'dd/MM/yyyy'}}</h3>
                     <ul>
-                        <li *ngFor="let item of getItensPorDia(dia)" (click)="visualizarItem(item)">
+                        <li *ngFor="let item of getItensPorDia(dia)" (click)="visualizarItem(item)" [ngClass]="{'li concluido': item.concluido}">
                             {{ item.conteudo}}
                         </li>
                     </ul>
@@ -31,8 +31,8 @@
         </div>
     </div>
     <div class="overlay" *ngIf="isAdicionarAtivo || isVisualizarItemAtivo || isEditarItem">
-        <app-button texto="Fechar" (click)="adicionarAoCronograma()" type="button" *ngIf="isAdicionarAtivo"></app-button>
         <form [formGroup]="cronogramaForm" (ngSubmit)="cadastrarAoCronograma()" *ngIf="isAdicionarAtivo">
+            <button (click)="adicionarAoCronograma()" type="button" *ngIf="isAdicionarAtivo">x</button>
             <h2>Adicionar ao Cronograma</h2>
             <label for="materia">Matéria</label>
             <app-input  id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="materiaCod" (change)="alterarConteudoPorMateria()"></app-input>
@@ -41,7 +41,7 @@
             <label for="novoConteudo" *ngIf="isNovoConteudo">Digite o conteúdo</label>
             <app-input id="novoConteudo" [placeholder]="'Insira o conteúdo'" [type]="'text'" formControlName="conteudoNovo" *ngIf="isNovoConteudo"></app-input>
             <span>
-                <label for="checkbox">Outro</label>
+                <label for="checkbox">Inserir outro conteúdo</label>
                 <input id="checkbox" type="checkbox" (change)="exibirNovoConteudo()" formControlName="isNovoConteudo">
             </span>
             <label for="data">Data</label>
@@ -50,8 +50,8 @@
             <app-input id="descricao" [placeholder]="'Descrição'" [type]="'text'" formControlName="descricao"></app-input>
             <app-button texto="Adicionar" type="submit"></app-button>
         </form>
-        <app-button texto="Fechar Item" (click)="fecharItem()" type="button" *ngIf="isVisualizarItemAtivo"></app-button>
         <div *ngIf="isVisualizarItemAtivo" class="item-detalhes">
+            <button (click)="fecharItem()" type="button" *ngIf="isVisualizarItemAtivo">x</button>
             <h2>Título: {{itemSelecionado?.conteudo}}</h2>
             <p>Descrição: {{itemSelecionado?.descricao}}</p>
             <span class="span-acao-item">
@@ -59,9 +59,10 @@
                 <button class="acao-item"><img [src]="x" alt="Excluir" (click)="excluirDoCronograma()"></button>
             </span>
         </div>
-        <form [formGroup]="cronogramaForm" *ngIf="isEditarItem">
+        <form [formGroup]="cronogramaForm" *ngIf="isEditarItem" @fadeInOut>
+            <button (click)="isEditarItem = false" type="button">x</button>
             <h2>Editando</h2>
-            <h4> {{itemSelecionado?.conteudo}}</h4>
+            <p> Matéria | Conteúdo: <strong>{{itemSelecionado?.conteudo}}</strong></p>
             <label for="materia">Alterar Matéria</label>
             <app-input  id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="materiaCod" (change)="alterarConteudoPorMateria()"></app-input>
             <label for="conteudo" *ngIf="!isNovoConteudo">Alterar Conteúdo</label>
@@ -69,7 +70,7 @@
             <label for="novoConteudo" *ngIf="isNovoConteudo">Digite o conteúdo</label>
             <app-input id="novoConteudo" [placeholder]="'Insira o conteúdo'" [type]="'text'" formControlName="conteudoNovo" *ngIf="isNovoConteudo"></app-input>
             <span>
-                <label for="checkbox">Outro</label>
+                <label for="checkbox">Inserir outro conteúdo</label>
                 <input id="checkbox" type="checkbox" (change)="exibirNovoConteudo()" formControlName="isNovoConteudo">
             </span>
             <label for="data">Data</label>

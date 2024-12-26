@@ -12,12 +12,24 @@ import { InputComponent } from "../../shared/input/input.component";
 import { MateriaService } from '../../service/materia.service';
 import { ReesService } from '../../service/rees.service';
 import { Materia } from '../../models/materia';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-cronograma',
   standalone: true,
   imports: [HeaderLumoappComponent, MenuLumoappComponent, ButtonComponent, CommonModule, ReactiveFormsModule, InputComponent],
   providers: [CronogramaService, MateriaService, ReesService],
+    animations: [
+      trigger('fadeInOut', [
+          transition(':enter', [
+              style({ opacity: 0 }),
+              animate('300ms', style({ opacity: 1 }))
+          ]),
+          transition(':leave', [
+              animate('300ms', style({ opacity: 0 }))
+          ])
+      ])
+  ],
   templateUrl: './cronograma.component.html',
   styleUrl: './cronograma.component.css'
 })
@@ -27,6 +39,7 @@ export class CronogramaComponent implements OnInit {
   edit: string = '/app/edit.png';
   x: string = '/app/x.png';
   itemSelecionado: Cronograma | null = null;
+  hoje = new Date();
   semana: Date[] = [];
   itens: Cronograma[] = [];
   materias: { value: string, label: string }[] = [];
@@ -85,9 +98,7 @@ export class CronogramaComponent implements OnInit {
     this.isVisualizarItemAtivo = false;
     this.isEditarItem = true;
     this.cronogramaForm.get('data')?.setValue(this.itemSelecionado?.data);
-    this.cronogramaForm.get('conteudo')?.setValue(this.itemSelecionado?.conteudo);
     this.cronogramaForm.get('descricao')?.setValue(this.itemSelecionado?.descricao);
-    this.cronogramaForm.get('materiaCod')?.setValue(this.itemSelecionado?.materiaCod);
   }
 
   fecharItem() {
@@ -114,6 +125,7 @@ export class CronogramaComponent implements OnInit {
         next: () => {
           this.toastr.success('Cronograma cadastrado com sucesso.');
           this.getItensCronograma();
+          this.cronogramaForm.reset();
         },
         error: (error) => {
           this.toastr.error('Erro ao cadastrar cronograma.', error);
@@ -146,11 +158,14 @@ export class CronogramaComponent implements OnInit {
           this.getItensCronograma();
           this.isEditarItem = false;
           this.isVisualizarItemAtivo = false;
+          this.cronogramaForm.reset();
         },
         error: (error) => {
           this.toastr.error('Erro ao editar cronograma.', error);
         }
       })
+    } else {
+      this.toastr.error("Preencha todos os campos!");
     }
   }
 

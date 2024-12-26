@@ -5,6 +5,7 @@
     --branco-p: #f7f7f7;
     --cinza-sec: #F6F6F6;
     --cinza-p: #828282;
+    --desativado: #BDBDBD;
     --cinza-borda: #E0E0E0;
     --box-shadow: 0 0 8px rgb(255, 193, 23, 0.3);
     --verde-p: #28a745;
@@ -56,17 +57,22 @@ body {
 }
 
 small {
-    color: red;
+    color: var(--vermelho-p);
     display: block;
     margin-top: 3px;
   }
 
 .pagAtivo {
-    background-color: var(--cinza-borda);
-    width: 200px;
+    display: flex;
+    flex-direction: row;
+    height: 10px;
+    align-items: left;
+    background-color: var(--cinza-sec);
+    width: 225px;
     margin-left: 1%;
     border-radius: 8px;
     border-left: 6px solid var(--laranja-p);
+    animation: abaSelecionada 0.2s ease-in-out;;
 }
 
 .aba-opcoes {
@@ -96,6 +102,20 @@ small {
     border-bottom: 4px solid var(--laranja-p);
     border-radius: 2px;
     color: var(--laranja-p);
+    animation: abaSelecionada 0.2s ease-in-out;
+
+}
+
+@keyframes abaSelecionada {
+
+    from {
+        opacity: 0;
+        transform: translateX(-1%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 @keyframes fadeIn {
@@ -129,7 +149,6 @@ table {
     animation: fadeInTab 0.5s ease-in-out;
     transition: transform 0.2s;
     
-    
 }
 
 
@@ -141,9 +160,10 @@ table th {
 }
 
 table td {
-    padding: 2%;
+    padding: 1%;
     border-bottom: 1px solid var(--cinza-borda);
     text-align: left;
+    animation: fadeInTab 0.5s ease-in-out;
     
 }
 
