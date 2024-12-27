@@ -33,6 +33,7 @@ export class HomeLumoappComponent implements OnInit {
   data: string;
   constructor(private auth: AuthService, private cronogramaService: CronogramaService, private toastr: ToastrService, private reesService: ReesService) {
     this.nome = this.auth.getUsuarioAtual()?.getNome();
+    console.log(this.auth.getUsuarioAtual());
     const today = new Date();
     this.data = today.toISOString().split('T')[0];
   }

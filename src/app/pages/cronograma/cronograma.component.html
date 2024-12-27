@@ -3,11 +3,16 @@
     <app-menu-lumoapp></app-menu-lumoapp>
     <div class="conteudo-conteiner">
         <div class="conteudo-acoes">
-            <span class="teste">
-                <h2>Organize seus estudos</h2>
-                <h4>Adicione os conteúdos que você deseja estudar ao seu cronograma semanal. Os estudos do dia estarão disponíveis na sessão Estudar.</h4>
-            </span>
-            <app-button texto="Adicionar ao Cronograma" (click)="adicionarAoCronograma()"></app-button>
+                <span class="titulo">
+                    <h2>Organize seus estudos</h2>
+                    <h4>Adicione os conteúdos que você deseja estudar ao seu cronograma semanal. Os estudos do dia estarão disponíveis
+                        na sessão Estudar.</h4>
+                </span>
+                <span class="adicionar-cronograma">
+                    <p>Adicione novos itens ao seu cronograma!</p>
+                    <app-button id="btAdd" texto="Adicionar" (click)="adicionarAoCronograma()"></app-button>
+                </span>
+                <img [src]="cronogramImg" alt="Imagem de um calendário" class="img">
         </div>
         <div class="conteudo-principal">
             <div class="conteudo-semanal" *ngFor=" let dia of semana">

@@ -3,9 +3,19 @@
     <app-menu-lumoapp></app-menu-lumoapp>
     <div class="conteudo-principal">
         <div class="infos">
-            <h2>Seu Histórico de Estudos</h2>
-            <p>Veja suas sessões de estudos realizadas. Você pode achar mais informações dentro do seu Perfil.</p>
-            <p>Você pode Editar ou Excluir um registro selecionando na tabela abaixo.</p>
+            <span class="span-titulo">
+                <h2>Seu Histórico de Estudos</h2>
+                <p>Veja suas sessões de estudos realizadas!</p>
+                <p>Você pode <strong>Editar</strong> ou <strong>Excluir</strong> um registro selecionando na tabela abaixo.</p>
+            </span>
+            <div class="estatisticas">
+                <span class="span-estatisticas">
+                    <h2>Estatísticas Gerais</h2>
+                </span>
+                <p >Tempo total de estudo:<strong class="destaque">{{tempoEstudadoString}}</strong></p>
+                <p >Total de sessões de Estudos: <strong class="destaque">{{totalSessoes}}</strong></p>
+            </div>
+            <img class="img" [src]="readingImg" alt="Imagem de livros e um óculos">
         </div>
         <table>
             <thead>

@@ -24,6 +24,8 @@ export class TitleService {
       this.titulo = 'Cronograma';
     } else if (url.includes('/app/historico')) {
       this.titulo = 'Histórico';
+    } else if (url.includes('/app/profile')) {
+      this.titulo = 'Perfil';
     }
     this.titleService.setTitle(this.titulo);
   }

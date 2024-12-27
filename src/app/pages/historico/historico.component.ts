@@ -13,6 +13,7 @@ import { InputComponent } from '../../shared/input/input.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { MateriaService } from '../../service/materia.service';
 import { Materia } from '../../models/materia';
+import { TransformaTempo } from '../../utils/transforma-tempo';
 
 
 
@@ -32,10 +33,18 @@ export class HistoricoComponent implements OnInit {
   materias: { value: string, label: string }[] = [];
   conteudo: { value: string, label: string }[] = [];
   codRegistroSelecionado!: string;
+  readingImg: string = '/app/reading.png';
+  totalSessoes: number = 0;
+  tempoEstudadoString: string = '';
+  tempoTotalEstudado: number = 0;
   page: number = 1
   itensPageSize: number = 0;
   x: string = '/app/x.png';
-  constructor(private reesService: ReesService, private toastrService: ToastrService, private datePipe: DatePipe, private materiaService: MateriaService) { 
+  constructor(
+    private reesService: ReesService, 
+    private toastrService: ToastrService,
+    private datePipe: DatePipe, 
+    private materiaService: MateriaService) { 
     this.reesForm = new FormGroup({
       codMateria: new FormControl('', Validators.required),
       conteudo: new FormControl(''),
@@ -59,8 +68,7 @@ export class HistoricoComponent implements OnInit {
 
   ngOnInit(): void {  
     this.getHistorico();
-
-    
+    this.getHistoricoTotal();
   }
 
   voltarPagina() {
@@ -79,6 +87,7 @@ export class HistoricoComponent implements OnInit {
     }
 
   }
+
   
   getMaterias(): void{
         this.materiaService.getMaterias().subscribe((materias: Materia[]) => {
@@ -175,7 +184,16 @@ export class HistoricoComponent implements OnInit {
       })))
     ).subscribe(dados => {
       this.registros = dados;
-      this.itensPageSize = dados.length
+    });
+  }
+
+  getHistoricoTotal(): void {
+    this.reesService.listarTodosRegistrosDeEstudo().pipe().subscribe(dados => {
+      this.registros = dados;
+      this.tempoEstudadoString = TransformaTempo.getTempoDeEstudos(this.registros, this.tempoTotalEstudado, this.tempoEstudadoString);
+      dados.forEach((item) => {
+        this.totalSessoes++;
+      })
     });
   }
 

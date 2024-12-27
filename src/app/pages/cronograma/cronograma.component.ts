@@ -41,6 +41,7 @@ export class CronogramaComponent implements OnInit {
   itemSelecionado: Cronograma | null = null;
   hoje = new Date();
   semana: Date[] = [];
+  cronogramImg: string = '/app/cronogram-img.png';
   itens: Cronograma[] = [];
   materias: { value: string, label: string }[] = [];
   conteudo: { value: string, label: string }[] = [];

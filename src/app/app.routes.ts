@@ -9,6 +9,7 @@ import { MateriasLumoappComponent } from './pages/materias-lumoapp/materias-lumo
 import { CronogramaComponent } from './pages/cronograma/cronograma.component';
 import { HistoricoComponent } from './pages/historico/historico.component';
 import { CanDeactivateGuard } from './utils/candeactivateguard';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
     {path:'home', component: HomeComponent},
@@ -19,5 +20,6 @@ export const routes: Routes = [
     {path: 'app/materias', component: MateriasLumoappComponent, canActivate: [AuthGuard]},
     {path: 'app/cronograma', component: CronogramaComponent, canActivate: [AuthGuard]},
     {path: 'app/historico', component: HistoricoComponent, canActivate: [AuthGuard]},
+    {path: 'app/profile', component: ProfileComponent, canActivate: [AuthGuard]},
     {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];

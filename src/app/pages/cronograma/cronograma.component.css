@@ -18,7 +18,6 @@ section {
 .conteudo-acoes {
     display: flex;
     flex-direction: row;
-    justify-content: left;
     justify-items: center;
     align-items: center;
     margin: 0 1%;
@@ -48,8 +47,9 @@ ul {
     justify-content: center;
 }
 
-.teste {
-    margin-right: 600px;
+.titulo {
+    margin-right: auto;
+    border-right: 1px solid var(--cinza-borda);
 }
 
 .bt-semana {
@@ -183,4 +183,27 @@ button:hover {
 .acao-item:hover {
     transition: transform 0.2s;
     transform: scale(1.1);
+}
+
+.img {
+    width: 10%;
+    margin: auto;
+}
+
+.adicionar-cronograma {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding-left: 10px;
+}
+
+.adicionar-cronograma p {
+    font-size: 20px;
+}
+
+.itens-topo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
 }

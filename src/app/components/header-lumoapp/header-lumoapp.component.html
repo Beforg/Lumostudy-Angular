@@ -7,7 +7,7 @@
         <a (click)="alternaProfiel()"><img [src]="profile" class="profile"></a>
         <span *ngIf="isProfileClicked" class="profile-opcoes">
           <div class="opcoes">
-            <button>Ver Perfil</button>
+            <button routerLink="/app/profile">Ver Perfil</button>
             <button (click)="logout()">Sair</button>
           </div>
         </span>
