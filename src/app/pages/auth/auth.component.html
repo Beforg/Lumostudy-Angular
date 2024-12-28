@@ -1,6 +1,7 @@
+
 <section>
     <form [formGroup]="authForm" (ngSubmit)="login()">
-        <img [src]="logo" alt="Logo do Lumostudy" id="logo">
+        <img [src]="logo" alt="Logo do Lumostudy" id="logo" routerLink="/home">
         <h1>Login</h1>
         <span class="span-inputs">
             <label for="email"></label>
@@ -10,10 +11,10 @@
         </span>
         <span class="span-remenber">
             <app-button texto="Entrar" id="logar" type="submit"></app-button>
-            <span>
+            <!-- <span>
                 <label for="remember">Manter</label>
                 <input id="remember" formControlName="remember" type="checkbox">
-            </span>
+            </span> -->
         </span>
         
         <span class="span-links">
@@ -22,3 +23,4 @@
         </span>
     </form>
 </section>
+<app-footer></app-footer>

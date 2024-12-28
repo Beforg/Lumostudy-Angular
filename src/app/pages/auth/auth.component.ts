@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthForm } from '../../models/auth.form';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from "../../shared/input/input.component";
@@ -6,26 +6,34 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from "../../shared/button/button.component";
 import { AuthService } from '../../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { LoginResponse } from '../../models/login.response';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [InputComponent, ReactiveFormsModule, CommonModule, RouterModule, ButtonComponent],
+  imports: [InputComponent, ReactiveFormsModule, CommonModule, RouterModule, ButtonComponent, RouterLink, FooterComponent],
   providers: [AuthService],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit{
   authForm!: FormGroup<AuthForm>;
   logo: string = '/logo_2.png';
+  logo2: string = '/logo.png';
   constructor(private authService: AuthService, private routerLink: Router, private toastr: ToastrService) {
     this.authForm = new FormGroup<AuthForm>({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
       remember: new FormControl(false)
     });
+  }
+
+  ngOnInit(): void {
+    // if (this.authService.isLogged()) {
+    //   this.routerLink.navigate(['/app/home']);
+    // }
   }
 
   login(): void {

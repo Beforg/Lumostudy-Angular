@@ -13,8 +13,10 @@ section {
     gap: 10px;
     display: flex;
     flex-direction: row;
-    margin: auto;
+    margin: 10px 10px 0 10px;
     animation: fadeInTab 0.5s ease-in-out;
+    background-color: rgb(255, 255, 255);
+    
 }
 
 ul {

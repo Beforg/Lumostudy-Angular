@@ -34,7 +34,7 @@
             </span>
 
         </div>
-    </div>
+
     <div class="overlay" *ngIf="isAdicionarAtivo || isVisualizarItemAtivo || isEditarItem">
         <form [formGroup]="cronogramaForm" (ngSubmit)="cadastrarAoCronograma()" *ngIf="isAdicionarAtivo">
             <button (click)="adicionarAoCronograma()" type="button" *ngIf="isAdicionarAtivo">x</button>
@@ -67,7 +67,7 @@
         <form [formGroup]="cronogramaForm" *ngIf="isEditarItem" @fadeInOut>
             <button (click)="isEditarItem = false" type="button">x</button>
             <h2>Editando</h2>
-            <p> Matéria | Conteúdo: <strong>{{itemSelecionado?.conteudo}}</strong></p>
+            <p><strong>{{itemSelecionado?.conteudo}}</strong></p>
             <label for="materia">Alterar Matéria</label>
             <app-input  id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="materiaCod" (change)="alterarConteudoPorMateria()"></app-input>
             <label for="conteudo" *ngIf="!isNovoConteudo">Alterar Conteúdo</label>
@@ -85,4 +85,5 @@
             <app-button texto="Salvar" type="submit" (click)="editarItemCronograma()"></app-button>
         </form>
     </div>
+</div>
 </section>

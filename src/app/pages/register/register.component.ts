@@ -5,14 +5,14 @@ import { CommonModule } from '@angular/common';
 import { InputComponent } from '../../shared/input/input.component';
 import { ButtonComponent } from "../../shared/button/button.component";
 import { AuthService } from '../../service/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { User } from '../../models/user';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RouterModule],
   providers: [AuthService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -33,6 +33,13 @@ export class RegisterComponent {
 
   register(): void {
       if (this.registerForm.valid) {
+      if (this.registerForm.get('email')?.value !== this.registerForm.get('confirmEmail')?.value) {
+        this.toastr.error('Os emails não são iguais');
+        return;
+      } else if (this.registerForm.get('password')?.value !== this.registerForm.get('confirmPassword')?.value) { 
+        this.toastr.error('As senhas não são iguais');
+        return;
+      }
           const user: User = new User(
             'none',
             this.registerForm.get('nome')?.value,
@@ -51,7 +58,7 @@ export class RegisterComponent {
             }
           });
       } else {
-        this.toastr.error('Preencha todos os campos corretamente', 'Erro');
+        this.toastr.error('Preencha todos os campos corretamente');
       }
   }
 }

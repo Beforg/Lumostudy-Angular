@@ -11,11 +11,12 @@ import { ReesService } from '../../service/rees.service';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Rees } from '../../models/rees';
 import { TransformaTempo } from '../../utils/transforma-tempo';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-home-lumoapp',
   standalone: true,
-  imports: [HeaderLumoappComponent, MenuLumoappComponent, InputComponent, CommonModule, FormsModule],
+  imports: [HeaderLumoappComponent, MenuLumoappComponent, InputComponent, CommonModule, FormsModule, FooterComponent],
   providers: [AuthService, CronogramaService, ReesService],
   templateUrl: './home-lumoapp.component.html',
   styleUrl: './home-lumoapp.component.css'

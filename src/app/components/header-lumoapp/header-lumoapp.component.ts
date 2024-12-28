@@ -30,6 +30,7 @@ export class HeaderLumoappComponent implements OnInit {
   }
 
   logout():void {
+    console.log('logout');
     this.authService.logout();
     this.router.navigate(['/auth']);
   }

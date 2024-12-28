@@ -3,16 +3,30 @@ section {
     flex-direction: row;
 }
 
+.conteudo-conteiner {
+    background-color: white;
+    height: 700px;
+    width: 82%;
+    margin: 10px 10px 0 10px; /* Adicione margin-top */
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    align-items: center;
+    padding: 1%;
+    border: solid 1px var(--cinza-borda);
+    border-radius: 10px;
+    animation: fadeInTab 0.5s ease-in-out;
+}
+
 .conteudo-principal {
     padding: 1%;
-    margin-bottom: auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid var(--cinza-borda);
     border-top: 1px solid var(--cinza-borda);
-    min-height: 500px;
+    height: 500px;
 } 
 
 .conteudo-acoes {
@@ -38,7 +52,6 @@ section {
     justify-content: left;
     align-items: center;
 }
-
 
 ul {
     display: flex;
@@ -80,12 +93,10 @@ li {
     background-color: var(--verde-p);
 }
 
-
 li:hover {
     transition: transform 0.2s;
     transform: scale(1.1);
 }
-
 
 h3 {
     text-align: center;
@@ -93,19 +104,6 @@ h3 {
     min-width: 190px;
     border-bottom: 1px solid var(--cinza-borda);
     padding-bottom: 2px;
-}
-
-.conteudo-conteiner {
-    display: flex;
-    flex-direction: column;
-    justify-items: flex-start;
-    width: 100%;
-    align-items: center;
-    padding: 1%;
-    margin: 0 1%;
-    border: solid 1px var(--cinza-borda);
-    border-radius: 10px;
-    
 }
 
 .overlay {
@@ -132,10 +130,8 @@ form {
     border: 2px solid var(--cinza-borda);
     filter: blur(50%);
     animation: fadeIn 0.5s ease-in-out;
-
 }
 
-    
 button {
     background-color: white;
     border: none;
@@ -165,7 +161,6 @@ button:hover {
     border: 2px solid var(--cinza-borda);
     filter: blur(50%);
     animation: fadeIn 0.5s ease-in-out;
-
 }
 
 .span-acao-item {
@@ -177,7 +172,6 @@ button:hover {
     cursor: pointer;
     transition: transform 0.2s;
     border: none;
-    
 }
 
 .acao-item:hover {
@@ -205,5 +199,4 @@ button:hover {
     display: flex;
     flex-direction: row;
     align-items: center;
-
 }

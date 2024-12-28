@@ -6,12 +6,15 @@ section {
 .conteudo-principal {
     border: 1px solid var(--cinza-borda);
     width: 80%;
-    min-height: 250px;
+    height: 600px;
     padding: 2%;
     margin-left: 10px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    background-color: white;
+    animation: fadeInTab 0.5s ease-in-out;
+    margin: 10px 10px 0 10px;
 }
 
 

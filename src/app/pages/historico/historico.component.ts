@@ -133,12 +133,11 @@ export class HistoricoComponent implements OnInit {
   }
 
   abrirEdicaoRegistroEstudo(item: Rees): void {
+      this.getMaterias();
       this.codRegistroSelecionado = item.codRegistro;
-      this.reesForm.get('codMateria')?.setValue(item.codMateria);
-      this.reesForm.get('conteudo')?.setValue(item.conteudo);
       this.reesForm.get('descricao')?.setValue(item.descricao);
       this.isEditarOpen = true;
-      this.getMaterias();
+
   }
 
   fecharEdicaoRegistroEstudo(): void {
@@ -150,6 +149,11 @@ export class HistoricoComponent implements OnInit {
     let conteudo = this.reesForm.get('conteudo')?.value;
     if (this.reesForm.invalid) {
       this.toastrService.error("Preencha todos os campos corretamente.");
+      return;
+    }
+
+    if (this.reesForm.get('isNovoConteudo')?.value == false && this.reesForm.get('conteudo')?.value === '') { 
+      this.toastrService.error("Selecione um conteúdo.");
       return;
     }
 
@@ -184,6 +188,7 @@ export class HistoricoComponent implements OnInit {
       })))
     ).subscribe(dados => {
       this.registros = dados;
+      this.itensPageSize = dados.length;
     });
   }
 

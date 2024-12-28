@@ -43,7 +43,13 @@ export class AuthService {
       return null;
    }
 
+   isLogged(): boolean {
+      console.log(this.cookieService.check('usuarioAtual'));
+      return this.cookieService.check('usuarioAtual');
+   }
+
    logout(): void {
+      this.cookieService.delete('usuarioAtual', '/app');
       this.cookieService.delete('usuarioAtual', '/');
    }
 }

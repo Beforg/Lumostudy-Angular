@@ -38,6 +38,10 @@
                 <small *ngIf="registerForm.get('confirmPassword')?.errors?.['minlength']">Confirmação de senha deve ter pelo menos 6 caracteres.</small>
             </div>
         </span>
-        <app-button texto="Registrar" type="submit"></app-button>
+        <span class="botoes">
+            <a routerLink="/auth">Voltar</a>
+            <app-button texto="Registrar" type="submit"></app-button>
+        </span>
+
     </form>
 </section>

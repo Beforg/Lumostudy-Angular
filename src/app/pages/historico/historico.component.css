@@ -11,6 +11,9 @@ section {
     margin: 0 1%;
     border: solid 1px var(--cinza-borda);
     border-radius: 10px;
+    background-color: white;
+    animation: fadeInTab 0.5s ease-in-out;
+    margin: 10px 10px 0 10px;
     
 }
 
@@ -20,7 +23,7 @@ section {
 }
 
 .img {
-    width: 15%;
+    width: 12%;
     margin: auto;
 }
 
@@ -51,6 +54,7 @@ section {
 .infos {
     display: flex;
     flex-direction: row;
+    height: 140px;
 }
 
 table tr {

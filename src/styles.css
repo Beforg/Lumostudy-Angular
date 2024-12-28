@@ -9,6 +9,7 @@
     --cinza-borda: #E0E0E0;
     --box-shadow: 0 0 8px rgb(255, 193, 23, 0.3);
     --verde-p: #28a745;
+    --laranja-s: #ffecaf;
     --vermelho-p: #dc3545;
 }
 
@@ -17,6 +18,7 @@ body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    background-color: #FBF4F4;
 }
 
 .toast-top-right {
@@ -60,6 +62,7 @@ small {
     color: var(--vermelho-p);
     display: block;
     margin-top: 3px;
+    font-weight: bold;
   }
 
 .pagAtivo {
@@ -67,10 +70,8 @@ small {
     flex-direction: row;
     height: 10px;
     align-items: left;
-    background-color: var(--cinza-sec);
     width: 225px;
     margin-left: 1%;
-    border-radius: 8px;
     border-left: 6px solid var(--laranja-p);
     animation: abaSelecionada 0.2s ease-in-out;;
 }

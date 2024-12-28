@@ -7,11 +7,14 @@ section {
 .conteudo-principal {
     border: 1px solid var(--cinza-borda);
     height: 600px;
-    width: 90%;
+    width: 81%;
     padding: 1%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    background-color: white;
+    margin: 10px 10px 0 10px;
+    animation: fadeInTab 0.5s ease-in-out;
     
 }
 

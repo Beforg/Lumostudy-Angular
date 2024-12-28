@@ -227,11 +227,11 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
       return;
     } else {
       this.reesService.listarConteudo(this.reesForm.get('codMateria')?.value).subscribe((conteudo: string[]) => {
-        this.conteudo = conteudo.map(c => ({
+        this.conteudo = [{ value: '', label: 'Selecione o Conteúdo' }, ...conteudo.map(c => ({
           value: c,
           label: c
-        }));
-      })
+        }))];
+      });
     }
   }
 
@@ -280,6 +280,8 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
       this.isConfiguracoesAtivo = false;
       this.isEstudarAtivo = true;
       this.ngOnInit();
+    } else {
+      this.toastr.error('Todos os campos da configuração do Pomodoro devem ser preenchidos!');
     }
   }
 
@@ -316,6 +318,9 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   }
 
   passarSessao(): void {
+    if (!this.isSessaoAtiva) {
+      return
+    }
     if (confirm("Deseja passar a sessão do Timer?")) {
       this.iniciarPomodoro();
       if (this.worker) {
@@ -325,6 +330,9 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
 }
 
   pausarPomodoro(): void { 
+    if (!this.isSessaoAtiva) {
+      return
+    }
     if (this.isEstudando) {
       this.isEstudando = false;
       if (this.worker) {
@@ -341,6 +349,9 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   }
 
   resetarPomodoro(): void {
+    if (!this.isSessaoAtiva) {
+      return
+    }
     if (confirm("Deseja reiniciar o Timer?")) {
       this.isEstudando = false
       if (this.worker) {
@@ -401,31 +412,42 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
   }
 
   registrarEstudo() {
-    if (this.reesForm.valid && confirm("Deseja finalizar e registrar o estudo?")) {
-      if (!this.isNovoConteudo) {
-        this.reesForm.get('conteudoTexto')?.setValue(this.reesForm.get('conteudo')?.value);
+    if (!this.isSessaoAtiva) {
+      this.toastr.info("Inicie uma sessão de estudo para registrar um estudo!");
+      return;
+    }
+
+    if (this.reesForm.valid) {      
+      if(this.reesForm.get('isNovoConteudo')?.value == false && this.reesForm.get('conteudo')?.value == '') { 
+        this.toastr.error("Selecione um conteúdo ou adicione um novo!");
+        return;
       }
-      const data: any = {
-        tempo: this.transofrmarTempo(this.tempoTotalEstudoSegundos),
-        conteudo: this.reesForm.get('conteudoTexto')?.value,
-        descricao: this.reesForm.get('descricao')?.value,
-        codMateria: this.reesForm.get('codMateria')?.value,
-        pontuacao: Pontuacao.calcularPontuacao(this.tempoTotalEstudoSegundos)
-      }
-      this.reesService.registrarEstudo(data).subscribe(() => {
-        this.isNovoConteudo = false;
-        this.reesForm.reset();
-        this.alterarConteudoPorMateria();
-        this.toastr.success("Estudo registrado com sucesso!");
-        if (this.worker) {
-          this.worker.postMessage({ 
-            action: 'finalizarSessao',
-            tempoPomodoroSegundos: this.pomodoroConfiguration[0] * 60 
-          });
+      if (confirm("Deseja finalizar e registrar o estudo?")) {
+        if (!this.isNovoConteudo) {
+          this.reesForm.get('conteudoTexto')?.setValue(this.reesForm.get('conteudo')?.value);
         }
-        this.isSessaoAtiva = false;
-        this.ciclos = 0;
-      });
+        const data: any = {
+          tempo: this.transofrmarTempo(this.tempoTotalEstudoSegundos),
+          conteudo: this.reesForm.get('conteudoTexto')?.value,
+          descricao: this.reesForm.get('descricao')?.value,
+          codMateria: this.reesForm.get('codMateria')?.value,
+          pontuacao: Pontuacao.calcularPontuacao(this.tempoTotalEstudoSegundos)
+        }
+        this.reesService.registrarEstudo(data).subscribe(() => {
+          this.isNovoConteudo = false;
+          this.reesForm.reset();
+          this.alterarConteudoPorMateria();
+          this.toastr.success("Estudo registrado com sucesso!");
+          if (this.worker) {
+            this.worker.postMessage({ 
+              action: 'finalizarSessao',
+              tempoPomodoroSegundos: this.pomodoroConfiguration[0] * 60 
+            });
+          }
+          this.isSessaoAtiva = false;
+          this.ciclos = 0;
+        });
+      }
     } else {
       this.toastr.error("Preencha todos os campos obrigatórios!");
       console.log(this.reesForm.value);

@@ -44,21 +44,21 @@
                 <label for="nome" >Nome da Matéria</label>
                 <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
                 <div *ngIf="materiasForm.get('nome')?.hasError('required') && materiasForm.get('nome')?.touched">
-                    <small class="error-message">O nome da matéria é obrigatório.</small>
+                    <small>O nome da matéria é obrigatório.</small>
                 </div>
                 <div *ngIf="!isNovaCategoria" @fadeInOut>
                     <label for="categoria" >Selecione a categoria</label>
                     <app-input id="categoria" [placeholder]="'Categoria'" type="choose" [options]="categoriasMaterias" formControlName="categoria"></app-input>
                 </div>
                 <div *ngIf="materiasForm.get('categoria')?.hasError('required') && materiasForm.get('categoria')?.touched">
-                    <small class="error-message">A categoria é obrigatória.</small>
+                    <small>A categoria é obrigatória.</small>
                 </div>
                 <div *ngIf="isNovaCategoria" @fadeInOut>
                     <label for="novaCategoria">Nova Categoria</label>
                     <app-input [placeholder]="'Insira a nova Categoria'" type="text" formControlName="categoriaTexto"></app-input>
                 </div>
                 <div *ngIf="materiasForm.get('categoriaTexto')?.hasError('required') && materiasForm.get('categoriaTexto')?.touched">
-                    <small class="error-message">A categoria é obrigatória.</small>
+                    <small>A categoria é obrigatória.</small>
                 </div>
                 <div class="div-checkbox">
                     <label for="checkbox">Inserir nova categoria</label>
