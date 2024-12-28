@@ -173,6 +173,7 @@ export class HistoricoComponent implements OnInit {
     this.toastrService.success("Registro de estudo editado com sucesso.");
     this.getHistorico();
     this.isEditarOpen = false;
+    this.isNovoConteudo = false;
     this.reesForm.reset();
   });
 

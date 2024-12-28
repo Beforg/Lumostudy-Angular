@@ -8,11 +8,13 @@ import { AuthService } from '../../service/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { User } from '../../models/user';
 import { ToastrService } from 'ngx-toastr';
+import { FooterComponent } from '../../components/footer/footer.component';
+
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RouterModule, FooterComponent],
   providers: [AuthService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'

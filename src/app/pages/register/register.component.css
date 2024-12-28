@@ -2,8 +2,8 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color:var(--laranja-p)
+    height: 81.5vh;
+    background-color:var(--branco-p)
 }
 
 h1 {
@@ -18,10 +18,11 @@ form {
     align-items: center;
     border-radius: 16px;
     border: 1px solid #FFF;
-    background: rgba(217, 217, 217, 0.48);
+    background: var(--laranja-p);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 400px;
     min-height: 550px;
+    padding: 2%;
 }
 
 .span-inputs {

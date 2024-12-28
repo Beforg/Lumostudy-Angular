@@ -1,27 +1,45 @@
-# Lumostudy
+<p align="center">
+  <img src="https://github.com/Beforg/assets/blob/main/lumostudy/logo.png" alt="Descrição da Imagem">
+</p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+_____
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) [![Generic badge](https://img.shields.io/badge/v-0.1.242-<COLOR>.svg)](https://shields.io/)
 
-## Development server
+## Projeto Lumostudy
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+O Lumostudy é um aplicativo projetado para ajudar estudantes a alcançarem seus objetivos de forma organizada e produtiva. Com ferramentas intuitivas e personalizáveis, você pode planejar, acompanhar e analisar seu progresso nos estudos.
 
-## Code scaffolding
+### 🛠 Funcionalidades
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Sessões de Estudo com Técnica Pomodoro**: Gerencie seu tempo com sessões ajustáveis para manter o foco.
+- **Cronogramas Semanais**: Organize sua semana com cronogramas personalizados que se integram às suas sessões de estudo.
+- **Histórico de Estudos**: Acompanhe sua evolução com registros detalhados de tempo e frequência de estudo.
 
-## Build
+## 🌟 Por que usar o Lumostudy?  
+- **Produtividade otimizada**: Use técnicas comprovadas para maximizar seu foco e desempenho.  
+- **Organização prática**: Ferramentas simples e eficientes para gerenciar seus estudos.  
+- **Evolução constante**: Visualize seus resultados e ajuste sua rotina para continuar melhorando.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Estude com mais eficiência!
 
-## Running unit tests
+![](https://github.com/Beforg/assets/blob/main/lumostudy/home.png)
+[Prints da aplicação](https://github.com/Beforg/assets/tree/main/lumostudy)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🚀 Tecnologias Utilizadas  
+- **Frontend**: Angular/Typescript/CSS
+- **Backend**: Java/Spring  
+- **Banco de Dados**: PostgreSQL
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 💻 Como Executar  
+1. Clone este repositório:  
+   ```bash  
+   git clone https://github.com/Beforg/Lumostudy-Angular.git
+   ```
+2. Instale as dependências:
+   ```bash  
+   npm install
+   ```
+3. Execute
+   ```bash  
+   ng serve
+   ```

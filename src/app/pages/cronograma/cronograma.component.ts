@@ -126,6 +126,7 @@ export class CronogramaComponent implements OnInit {
         next: () => {
           this.toastr.success('Cronograma cadastrado com sucesso.');
           this.getItensCronograma();
+          this.isNovoConteudo = false
           this.cronogramaForm.reset();
         },
         error: (error) => {
@@ -159,6 +160,7 @@ export class CronogramaComponent implements OnInit {
           this.getItensCronograma();
           this.isEditarItem = false;
           this.isVisualizarItemAtivo = false;
+          this.isNovoConteudo = false;
           this.cronogramaForm.reset();
         },
         error: (error) => {
