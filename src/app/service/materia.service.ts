@@ -12,26 +12,23 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MateriaService {
   private user: User | null = null;
+  private headers!: {Authorization: string};
   readonly APIURL: string = 'http://localhost:8080/materia';
 
   constructor(private http: HttpClient, private authService: AuthService) {
       this.user = this.authService.getUsuarioAtual();
+      this.headers = {Authorization: `Bearer ${this.user?.getToken()}`};
    }
    
    getMaterias(): Observable<Materia[]> {
-    const cod = this.user?.getCod()
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.user?.getToken()}`
-    })
-    return this.http.get<Materia[]>(`${this.APIURL}/listar/${cod}`, {headers}) //add subscrip
+    return this.http.get<Materia[]>(`${this.APIURL}/listar/${this.user?.getCod()}`, {headers: this.headers}).pipe(tap(response => {
+      console.log("Matérias recebidas.", response)
+    }
+    ));
    }
 
    getMateriasPaginadas(pag: number): Observable<Materia[]> {
-    const cod = this.user?.getCod();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.user?.getToken()}`
-    })
-    return this.http.get<{ content: Materia[]}>(`${this.APIURL}/listar/${cod}/page?page=${pag}`, { headers }).pipe(
+    return this.http.get<{ content: Materia[]}>(`${this.APIURL}/listar/${this.user?.getCod()}/page?page=${pag}`, { headers: this.headers }).pipe(
       tap(response => {
         console.log("Matérias recebidas.", response);
       }),
@@ -40,48 +37,33 @@ export class MateriaService {
    }
 
    getCategorias(): Observable<string[]> {
-    const cod = this.user?.getCod()
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.user?.getToken()}`
-    })
-    return this.http.get<string[]>(`${this.APIURL}/categorias/${cod}`, {headers}).pipe(tap(response => {
+    return this.http.get<string[]>(`${this.APIURL}/categorias/${this.user?.getCod()}`, {headers: this.headers}).pipe(tap(response => {
       console.log("Conteúdos recebidos.", response)
-    }), map(response => {
-      return response
-    }))
+    }));
    }
 
    cadastrarMateria(materia: Materia): Observable<any> {
-      const cod = this.user?.getCod()
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.user?.getToken()}`
-      })
-      return this.http.post<Materia>(`${this.APIURL}/cadastrar/${cod}`,
+      return this.http.post<Materia>(`${this.APIURL}/cadastrar/${this.user?.getCod()}`,
         {
           nome: materia.nome,
           categoria: materia.categoria
         }
-      , {headers}).pipe(tap(response => {
+      , {headers: this.headers}).pipe(tap(response => {
         console.log("Matéria cadastrada.", response)
-      }), map(response =>{
-        return response
-      }))
+      }));
    }
 
    atualizarMateria(nome: string, categoria: string, cod: string): Observable<Materia> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.user?.getToken()}`
-    })
     return this.http.put<Materia>(`${this.APIURL}/editar`, {
       cod: cod,
       nome: nome,
       categoria: categoria
-    }, { headers: headers });
+    }, { headers: this.headers }).pipe(tap(response => {
+      console.log("Matéria atualizada.", response);
+    }));
   }
    excluirMateria(cod: string) {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.user?.getToken()}`
-    })
-    return this.http.delete(`${this.APIURL}/excluir/${cod}`, { headers: headers });
+    return this.http.delete(`${this.APIURL}/excluir/${cod}`, { headers: this.headers }).pipe(tap(response => {
+      console.log("Matéria excluída.", response)}));
    }
 }

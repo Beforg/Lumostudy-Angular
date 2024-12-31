@@ -37,20 +37,25 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class MateriasLumoappComponent {
   materiasForm!: FormGroup<CadastrarMateriaForm>;
+  materias: Materia[] = [];
+
   isMateriaAtivo: boolean = true;
   isNovaMateriaAtivo: boolean = false;
   isNovaCategoria: boolean = false;
   isEdicaoAtivo: boolean = false;
   isExclusaoAtivo: boolean = false;
+  showPagination:boolean = true;
+
   materiabg: string = '/app/materias-bg.png';
-  materias: Materia[] = [];
   categoriasMaterias: { value: string, label: string }[] = [];
   edit: string = '/app/edit.png';
   x: string = '/app/x.png';
   codMateriaSelecionada!: string;
+
   pag: number = 1;
   pagItems: number = 0;
-  showPagination = true;
+
+
 
   constructor(private service: MateriaService, private toastr: ToastrService) {
     this.atualizarMateriaEcategoria();
@@ -74,7 +79,7 @@ export class MateriasLumoappComponent {
   }
 
 
-  atualizarMateriaEcategoria() {
+  atualizarMateriaEcategoria() { // carrega de acordo com a página
     this.materias = [];
     this.categoriasMaterias = [];
     this.service.getMateriasPaginadas(this.pag - 1).subscribe((data: Materia[]) => {
@@ -95,7 +100,6 @@ export class MateriasLumoappComponent {
     if (this.pagItems == 6) {
       this.pag++;
       this.atualizarMateriaEcategoria();
-      console.log(this.pag)
       this.pagItems = 0;
 
     } 
@@ -105,7 +109,6 @@ export class MateriasLumoappComponent {
     if (this.pag > 1) {
       this.pag--;
       this.atualizarMateriaEcategoria();
-      console.log(this.pag)
     } 
   }
 

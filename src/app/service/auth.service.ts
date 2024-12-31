@@ -10,7 +10,7 @@ import { LoginResponse } from '../models/login.response';
   providedIn: 'root'
 })
 export class AuthService {
-
+   
   private readonly API = 'http://localhost:8080/auth'
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
@@ -44,7 +44,6 @@ export class AuthService {
    }
 
    isLogged(): boolean {
-      console.log(this.cookieService.check('usuarioAtual'));
       return this.cookieService.check('usuarioAtual');
    }
 

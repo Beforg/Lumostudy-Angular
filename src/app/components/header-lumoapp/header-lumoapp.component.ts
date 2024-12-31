@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { TitleService } from '../../service/title.service';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,7 @@ import { AuthService } from '../../service/auth.service';
 @Component({
   selector: 'app-header-lumoapp',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, RouterLink],
   providers: [AuthService],
   templateUrl: './header-lumoapp.component.html',
   styleUrls: ['./header-lumoapp.component.css']

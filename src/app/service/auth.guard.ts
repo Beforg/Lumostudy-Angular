@@ -11,7 +11,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
     if (this.authService.getUsuarioAtual() != null) {
-      console.log('Usuário logado');
       return true;
     } else {
       this.router.navigate(['/auth']);

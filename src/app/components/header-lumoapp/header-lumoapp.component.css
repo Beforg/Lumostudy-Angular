@@ -70,3 +70,7 @@ h1 {
     transition: transform 0.2s;
     transform: scale(1.1);
   }
+
+  img {
+    cursor: pointer;
+  }

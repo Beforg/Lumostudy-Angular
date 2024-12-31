@@ -35,19 +35,23 @@ import { trigger, transition, style, animate } from '@angular/animations';
 })
 export class CronogramaComponent implements OnInit {
   cronogramaForm!: FormGroup<CronogramaForm>;
-  isVisualizarItemAtivo: boolean = false;
+
   edit: string = '/app/edit.png';
   x: string = '/app/x.png';
-  itemSelecionado: Cronograma | null = null;
+  cronogramImg: string = '/app/cronogram-img.png';
+
   hoje = new Date();
   semana: Date[] = [];
-  cronogramImg: string = '/app/cronogram-img.png';
   itens: Cronograma[] = [];
   materias: { value: string, label: string }[] = [];
   conteudo: { value: string, label: string }[] = [];
+  itemSelecionado: Cronograma | null = null;
+
   isNovoConteudo: boolean = false;
   isAdicionarAtivo: boolean = false;
   isEditarItem: boolean = false;
+  isVisualizarItemAtivo: boolean = false;
+
   constructor(private cronogramaService: CronogramaService, private toastr: ToastrService, private materiaService: MateriaService, private reesService: ReesService) {
     this.cronogramaForm = new FormGroup<CronogramaForm>({
       data: new FormControl('', Validators.required),
@@ -70,15 +74,6 @@ export class CronogramaComponent implements OnInit {
     });
   }
 
-  exibirNovoConteudo(): void {
-    if (this.isNovoConteudo) {
-      this.isNovoConteudo = false;
-    } else {
-      this.isNovoConteudo = true;
-    }
-    console.log(this.isNovoConteudo);
-  }
-
   ngOnInit(): void {
     this.materiaService.getMaterias().subscribe((materias: Materia[]) => {
       this.materias = [{ value: '', label: 'Selecione a Matéria' }, ...materias.map(materia => ({
@@ -90,12 +85,22 @@ export class CronogramaComponent implements OnInit {
     this.setSemanaAtual(new Date());
   }
 
-  visualizarItem(item: Cronograma): void {
+  exibirNovoConteudo(): void { // abre o input para colocar um novo conteúdo
+    if (this.isNovoConteudo) {
+      this.isNovoConteudo = false;
+    } else {
+      this.isNovoConteudo = true;
+    }
+  }
+
+
+
+  visualizarItem(item: Cronograma): void { // abre a janela com informações do item do cronograma
     this.isVisualizarItemAtivo = true;
     this.itemSelecionado = item;
   }
 
-  editarItemSelecionado() {
+  editarItemSelecionado() { // abre para edição do item do cronograma
     this.isVisualizarItemAtivo = false;
     this.isEditarItem = true;
     this.cronogramaForm.get('data')?.setValue(this.itemSelecionado?.data);
@@ -107,7 +112,7 @@ export class CronogramaComponent implements OnInit {
     this.itemSelecionado = null;
   }
 
-  cadastrarAoCronograma(): void {
+  cadastrarAoCronograma(): void { // cadastra um novo item no cronograma
     let conteudo = this.getMateriaLabel(this.cronogramaForm.get('materiaCod')?.value) + ' | ' + this.cronogramaForm.get('conteudo')?.value
     if (!this.cronogramaForm.get('conteudo')?.hasValidator(Validators.required)) {
       conteudo = this.getMateriaLabel(this.cronogramaForm.get('materiaCod')?.value) + ' | ' + this.cronogramaForm.get('conteudoNovo')?.value
@@ -124,7 +129,7 @@ export class CronogramaComponent implements OnInit {
       }
       this.cronogramaService.cadastrar(cronograma).subscribe({
         next: () => {
-          this.toastr.success('Cronograma cadastrado com sucesso.');
+          this.toastr.success('Item cadastrado com sucesso.');
           this.getItensCronograma();
           this.isNovoConteudo = false
           this.cronogramaForm.reset();
@@ -139,7 +144,7 @@ export class CronogramaComponent implements OnInit {
 
   }
 
-  editarItemCronograma() {
+  editarItemCronograma() { // edita um item do cronograma
     let conteudo = this.getMateriaLabel(this.cronogramaForm.get('materiaCod')?.value) + ' | ' + this.cronogramaForm.get('conteudo')?.value
     if (!this.cronogramaForm.get('conteudo')?.hasValidator(Validators.required)) {
       conteudo = this.getMateriaLabel(this.cronogramaForm.get('materiaCod')?.value) + ' | ' + this.cronogramaForm.get('conteudoNovo')?.value
@@ -172,7 +177,7 @@ export class CronogramaComponent implements OnInit {
     }
   }
 
-  excluirDoCronograma() {
+  excluirDoCronograma() { 
     if (this.itemSelecionado && confirm('Deseja realmente excluir este item do cronograma?')) {
       this.cronogramaService.excluir(this.itemSelecionado.cod).subscribe({
         next: () => {
@@ -187,7 +192,7 @@ export class CronogramaComponent implements OnInit {
     }
   }
 
-  alterarConteudoPorMateria(): void {
+  alterarConteudoPorMateria(): void { // altera o conteúdo de acordo com a matéria selecionada
     if (this.cronogramaForm.get('materiaCod')?.value === '') {
       this.cronogramaForm.get('conteudo')?.setValue('');
       this.conteudo = [];
@@ -202,12 +207,12 @@ export class CronogramaComponent implements OnInit {
     }
   }
 
-  getMateriaLabel(value: string) {
+  getMateriaLabel(value: string) { // retorna o nome da matéria de acordo com o código
     const materia = this.materias.find(materia => materia.value === value);
     return materia ? materia.label : '';
   }
 
-  adicionarAoCronograma(): void {
+  adicionarAoCronograma(): void { // abre a janela para adicionar um item ao cronograma
     if (this.isAdicionarAtivo) {
       this.isAdicionarAtivo = false;
     } else {
@@ -215,11 +220,12 @@ export class CronogramaComponent implements OnInit {
     }
   }
 
-  setSemanaAtual(data: Date): void {
+  setSemanaAtual(data: Date): void { // cria um array com os dias da semana ( 86400000 ms = 1 dia)
     const inicioDaSemana = this.getInicioDaSemana(data);
-    this.semana = Array.from({ length: 7 }, (_, i) => new Date(inicioDaSemana.getTime() + i * 86400000));
+    this.semana = Array.from({ length: 7 }, (_, i) => new Date(inicioDaSemana.getTime() + i * 86400000)); 
+    //                           7 dias, a partir do início da semana
   }
-  getInicioDaSemana(data: Date): Date {
+  getInicioDaSemana(data: Date): Date { // retorna o início da semana 
     const dia = data.getDay();
     const diferenca = data.getDate() - dia;
     const inicioDaSemana = new Date(data.setDate(diferenca));
@@ -228,7 +234,7 @@ export class CronogramaComponent implements OnInit {
     }
     return inicioDaSemana;
   }
-  getItensCronograma(): void {
+  getItensCronograma(): void { // busca os itens do cronograma
     this.cronogramaService.listar().subscribe({
       next: (response) => {
         this.itens = response;
@@ -240,7 +246,7 @@ export class CronogramaComponent implements OnInit {
     })
   }
 
-  getItensPorDia(data: Date): Cronograma[] {
+  getItensPorDia(data: Date): Cronograma[] { // retorna os itens do cronograma de acordo com a data para distribuir no cronograma
     let dataFormatada = new Date(Date.UTC(data.getFullYear(), data.getMonth(), data.getDate()));
     dataFormatada.setDate(dataFormatada.getDate());
     const dataFormatadaStr = dataFormatada.toISOString().split('T')[0];

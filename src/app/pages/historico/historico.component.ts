@@ -28,18 +28,22 @@ import { TransformaTempo } from '../../utils/transforma-tempo';
 export class HistoricoComponent implements OnInit {
   registros!: Rees[]; 
   reesForm!: FormGroup<ReesForm>;
+
   isEditarOpen: boolean = false;
   isNovoConteudo: boolean = false;
+
   materias: { value: string, label: string }[] = [];
   conteudo: { value: string, label: string }[] = [];
   codRegistroSelecionado!: string;
   readingImg: string = '/app/reading.png';
-  totalSessoes: number = 0;
+  x: string = '/app/x.png';
   tempoEstudadoString: string = '';
+
+  totalSessoes: number = 0;
   tempoTotalEstudado: number = 0;
   page: number = 1
   itensPageSize: number = 0;
-  x: string = '/app/x.png';
+
   constructor(
     private reesService: ReesService, 
     private toastrService: ToastrService,
@@ -80,7 +84,7 @@ export class HistoricoComponent implements OnInit {
   }
 
   proximaPagina() {
-    if (this.itensPageSize == 10) 
+    if (this.itensPageSize == 8) 
     {
       this.page++
       this.getHistorico();
@@ -98,7 +102,7 @@ export class HistoricoComponent implements OnInit {
         });
   }
 
-  alterarConteudoPorMateria(): void {
+  alterarConteudoPorMateria(): void { // Altera o conteúdo de acordo com a matéria selecionada
     if(this.reesForm.get('codMateria')?.value === '') {
       this.reesForm.get('conteudo')?.setValue('');
       this.reesForm.get('conteudoTexto')?.setValue('');
@@ -122,6 +126,7 @@ export class HistoricoComponent implements OnInit {
       this.isNovoConteudo = true;
     }
   }
+  
   excluirRegistroDeEstudo(item: Rees, event: Event): void {   
     event.stopPropagation();
     if (confirm("Deseja realmente excluir este registro de estudo?")) {

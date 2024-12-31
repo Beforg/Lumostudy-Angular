@@ -31,9 +31,10 @@ export class AuthComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    // if (this.authService.isLogged()) {
-    //   this.routerLink.navigate(['/app/home']);
-    // }
+    if (this.authService.isLogged()) {
+      this.routerLink.navigate(['/app/home']);
+    }
+    console.log(this.authService.isLogged());
   }
 
   login(): void {

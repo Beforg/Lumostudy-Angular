@@ -4,7 +4,7 @@ import { MenuLumoappComponent } from "../../components/menu-lumoapp/menu-lumoapp
 import { InputComponent } from "../../shared/input/input.component";
 import { ButtonComponent } from "../../shared/button/button.component";
 import { RouterModule } from '@angular/router';
-import { CommonModule, Time } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PomodoroConfiguration } from '../../models/pomodoro.form';
 import { Materia } from '../../models/materia';
@@ -15,15 +15,16 @@ import { Pontuacao } from '../../utils/pontuacao';
 import { ToastrService } from 'ngx-toastr';
 import { Cronograma } from '../../models/cronograma';
 import { CronogramaService } from '../../service/cronograma.service';
+import { TransformaTempo } from '../../utils/transforma-tempo';
 
 @Component({
   selector: 'app-estudar-lumoapp',
   standalone: true,
   imports: [
-    HeaderLumoappComponent, 
-    MenuLumoappComponent, 
-    InputComponent, 
-    ButtonComponent, 
+    HeaderLumoappComponent,
+    MenuLumoappComponent,
+    InputComponent,
+    ButtonComponent,
     RouterModule,
     CommonModule,
     ReactiveFormsModule],
@@ -31,45 +32,60 @@ import { CronogramaService } from '../../service/cronograma.service';
   templateUrl: './estudar-lumoapp.component.html',
   styleUrl: './estudar-lumoapp.component.css'
 })
-export class EstudarLumoappComponent implements OnInit, OnDestroy{
-  audioPath: string = '/app/timer.mp3'
-  materias!: { value: string, label: string }[];
-  conteudo!: { value: string, label: string }[];
+export class EstudarLumoappComponent implements OnInit, OnDestroy {
+
+
   itensCronograma!: Cronograma[];
   pomodoroForm!: FormGroup<PomodoroConfiguration>;
   reesForm!: FormGroup<ReesForm>;
-  tempoPomodoro: string = '';
+
   tempoPomodoroSegundos: number = 0;
   tempoIntervaloCurto: number = 0;
   tempoIntervaloLongo: number = 0;
+  ciclos: number = 0;
+  tempoTotalEstudoSegundos: number = 0;
+  tempoRestanteIntervalo: number = 0;
+
   isBreak: boolean = false;
   isCicloConcluido: boolean = false;
   b: boolean = false;
   isEstudando: boolean = false;
   isSessaoAtiva: boolean = false;
-  ciclos: number = 0;
-  tempoTotal: string = '';
-  pomodoroAtual: string = `Sessão do Pomodoro #${this.ciclos + 1}`;
-  tempoTotalEstudoSegundos: number = 0;
-  interval: any;
-  tempoRestanteIntervalo: number = 0;
-
   isEstudosAtrasados: boolean = false;
   isNovoConteudo: boolean = false;
   isEstudarAtivo: boolean = true;
-  isConfiguracoesAtivo: boolean = false; 
-  firstValueInput: boolean = true;
+  isConfiguracoesAtivo: boolean = false;
+
+  workerBreakEnd: string = 'breakEnd';
+  workerBreak: string = 'break';
+  workerStop: string = 'stop';
+  workerStart: string = 'start';
+  workerStartBreak: string = 'startBreak';
+  workerStopStudy: string = 'stopStudy';
+  workerResumeBreak: string = 'resumeBreak';
+  workerPassarSessao: string = 'passarSessao';
+  workerFinalizarSessao: string = 'finalizarSessao';
+
+
+  tempoTotal: string = '';
+  tempoPomodoro: string = '';
+  pomodoroAtual: string = `Sessão do Pomodoro #${this.ciclos + 1}`;
+  audioPath: string = '/app/timer.mp3'
+  materias!: { value: string, label: string }[];
+  conteudo!: { value: string, label: string }[];
+
+
+
 
   page: number = 1;
-  pomodoroConfiguration: number[] = []; //timer, shortBreak, longBreak, cycles
-  tempoFora: number = 0;
+  pomodoroConfiguration: number[] = []; //configuracao do timer, shortBreak, longBreak, cycles
   qtdeItensCronograma: number = 0;
   private audio = new Audio(this.audioPath);
   private worker: Worker | null = null;
 
   constructor(
-    private materiaService: MateriaService, 
-    private reesService: ReesService, 
+    private materiaService: MateriaService,
+    private reesService: ReesService,
     private toastr: ToastrService,
     private cronogramaService: CronogramaService) {
     this.pomodoroForm = new FormGroup({
@@ -93,39 +109,99 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
         this.reesForm.get('conteudo')?.setValidators(Validators.required);
         this.reesForm.get('conteudoTexto')?.clearValidators();
       }
-      this.reesForm.get('conteudo')?.updateValueAndValidity(); 
+      this.reesForm.get('conteudo')?.updateValueAndValidity();
       this.reesForm.get('conteudoTexto')?.updateValueAndValidity();
     })
   }
-  ngOnDestroy(): void {
-    clearInterval(this.interval);
+
+  ngOnInit(): void {
+    this.getMaterias();
+    this.getCronogramaDoDia();
+    if (localStorage.getItem('pomodoroConfiguration')) {
+      this.pomodoroConfiguration = JSON.parse(localStorage.getItem('pomodoroConfiguration') as string);
+    } else {
+      this.pomodoroConfiguration = this.defaultPomodoro(this.pomodoroConfiguration);
+      localStorage.setItem('pomodoroConfiguration', JSON.stringify(this.pomodoroConfiguration));
+    }
+    this.setPomodoroForm();
+
+    // configura o worker para o timer (serve para o cronometro rodar mesmo em segundo plano)
+    if (typeof Worker !== 'undefined') {
+      this.worker = new Worker(new URL('../../workers/timer.worker', import.meta.url));
+      this.worker.onmessage = ({ data }) => {
+        if (data === this.workerBreak) {
+          this.isBreak = true;
+          this.audio.play();
+          this.startBreak();
+        } else if (data === this.workerBreakEnd) {
+          this.tempoTotalEstudoSegundos += 1;
+          if (this.isCicloConcluido) {
+            this.pomodoroAtual = `Sessão do Pomodoro #${this.pomodoroConfiguration[3]}: Intervalo concluído!`;
+            this.isCicloConcluido = false;
+          } else {
+            this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos}: Intervalo concluído!`;
+          }
+          this.audio.play();
+          this.isBreak = false;
+          this.isEstudando = false;
+          this.tempoPomodoroSegundos = this.pomodoroConfiguration[0] * 60;
+          // this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
+          this.tempoPomodoro = TransformaTempo.transformaTempo(this.tempoPomodoroSegundos);
+        } else {
+          if (data.tempoPomodoroSegundos !== undefined) {
+            this.tempoPomodoroSegundos = data.tempoPomodoroSegundos;
+            this.tempoTotalEstudoSegundos = data.tempoTotalEstudoSegundos;
+            //this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
+            this.tempoPomodoro = TransformaTempo.transformaTempo(this.tempoPomodoroSegundos);
+            //this.tempoTotal = this.transofrmarTempo(this.tempoTotalEstudoSegundos);
+            this.tempoTotal = TransformaTempo.transformaTempo(this.tempoTotalEstudoSegundos);
+          } else if (data.tempoIntervalo !== undefined) {
+            // this.tempoPomodoro = this.transofrmarTempo(data.tempoIntervalo);
+            this.tempoPomodoro = TransformaTempo.transformaTempo(data.tempoIntervalo);
+            this.tempoRestanteIntervalo = data.tempoIntervalo;
+          }
+        }
+      };
+    }
+  }
+
+  ngOnDestroy(): void { // encerra o worker ao sair da página
     if (this.worker) {
       this.worker.terminate();
     }
   }
 
-  @HostListener('window:beforeunload', ['$event'])
+  @HostListener('window:beforeunload', ['$event']) // mensagem de confirmação ao sair da página com uma sessão de estudo ativa
   unloadNotification($event: any): void {
     if (this.isEstudando || this.isBreak) {
       $event.returnValue = 'Você tem uma sessão de estudo em andamento. Tem certeza de que deseja sair?';
     }
   }
 
-  getCronogramaDoDia(): void {
+  getCronogramaDoDia(): void { // lista os itens do cronograma do dia
     this.cronogramaService.listarCronogramaDeHoje(this.page - 1).subscribe((cronograma: Cronograma[]) => {
       this.itensCronograma = cronograma
       this.qtdeItensCronograma = cronograma.length;
-    } )
+    })
   }
 
-  getCronogramaAtrasados(): void {
+  getMaterias(): void {
+    this.materiaService.getMaterias().subscribe((materias: Materia[]) => {
+      this.materias = [{ value: '', label: 'Selecione a Matéria' }, ...materias.map(materia => ({
+        value: materia.cod,
+        label: materia.nome
+      }))];
+    });
+  }
+
+  getCronogramaAtrasados(): void { // lista os itens do cronograma atrasados
     this.cronogramaService.listarCronogramaAtrasados(this.page - 1).subscribe((cronograma: Cronograma[]) => {
       this.itensCronograma = cronograma
       this.qtdeItensCronograma = cronograma.length;
     })
   }
 
-  trocarAbaCronograma(): void {
+  trocarAbaCronograma(): void { // troca a aba do cronograma entre o dia atual e os atrasados
     if (this.isEstudosAtrasados) {
       this.isEstudosAtrasados = false;
       this.getCronogramaDoDia();
@@ -135,15 +211,17 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     }
   }
 
-    voltarPagina(): void {
+
+  // navegacao entre as paginas do cronograma
+  voltarPagina(): void {
     if (this.page > 1) {
       this.page--;
       this.abaEscolhida();
     }
   }
 
-  abaEscolhida(): void {
-    if (this.isEstudosAtrasados) { 
+  abaEscolhida(): void { // carrega de acordo com a aba escolhida
+    if (this.isEstudosAtrasados) {
       this.getCronogramaAtrasados();
     } else {
       this.getCronogramaDoDia();
@@ -156,71 +234,23 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
       this.abaEscolhida();
     }
   }
+  // fim da navegacao entre as paginas do cronograma
 
-  concluirEstudo(item: Cronograma) {
-      this.cronogramaService.concluirItemCronograma(item.cod, !item.concluido).subscribe(() => {
-        this.getCronogramaDoDia();
-        this.toastr.success('Estudo atualizado!');
-        
-      })
-      this.isEstudosAtrasados = false;
+  concluirEstudo(item: Cronograma) { // altera o status de concluido do estudo
+    this.cronogramaService.concluirItemCronograma(item.cod, !item.concluido).subscribe(() => {
+      this.getCronogramaDoDia();
+      this.toastr.success('Estudo atualizado!');
+
+    })
+    this.isEstudosAtrasados = false;
   }
 
-  ngOnInit(): void {
-    this.materiaService.getMaterias().subscribe((materias: Materia[]) => {
-      this.materias = [{ value: '', label: 'Selecione a Matéria' }, ...materias.map(materia => ({
-        value: materia.cod,
-        label: materia.nome
-      }))];
-    });
-    this.getCronogramaDoDia();
-    if (localStorage.getItem('pomodoroConfiguration')) {
-      this.pomodoroConfiguration = JSON.parse(localStorage.getItem('pomodoroConfiguration') as string);
-    } else {
-      this.pomodoroConfiguration = this.defaultPomodoro(this.pomodoroConfiguration);
-      localStorage.setItem('pomodoroConfiguration', JSON.stringify(this.pomodoroConfiguration));
-    }
-    this.setPomodoroForm();
 
-    if (typeof Worker !== 'undefined') {
-      this.worker = new Worker(new URL('../../workers/timer.worker', import.meta.url));
-      this.worker.onmessage = ({ data }) => {
-        if (data === 'break') {
-          this.isBreak = true;
-          this.audio.play();
-          this.startBreak();
-        } else if (data === 'breakEnd') {
-          this.tempoTotalEstudoSegundos += 1;
-          if (this.isCicloConcluido) {
-            this.pomodoroAtual = `Sessão do Pomodoro #${this.pomodoroConfiguration[3]}: Intervalo concluído!`;
-            this.isCicloConcluido = false;
-          } else {
-            this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos}: Intervalo concluído!`;
-          }
-          this.audio.play();
-          this.isBreak = false;
-          this.isEstudando = false;
-          this.tempoPomodoroSegundos = this.pomodoroConfiguration[0] * 60;
-          this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
-        } else {
-          if (data.tempoPomodoroSegundos !== undefined) {
-            this.tempoPomodoroSegundos = data.tempoPomodoroSegundos;
-            this.tempoTotalEstudoSegundos = data.tempoTotalEstudoSegundos;
-            this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
-            this.tempoTotal = this.transofrmarTempo(this.tempoTotalEstudoSegundos);
-          } else if (data.tempoIntervalo !== undefined) {
-            this.tempoPomodoro = this.transofrmarTempo(data.tempoIntervalo);
-            this.tempoRestanteIntervalo = data.tempoIntervalo; 
-          }
-        }
-      };
-    }
-  }
 
-      
 
-  alterarConteudoPorMateria(): void {
-    if(this.reesForm.get('codMateria')?.value === '') {
+
+  alterarConteudoPorMateria(): void { // altera o conteúdo de acordo com a matéria selecionada no input
+    if (this.reesForm.get('codMateria')?.value === '') {
       this.reesForm.get('conteudo')?.setValue('');
       this.reesForm.get('conteudoTexto')?.setValue('');
       this.conteudo = [];
@@ -235,18 +265,18 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     }
   }
 
-  transofrmarTempo(tempo: number): string {
-    const horas = Math.floor(tempo / 3600);
-    const minutos = Math.floor((tempo % 3600) / 60);
-    const segundos = tempo % 60;
-    return `${this.formatarNumero(horas)}:${this.formatarNumero(minutos)}:${this.formatarNumero(segundos)}`;
-  }
+  // transofrmarTempo(tempo: number): string {
+  //   const horas = Math.floor(tempo / 3600);
+  //   const minutos = Math.floor((tempo % 3600) / 60);
+  //   const segundos = tempo % 60;
+  //   return `${this.formatarNumero(horas)}:${this.formatarNumero(minutos)}:${this.formatarNumero(segundos)}`;
+  // }
 
-  formatarNumero(numero: number): string {
-    return numero < 10 ? `0${numero}` : `${numero}`;
-  }
+  // formatarNumero(numero: number): string {
+  //   return numero < 10 ? `0${numero}` : `${numero}`;
+  // }
 
-  defaultPomodoro(pomodoroConfiguration: number[]): number[] {
+  defaultPomodoro(pomodoroConfiguration: number[]): number[] { // configuração padrão do pomodoro
     pomodoroConfiguration[0] = 50;
     pomodoroConfiguration[1] = 10;
     pomodoroConfiguration[2] = 15;
@@ -254,7 +284,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     return pomodoroConfiguration;
   }
 
-  setPomodoroForm(): void {
+  setPomodoroForm(): void {  // seta as configurações do pomodoro
     this.tempoPomodoroSegundos = this.pomodoroConfiguration[0] * 60;
     this.tempoIntervaloCurto = this.pomodoroConfiguration[1] * 60;
     this.tempoIntervaloLongo = this.pomodoroConfiguration[2] * 60;
@@ -262,12 +292,14 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     this.pomodoroForm.get('shortBreak')?.setValue(this.pomodoroConfiguration[1]);
     this.pomodoroForm.get('longBreak')?.setValue(this.pomodoroConfiguration[2]);
     this.pomodoroForm.get('cycles')?.setValue(this.pomodoroConfiguration[3]);
-    this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
-    this.tempoTotal = this.transofrmarTempo(this.tempoTotalEstudoSegundos);
-    
+    // this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
+    // this.tempoTotal = this.transofrmarTempo(this.tempoTotalEstudoSegundos);
+    this.tempoPomodoro = TransformaTempo.transformaTempo(this.tempoPomodoroSegundos);
+    this.tempoTotal = TransformaTempo.transformaTempo(this.tempoTotalEstudoSegundos);
+
   }
 
-  configurarPomodoro(): void {
+  configurarPomodoro(): void { // atualiza as configurações do pomodoro
     this.reesForm.reset();
     if (this.pomodoroForm.valid) {
       this.pomodoroConfiguration[0] = this.pomodoroForm.get('timer')?.value;
@@ -285,14 +317,14 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     }
   }
 
-  iniciarPomodoro(): void {
+  iniciarPomodoro(): void { // inicia o pomodoro de acordo se está estudando ou em intervalo
     this.isSessaoAtiva = true;
     if (!this.isEstudando && !this.isBreak) {
       this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos + 1}`;
       this.isEstudando = true;
       if (this.worker) {
         this.worker.postMessage({
-          action: 'start',
+          action: this.workerStart,
           tempoPomodoroSegundos: this.tempoPomodoroSegundos,
           tempoTotalEstudoSegundos: this.tempoTotalEstudoSegundos
         });
@@ -300,69 +332,68 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     } else {
       if (this.b) {
         this.b = false;
-        this.despausarBreak();
+        this.despausarIntervalo();
         console.log(this.tempoIntervaloCurto);
       }
     }
   }
 
-  despausarBreak(): void {
+  despausarIntervalo(): void { // despausa o intervalo
     if (this.isBreak) {
       if (this.worker) {
         this.worker.postMessage({
-          action: 'resumeBreak',
+          action: this.workerResumeBreak,
           tempoIntervalo: this.tempoRestanteIntervalo
         });
       }
     }
   }
 
-  passarSessao(): void {
+  passarSessao(): void { // passa a sessão do timer para o próximo ciclo ou intervalo
     if (!this.isSessaoAtiva) {
       return
     }
     if (confirm("Deseja passar a sessão do Timer?")) {
       this.iniciarPomodoro();
       if (this.worker) {
-        this.worker.postMessage({ action: 'passarSessao' });
+        this.worker.postMessage({ action: this.workerPassarSessao });
       }
+    }
   }
-}
 
-  pausarPomodoro(): void { 
+  pausarPomodoro(): void { // pausa o pomodoro de acordo se está estudando (workerStopStudy) ou em intervalo (workerStop)
     if (!this.isSessaoAtiva) {
       return
     }
     if (this.isEstudando) {
       this.isEstudando = false;
       if (this.worker) {
-        this.worker.postMessage({ action: 'stopStudy' });
+        this.worker.postMessage({ action: this.workerStopStudy });
       }
-      console.log("StopStudy");
     } else {
       this.b = true;
       if (this.worker) {
-        this.worker.postMessage({ action: 'stop' });
+        this.worker.postMessage({ action: this.workerStop });
       }
-      console.log("StopBreak");
     }
   }
 
-  resetarPomodoro(): void {
+  resetarPomodoro(): void { // reiniciar o timer do pomodoro
     if (!this.isSessaoAtiva) {
       return
     }
     if (confirm("Deseja reiniciar o Timer?")) {
       this.isEstudando = false
       if (this.worker) {
-        this.worker.postMessage({ action: 'stop' });
+        this.worker.postMessage({ action: this.workerStop });
       }
       this.tempoPomodoroSegundos = this.pomodoroConfiguration[0] * 60;
-      this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
+      // this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
+      this.tempoPomodoro = TransformaTempo.transformaTempo(this.tempoPomodoroSegundos);
     }
   }
 
-  startBreak(): void {
+  startBreak(): void { // inicia o intervalo de acordo com o tipo de intervalo
     this.b = false;
     this.isEstudando = false;
     if (this.ciclos == this.pomodoroConfiguration[3] - 1) {
@@ -370,7 +401,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
       this.ciclos = 0;
       if (this.worker) {
         this.worker.postMessage({
-          action: 'startBreak',
+          action: this.workerStartBreak,
           tempoIntervalo: this.tempoIntervaloLongo
         });
       }
@@ -380,45 +411,21 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
       this.ciclos++;
       if (this.worker) {
         this.worker.postMessage({
-          action: 'startBreak',
+          action: this.workerStartBreak,
           tempoIntervalo: this.tempoIntervaloCurto
         });
       }
     }
   }
 
-  trocarAba(): void {
-    if (!this.isSessaoAtiva) {
-    if (this.isEstudarAtivo) {
-      this.isEstudarAtivo = false;
-      this.isConfiguracoesAtivo = true;
-    } else {
-      this.isEstudarAtivo = true;
-      this.isConfiguracoesAtivo = false;
-    }
-  } else {
-    this.toastr.warning("As configurações não podem ser alteradas durante uma sessão ativa!");
-  }
-}
-
-  novoConteudo(): void {
-    if (this.isNovoConteudo) {
-      this.isNovoConteudo = false;
-    }
-    else {
-      this.isNovoConteudo = true
-    }
-    console.log(this.isNovoConteudo);
-  }
-
-  registrarEstudo() {
+  registrarEstudo() { // finaliza a sessão e registra o estudo
     if (!this.isSessaoAtiva) {
       this.toastr.info("Inicie uma sessão de estudo para registrar um estudo!");
       return;
     }
 
-    if (this.reesForm.valid) {      
-      if(this.reesForm.get('isNovoConteudo')?.value == false && this.reesForm.get('conteudo')?.value == '') { 
+    if (this.reesForm.valid) {
+      if (this.reesForm.get('isNovoConteudo')?.value == false && this.reesForm.get('conteudo')?.value == '') {
         this.toastr.error("Selecione um conteúdo ou adicione um novo!");
         return;
       }
@@ -426,8 +433,9 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
         if (!this.isNovoConteudo) {
           this.reesForm.get('conteudoTexto')?.setValue(this.reesForm.get('conteudo')?.value);
         }
+        //this.transofrmarTempo(this.tempoTotalEstudoSegundos),
         const data: any = {
-          tempo: this.transofrmarTempo(this.tempoTotalEstudoSegundos),
+          tempo: TransformaTempo.transformaTempo(this.tempoTotalEstudoSegundos),
           conteudo: this.reesForm.get('conteudoTexto')?.value,
           descricao: this.reesForm.get('descricao')?.value,
           codMateria: this.reesForm.get('codMateria')?.value,
@@ -439,9 +447,9 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
           this.alterarConteudoPorMateria();
           this.toastr.success("Estudo registrado com sucesso!");
           if (this.worker) {
-            this.worker.postMessage({ 
-              action: 'finalizarSessao',
-              tempoPomodoroSegundos: this.pomodoroConfiguration[0] * 60 
+            this.worker.postMessage({
+              action: this.workerFinalizarSessao,
+              tempoPomodoroSegundos: this.pomodoroConfiguration[0] * 60
             });
           }
           this.isSessaoAtiva = false;
@@ -451,6 +459,29 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy{
     } else {
       this.toastr.error("Preencha todos os campos obrigatórios!");
       console.log(this.reesForm.value);
-    } 
+    }
+  }
+
+  trocarAba(): void { // alternar entre as abas de estudar e configurações -- pomodoro fica desativada enquanto a sessão está ativa
+    if (!this.isSessaoAtiva) {
+      if (this.isEstudarAtivo) {
+        this.isEstudarAtivo = false;
+        this.isConfiguracoesAtivo = true;
+      } else {
+        this.isEstudarAtivo = true;
+        this.isConfiguracoesAtivo = false;
+      }
+    } else {
+      this.toastr.warning("As configurações não podem ser alteradas durante uma sessão ativa!");
+    }
+  }
+
+  novoConteudo(): void { // habilita o input de novo conteúdo (texto)
+    if (this.isNovoConteudo) {
+      this.isNovoConteudo = false;
+    }
+    else {
+      this.isNovoConteudo = true
+    }
   }
 }
