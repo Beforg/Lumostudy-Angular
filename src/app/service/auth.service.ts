@@ -19,7 +19,9 @@ export class AuthService {
 
    login(email: string, senha: string): Observable<LoginResponse> {
       return this.httpClient.post<LoginResponse>(`${this.API}/login`, { email, senha }).pipe(tap((response) => {
-          const user = new User(response.cod, response.nome, response.email, response.token);
+         // const user = new User(response.cod, response.nome, response.email, response.token, response.username, response.foto);
+          const user = new User(response.cod, response.nome, response.email, response.token, response.username, null);
+          localStorage.setItem('usuarioFoto', response.foto?.toString() || '');
           this.cookieService.set('usuarioAtual', JSON.stringify(user), { secure: true, sameSite: 'Strict' });
       }));
    }
@@ -35,11 +37,14 @@ export class AuthService {
 
    getUsuarioAtual(): User | null {
       const usuarioJson = this.cookieService.get('usuarioAtual');
+      
       if (usuarioJson) {
             const usuario = JSON.parse(usuarioJson);
-            
-            return new User(usuario.cod, usuario.nome, usuario.email, usuario.token);
+
+         //
+            return new User(usuario.cod, usuario.nome, usuario.email, usuario.token, usuario.username, usuario.foto);
       }
+      console.log(usuarioJson);
       return null;
    }
 

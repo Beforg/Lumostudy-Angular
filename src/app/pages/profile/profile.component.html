@@ -11,8 +11,13 @@
                 <h2>Dados do usuário</h2>
                 <div class="conteudo">
                     <span>
-                        <h3>Nome</h3>
-                        <h3>Email</h3>
+                        <img [src]="fotoUrl" alt="Foto do usuário">
+                        <input type="file" (change)="selecionarImagem($event)">">
+                        <app-button texto="Alterar Foto" (click)="uploadFoto()"></app-button>
+                    </span>
+                    <span>
+                        <h3>{{usuario?.getNome()}}</h3>
+                        <h3>{{usuario?.getEmail()}}</h3>
                         <h3>Pontuação</h3>
                     </span>
                 </div>

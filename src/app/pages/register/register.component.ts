@@ -46,7 +46,9 @@ export class RegisterComponent {
             'none',
             this.registerForm.get('nome')?.value,
             this.registerForm.get('email')?.value,
-            'none'
+            'none',
+            'user',
+             null,
           )
           this.authService.cadastro(user, this.registerForm.get('password')?.value).subscribe({
             next: (response) => {
