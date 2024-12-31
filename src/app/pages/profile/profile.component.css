@@ -27,3 +27,9 @@ section {
     width: 100%;
     border-bottom: 1px solid var(--cinza-borda);
 }
+
+.container-conteudo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
