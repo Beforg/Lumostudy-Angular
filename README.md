@@ -3,7 +3,7 @@
 </p>
 
 _____
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) [![Generic badge](https://img.shields.io/badge/v-0.1.242-<COLOR>.svg)](https://shields.io/)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) [![Generic badge](https://img.shields.io/badge/v-0.1.242-<COLOR>.svg)](https://shields.io/) 
 
 ## Projeto Lumostudy
 
@@ -43,3 +43,5 @@ O Lumostudy é um aplicativo projetado para ajudar estudantes a alcançarem seus
    ```bash  
    ng serve
    ```
+
+[Repositório do back-end](https://github.com/Beforg/Lumostudy)
