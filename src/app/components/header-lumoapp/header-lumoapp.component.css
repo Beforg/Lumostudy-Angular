@@ -35,8 +35,8 @@ h1 {
 
 .profile-opcoes {
     position: absolute;
-    top: 70px; 
-    right: 20px; 
+    top: 92px; 
+    right: 30px; 
     background-color: var(--branco-p);
     border: 1px solid var(--cinza-borda);
     border-radius: 5px;
@@ -74,3 +74,11 @@ h1 {
   img {
     cursor: pointer;
   }
+
+  .foto-usuario {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid var(--borda-foto);
+    margin: 0 10px 0 0;
+}

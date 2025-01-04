@@ -40,8 +40,6 @@ export class AuthService {
       
       if (usuarioJson) {
             const usuario = JSON.parse(usuarioJson);
-
-         //
             return new User(usuario.cod, usuario.nome, usuario.email, usuario.token, usuario.username, usuario.foto);
       }
       console.log(usuarioJson);

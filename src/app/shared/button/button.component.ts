@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -10,4 +11,5 @@ import { Component, Input } from '@angular/core';
 export class ButtonComponent {
   @Input() texto: string = "";
   @Input() ico: string = "";
+
 }

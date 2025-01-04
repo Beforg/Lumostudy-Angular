@@ -4,7 +4,7 @@
         <h1>{{ titulo }}</h1>
     </div>  
     <nav>
-        <a (click)="alternaProfiel()"><img [src]="profile" class="profile"></a>
+        <a (click)="alternaProfiel()"><img [src]="profile" class="foto-usuario"></a>
         <span *ngIf="isProfileClicked" class="profile-opcoes">
           <div class="opcoes">
             <button routerLink="/app/profile">Ver Perfil</button>

@@ -10,27 +10,31 @@
             <div class="infos">
                 <h2>Dados do usuário</h2>
                 <div class="conteudo">
-                    <span>
-                        <img [src]="fotoUrl" alt="Foto do usuário">
-                        <input type="file" (change)="selecionarImagem($event)">">
-                        <app-button texto="Alterar Foto" (click)="uploadFoto()"></app-button>
+                    <span class="conteudo-foto">
+                        <img [src]="fotoUrl" alt="Foto do usuário" class="foto-usuario">
+                        <label for="input">Alterar foto de Perfil</label>
+                        <input id="input" type="file" (change)="selecionarImagem($event)"  accept="image/*">
+                        <app-button texto="Enviar" (click)="uploadFoto()"></app-button>
                     </span>
-                    <span>
-                        <h3>{{usuario?.getNome()}}</h3>
-                        <h3>{{usuario?.getEmail()}}</h3>
-                        <h3>Pontuação</h3>
+                    <span class="conteudo-dados">
+                        <label for="nome">Nome</label>
+                        <h3 id="nome">{{usuario?.getNome()}}</h3>
+                        <label for="email">Email</label>
+                        <h3 id="email">{{usuario?.getEmail()}}</h3>
+                        <label for="pontuacao">Pontuação</label>
+                        <h3 id="pontuacao">0</h3>
                     </span>
                 </div>
             </div>
             <div class="seguranca">
                 <h2>Segurança</h2>
                 <div class="conteudo">
-                    <span>
-                        <h3>Alterar Senha</h3>
-                        <h3>Alterar Email</h3>
-                        <h3>Gerenciar conta</h3>
+                    <span class="conteudo-seguranca">
+                        <app-button texto="Alterar senha"></app-button>
+                        <app-button texto="Alterar email"></app-button>
                     </span>
                 </div>
+                <a>Excluir conta</a>
             </div>
         </div>
     </div>

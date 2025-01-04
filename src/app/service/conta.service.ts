@@ -30,5 +30,14 @@ export class ContaService {
       })
     );
    }
+
+   getImage(): Observable<any> {
+    return this.http.get(`${this.API}/img/${this.user?.getCod()}`, {headers: this.headers, responseType: 'blob'}).pipe(
+      map(response => {
+        console.log("Foto recebida.", response);
+        return response;
+      })
+    );
+   }
    
 }

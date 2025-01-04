@@ -6,6 +6,7 @@ import { ContaService } from '../../service/conta.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../service/auth.service';
 import { User } from '../../models/user';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -18,27 +19,20 @@ import { User } from '../../models/user';
 export class ProfileComponent implements OnInit {
   profileImgDefault: string = '/app/profile.png';
   imagemSelecionada: File | null = null;
-  fotoUrl!: string;
+  fotoUrl!: SafeUrl | undefined;
+  fotoExpire!: string | null;
   usuario!: User | null;
   
 
-  constructor(private contaService: ContaService, private toastrService: ToastrService, private authService: AuthService) { 
-
+  constructor(private contaService: ContaService, private toastrService: ToastrService, private sanitizer: DomSanitizer, private authService: AuthService) { 
+    this.usuario = this.authService.getUsuarioAtual();
   }
 
   ngOnInit(): void {
-    this.usuario = this.authService.getUsuarioAtual();
-    if (localStorage.getItem('usuarioFoto') != '') {
-      const foto = localStorage.getItem('usuarioFoto');
-      if (foto) {
-        this.fotoUrl = this.criarUrlFoto(foto);
-        console.log(this.fotoUrl);
-      }
-    }
-  }
-
-  criarUrlFoto(foto: string): string {
-    return `data:image/png;base64,${foto}`;
+    this.contaService.getImage().subscribe(blob => {
+      const imgUrl = URL.createObjectURL(blob);
+      this.fotoUrl = this.sanitizer.bypassSecurityTrustUrl(imgUrl);
+    });
   }
 
   selecionarImagem(event: Event): void {
@@ -51,7 +45,16 @@ export class ProfileComponent implements OnInit {
   uploadFoto(): void {
     if (this.imagemSelecionada) {
       this.contaService.uploadFoto(this.imagemSelecionada).subscribe(response => {
-        this.toastrService.success('Imagem atualizada com sucesso');
+        this.toastrService.success('Foto alterada com sucesso, aguarde a atualização');
+        const valueStr = localStorage.getItem('usuarioFoto');
+        localStorage.removeItem('usuarioFoto');
+        const value = valueStr ? JSON.parse(valueStr) : null;
+        const item: object = {
+          value: value.value,
+          expiry: new Date().getTime() + 60000 // 60s para atualizar a imagem
+        }
+    
+        localStorage.setItem('usuarioFoto', JSON.stringify(item));
       }, error => {
         this.toastrService.error('Erro ao atualizar imagem');
         console.log(error);

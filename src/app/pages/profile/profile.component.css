@@ -17,6 +17,24 @@ section {
 
 }
 
+.conteudo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.conteudo-dados{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 25px;
+}
+
+.conteudo-dados label{
+    font-family: 'Montserrat', sans-serif;
+}
+
 .cabecalho {
     display: flex;
     flex-direction: row;
@@ -31,5 +49,46 @@ section {
 .container-conteudo {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between
+}
+
+.infos {
+    gap: 20px;
+
+}
+
+.foto-usuario {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 6px solid var(--borda-foto);
+    margin: 0 10px 0 0;
+}
+
+.conteudo-foto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.seguranca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.conteudo-seguranca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.seguranca a {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: auto;
 }
