@@ -7,25 +7,38 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../service/auth.service';
 import { User } from '../../models/user';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { UpdateUserForm } from '../../models/updateUser.form';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputComponent } from "../../shared/input/input.component";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [HeaderLumoappComponent, MenuLumoappComponent, ButtonComponent],
+  imports: [HeaderLumoappComponent, MenuLumoappComponent, ButtonComponent, CommonModule, ReactiveFormsModule, InputComponent],
   providers: [ContaService, AuthService],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit {
+  updateUserForm!: FormGroup<UpdateUserForm>;
   profileImgDefault: string = '/app/profile.png';
+  edit: string = '/app/edit.png';
+  type: string = '';
   imagemSelecionada: File | null = null;
+  updateLabel!: string;
   fotoUrl!: SafeUrl | undefined;
   fotoExpire!: string | null;
   usuario!: User | null;
-  
+  isEditando: boolean = false;
 
   constructor(private contaService: ContaService, private toastrService: ToastrService, private sanitizer: DomSanitizer, private authService: AuthService) { 
     this.usuario = this.authService.getUsuarioAtual();
+    this.updateUserForm = new FormGroup({
+      type: new FormControl('', Validators.required),
+      value: new FormControl('', Validators.required),
+      password: new FormControl('',Validators.required)
+    })
   }
 
   ngOnInit(): void {
@@ -40,6 +53,24 @@ export class ProfileComponent implements OnInit {
     if (selecionado.files && selecionado.files.length > 0) {
       this.imagemSelecionada = selecionado.files[0];
     } 
+  }
+
+  abrirEdicao(type: string): void {
+    this.isEditando = true
+    this.updateUserForm.get('type')?.setValue(type);
+    this.type = "text";
+    if (type === 'username') {
+      this.updateLabel = 'Trocar Nome de usuário';
+
+    }
+    else if (type === 'email') {
+      this.updateLabel = 'Trocar Email';
+    } 
+    else if (type === 'password') {
+      this.type = "password";
+      this.updateLabel = 'Trocar Senha';
+    }
+
   }
 
   uploadFoto(): void {

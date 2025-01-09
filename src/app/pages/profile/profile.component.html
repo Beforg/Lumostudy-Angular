@@ -8,7 +8,7 @@
         </div>
         <div class="container-conteudo">
             <div class="infos">
-                <h2>Dados do usuário</h2>
+                <h2>{{usuario?.getNome()}}</h2>
                 <div class="conteudo">
                     <span class="conteudo-foto">
                         <img [src]="fotoUrl" alt="Foto do usuário" class="foto-usuario">
@@ -17,25 +17,35 @@
                         <app-button texto="Enviar" (click)="uploadFoto()"></app-button>
                     </span>
                     <span class="conteudo-dados">
-                        <label for="nome">Nome</label>
-                        <h3 id="nome">{{usuario?.getNome()}}</h3>
+                        <label for="username">Nome de usuário</label>
+                        <span class="dados-item">
+                            <h3 id="username">{{usuario?.getUsername()}}</h3>
+                            <img [src]="edit" alt="Icone de Edição" (click)="abrirEdicao('username')">
+                        </span>
                         <label for="email">Email</label>
-                        <h3 id="email">{{usuario?.getEmail()}}</h3>
+                        <span class="dados-item">  
+                           <h3 id="email">{{usuario?.getEmail()}}</h3>
+                           <img [src]="edit" alt="Icone de Edição" (click)="abrirEdicao('email')"> 
+                        </span>
+
                         <label for="pontuacao">Pontuação</label>
                         <h3 id="pontuacao">0</h3>
+                        <a>Alterar senha</a> 
                     </span>
                 </div>
             </div>
             <div class="seguranca">
-                <h2>Segurança</h2>
-                <div class="conteudo">
-                    <span class="conteudo-seguranca">
-                        <app-button texto="Alterar senha"></app-button>
-                        <app-button texto="Alterar email"></app-button>
-                    </span>
-                </div>
                 <a>Excluir conta</a>
             </div>
         </div>
+    </div>
+    <div class="overlay" *ngIf="isEditando">
+        <form action="" class="editar-form">
+            <a (click)="isEditando = false">x</a>
+            <h2>{{updateLabel}}</h2>
+            <label for="value">Insira o valor novo</label>
+            <app-input id="value" [type]="'text'"></app-input>
+            <!-- <app-input id="senha" [type]="'password'" *ngIf="isSenha"></app-input> -->
+        </form>
     </div>
 </section>

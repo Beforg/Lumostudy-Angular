@@ -71,8 +71,8 @@ export class HistoricoComponent implements OnInit {
   }
 
   ngOnInit(): void {  
-    this.getHistorico();
     this.getHistoricoTotal();
+    this.getHistorico();
   }
 
   voltarPagina() {
@@ -206,6 +206,7 @@ export class HistoricoComponent implements OnInit {
         this.totalSessoes++;
       })
     });
+    this.registros = [];
   }
 
 }
