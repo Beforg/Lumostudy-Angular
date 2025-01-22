@@ -186,6 +186,7 @@ export class HistoricoComponent implements OnInit {
   
 
   getHistorico(): void {
+    this.registros = [];
     this.reesService.listarRegistrosDeEstudo(this.page - 1).pipe(
       map(dados => dados.map(registro => ({
         ...registro,

@@ -26,8 +26,8 @@ h1 {
     color: var(--cinza-p);
     font-size: 40px;
 }
-
-form {
+/* tirar repetição */
+form { 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,6 +39,14 @@ form {
     width: 400px;
     height: 450px;
     padding: 2%;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
 }
 
 .span-inputs {
@@ -68,6 +76,7 @@ form {
     
     a {
         text-decoration: none;
+        cursor: pointer;
         color: var(--cinza-p);
         transition: transform 0.2s;
         font-weight: bold;

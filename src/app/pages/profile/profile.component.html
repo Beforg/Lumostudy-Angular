@@ -4,7 +4,7 @@
     <div class="container-profile">
         <div class="cabecalho">
             <h2>Meu Perfil</h2>
-            <p>Membro desde dd/MM/yyyyy</p>
+            <p>Membro desde {{usuario?.getDataCriacao() | date: 'dd/MM/yyyy'}}</p>
         </div>
         <div class="container-conteudo">
             <div class="infos">
@@ -29,23 +29,30 @@
                         </span>
 
                         <label for="pontuacao">Pontuação</label>
-                        <h3 id="pontuacao">0</h3>
-                        <a>Alterar senha</a> 
+                        <h3 id="pontuacao">{{getPontuacaoFormatada()}} pontos</h3>
+                        <a (click)="abrirEdicao('password')">Alterar senha</a> 
                     </span>
                 </div>
             </div>
             <div class="seguranca">
-                <a>Excluir conta</a>
+                <a (click)="abrirEdicao('delete')">Excluir conta</a>
             </div>
         </div>
     </div>
     <div class="overlay" *ngIf="isEditando">
-        <form action="" class="editar-form">
+        <form action="" class="editar-form" [formGroup]="updateUserForm">
             <a (click)="isEditando = false">x</a>
             <h2>{{updateLabel}}</h2>
-            <label for="value">Insira o valor novo</label>
-            <app-input id="value" [type]="'text'"></app-input>
-            <!-- <app-input id="senha" [type]="'password'" *ngIf="isSenha"></app-input> -->
+            <p class="aviso" *ngIf="isExcluirConta">Deseja excluir sua conta?<br> Digite "Excluir" e insira a senha.</p>
+            <label for="value" *ngIf="!isExcluirConta">Insira o valor novo</label>
+            <app-input id="value" [type]="'text'" *ngIf="!isNovaSenha" formControlName='value'></app-input>
+            <app-input id="value"[type]="'password'" *ngIf="isNovaSenha"></app-input>
+            <label for="senha">Confirme sua senha</label>
+            <app-input id="senha" [type]="'password'" formControlName='password'></app-input>
+            <div>
+                <app-button texto="Salvar" (click)="editarPerfil()" *ngIf="!isExcluirConta"></app-button>
+                <button (click)="excluirConta()" *ngIf="isExcluirConta" class="bt-excluir">Excluir</button>
+            </div>
         </form>
     </div>
 </section>

@@ -3,16 +3,18 @@ export class User {
   private nome: string;
   private email: string;
   private token: string;
-  private username: string;
-  private foto: Uint8Array | null;
+  private username: string; 
+  private pontuacao: number;
+  private dataCriacao: string;
 
-    constructor(cod: string, nome: string, email: string, token: string, username: string, foto: Uint8Array | null) {
+    constructor(cod: string, nome: string, email: string, token: string, username: string, pontuacao: number, dataCriacao: string) {
         this.cod = cod;
         this.nome = nome;
         this.email = email;
         this.token = token;
         this.username = username;
-        this.foto = foto;
+        this.pontuacao = pontuacao;
+        this.dataCriacao = dataCriacao;
     }
 
     public getCod(): string {
@@ -50,8 +52,11 @@ export class User {
         return this.username;
     }
 
-    public getFoto(): Uint8Array | null {
-        return this.foto;
+    public getPontuacao(): number {
+        return this.pontuacao;
     }
 
+    public getDataCriacao(): string {
+        return this.dataCriacao;
+    }
 }

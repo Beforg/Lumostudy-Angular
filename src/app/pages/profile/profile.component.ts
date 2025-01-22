@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   updateUserForm!: FormGroup<UpdateUserForm>;
   profileImgDefault: string = '/app/profile.png';
   edit: string = '/app/edit.png';
+  isNovaSenha: boolean = false;
   type: string = '';
   imagemSelecionada: File | null = null;
   updateLabel!: string;
@@ -31,6 +32,7 @@ export class ProfileComponent implements OnInit {
   fotoExpire!: string | null;
   usuario!: User | null;
   isEditando: boolean = false;
+  isExcluirConta: boolean = false;
 
   constructor(private contaService: ContaService, private toastrService: ToastrService, private sanitizer: DomSanitizer, private authService: AuthService) { 
     this.usuario = this.authService.getUsuarioAtual();
@@ -55,10 +57,50 @@ export class ProfileComponent implements OnInit {
     } 
   }
 
+  getPontuacaoFormatada(): number {
+    const pontuacaoFormatada = this.usuario?.getPontuacao();
+    return pontuacaoFormatada ? parseFloat(pontuacaoFormatada.toFixed(2)) : 0;
+  }
+
+  editarPerfil(): void {
+    if (this.updateUserForm.valid) {
+      const type = this.updateUserForm.get('type')?.value;
+      const value = this.updateUserForm.get('value')?.value;
+      const password = this.updateUserForm.get('password')?.value;
+      if (confirm("Alterar informações do perfil?")) {
+        this.contaService.updateConta(type, value, password).subscribe({
+          next: (response) => {
+            this.toastrService.success('Perfil atualizado com sucesso! Faça login para continuar');
+            this.isEditando = false;
+            this.updateUserForm.reset();
+            this.isNovaSenha = false;
+            setTimeout(() => {
+              this.authService.logout();
+            }, 5000);
+          },
+          error: (error) => {
+            this.toastrService.error('Erro ao atualizar perfil');
+            console.log(error);
+          }
+        });
+      }
+    } else {
+      this.toastrService.error('Preencha todos os campos corretamente');
+    }
+  }
+
+  excluirConta(): void {
+    if (this.updateUserForm.get('value')?.value === "Excluir") {
+      this.toastrService.info('Conta excluída com sucesso');
+    } else {
+      this.toastrService.error('Digite "Excluir" para confirmar a exclusão da conta');
+    }
+  }
+
   abrirEdicao(type: string): void {
     this.isEditando = true
     this.updateUserForm.get('type')?.setValue(type);
-    this.type = "text";
+    this.setValidators(type);
     if (type === 'username') {
       this.updateLabel = 'Trocar Nome de usuário';
 
@@ -67,10 +109,25 @@ export class ProfileComponent implements OnInit {
       this.updateLabel = 'Trocar Email';
     } 
     else if (type === 'password') {
-      this.type = "password";
+      this.isNovaSenha = true;
       this.updateLabel = 'Trocar Senha';
+    } else {
+      this.updateLabel = 'Exclusão da Conta';
+      this.updateUserForm.reset();
+      this.isExcluirConta = true;
     }
 
+  }
+
+  setValidators(type: string) {
+    if (type === 'email') {
+      this.updateUserForm.get('value')?.setValidators([Validators.required, Validators.email]);
+    } else if (type === 'password') {
+      this.updateUserForm.get('value')?.setValidators([Validators.required, Validators.minLength(6)]);
+    } else {
+      this.updateUserForm.get('value')?.setValidators(Validators.required);
+    }
+    this.updateUserForm.get('value')?.updateValueAndValidity();
   }
 
   uploadFoto(): void {

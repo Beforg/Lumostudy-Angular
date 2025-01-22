@@ -31,6 +31,15 @@ export class ContaService {
     );
    }
 
+   updateConta(type: string, newValue: string, password: string): Observable<any> {
+    return this.http.put(`${this.API}/update/${this.user?.getCod()}`, {password, type, newValue}, {headers: this.headers}).pipe(
+      map(response => {
+        console.log("Conta atualizada.", response);
+        return response;
+      })
+    );
+   }
+
    getImage(): Observable<any> {
     return this.http.get(`${this.API}/img/${this.user?.getCod()}`, {headers: this.headers, responseType: 'blob'}).pipe(
       map(response => {

@@ -45,3 +45,5 @@ O Lumostudy é um aplicativo projetado para ajudar estudantes a alcançarem seus
    ```
 
 [Repositório do back-end](https://github.com/Beforg/Lumostudy)
+
+### Projeto em desenvolvimento 😊

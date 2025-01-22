@@ -4,5 +4,6 @@ export interface LoginResponse {
     email: string;
     nome: string;
     username: string;
-    foto: Uint8Array | null;
+    pontuacao: number;
+    dataCriacao: string;
 }

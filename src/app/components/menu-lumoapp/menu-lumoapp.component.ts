@@ -18,6 +18,7 @@ export class MenuLumoappComponent {
   cronomgramaAtivo: string = '/app/cronograma-ativo.png';
   estudarAtivo: string = '/app/estudar-ativo.png';
   materiaAtivo: string = '/app/materias-ativo.png';
+  historicoAtivo: string = '/app/historico-ativo.png';
 
   constructor(private router: Router) {
 

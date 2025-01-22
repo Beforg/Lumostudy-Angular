@@ -2,12 +2,12 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 81.5vh;
+    height: 85.5vh;
     background-color:var(--branco-p)
 }
 
 h1 {
-    color: var(--cinza-p);
+    color: var(--branco-p);
     font-size: 40px;
 }
 
@@ -25,17 +25,19 @@ form {
     padding: 2%;
 }
 
+
 .span-inputs {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: left;
     margin-bottom: 10px;
 }
 
+
 a {
     text-decoration: none;
-    color: var(--cinza-p);
+    color: var(--preto-p);
     transition: transform 0.2s;
     font-weight: bold;
     cursor: pointer;

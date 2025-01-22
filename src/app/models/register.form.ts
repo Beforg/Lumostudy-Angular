@@ -6,4 +6,5 @@ export interface RegisterForm {
     confirmEmail: FormControl;
     password: FormControl;
     confirmPassword: FormControl;
+    userNickName: FormControl;
 }

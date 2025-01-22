@@ -21,7 +21,8 @@ import { FooterComponent } from '../../components/footer/footer.component';
 })
 export class RegisterComponent {
   registerForm!: FormGroup<RegisterForm>;
-  logo: string = '/logo_2.png';
+  logo: string = '/logo.png';
+  isLoading: boolean = false;
 
   constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {
     this.registerForm = new FormGroup({
@@ -29,40 +30,49 @@ export class RegisterComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       confirmEmail: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      userNickName: new FormControl(''),
     });
   }
 
   register(): void {
-      if (this.registerForm.valid) {
+    if (this.registerForm.valid) {
+      if (this.isLoading) {
+        this.toastr.info("Processando...")
+      }
       if (this.registerForm.get('email')?.value !== this.registerForm.get('confirmEmail')?.value) {
         this.toastr.error('Os emails não são iguais');
         return;
-      } else if (this.registerForm.get('password')?.value !== this.registerForm.get('confirmPassword')?.value) { 
+      } else if (this.registerForm.get('password')?.value !== this.registerForm.get('confirmPassword')?.value) {
         this.toastr.error('As senhas não são iguais');
         return;
       }
-          const user: User = new User(
-            'none',
-            this.registerForm.get('nome')?.value,
-            this.registerForm.get('email')?.value,
-            'none',
-            'user',
-             null,
-          )
-          this.authService.cadastro(user, this.registerForm.get('password')?.value).subscribe({
-            next: (response) => {
-              this.toastr.success('Usuário cadastrado com sucesso!');
-              setTimeout(() => {
-                this.router.navigate(['/auth']);
-              }, 2000)
-            },
-            error: (error) => {
-              this.toastr.error('Erro ao cadastrar usuário');
-            }
-          });
-      } else {
-        this.toastr.error('Preencha todos os campos corretamente');
-      }
+      this.isLoading = true
+      const user: User = new User(
+        'none',
+        this.registerForm.get('nome')?.value,
+        this.registerForm.get('email')?.value,
+        'none',
+        this.registerForm.get('userNickName')?.value,
+        0,
+        '',
+      )
+      this.authService.cadastro(user, this.registerForm.get('password')?.value).subscribe({
+        next: (response) => {
+          this.toastr.success('Usuário cadastrado com sucesso! Email enviado para ativação da conta.');
+
+
+          setTimeout(() => {
+            this.router.navigate(['/auth']);
+          }, 3000)
+        },
+        error: (error) => {
+          this.toastr.error('Erro ao cadastrar usuário');
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.toastr.error('Preencha todos os campos corretamente');
+    }
   }
 }

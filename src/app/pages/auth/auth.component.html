@@ -2,25 +2,28 @@
 <section>
     <form [formGroup]="authForm" (ngSubmit)="login()">
         <img [src]="logo" alt="Logo do Lumostudy" id="logo" routerLink="/home">
-        <h1>Login</h1>
-        <span class="span-inputs">
-            <label for="email"></label>
-            <app-input id="email" [placeholder]="'Email'" [type]="'text'" [placeholder]="'Digite seu Email'" formControlName="email"></app-input>
-            <label for="password"></label>
-            <app-input id="password" [placeholder]="'Senha'" [type]="'password'" [placeholder]="'Digite sua senha'" formControlName="password"></app-input>
-        </span>
-        <span class="span-remenber">
-            <app-button texto="Entrar" id="logar" type="submit"></app-button>
-            <!-- <span>
-                <label for="remember">Manter</label>
-                <input id="remember" formControlName="remember" type="checkbox">
-            </span> -->
-        </span>
-        
-        <span class="span-links">
-            <a href="#">Esqueceu a senha?</a>
-            <a routerLink="/register">Não possui uma conta?</a>
-        </span>
+        <h1>{{title}}</h1>
+        <div>
+            <span class="span-inputs">
+                <label for="email">{{labelEmail}}</label>
+                <app-input id="email" [placeholder]="'Email'" [type]="'text'" [placeholder]="'Digite seu Email'" formControlName="email"></app-input>
+                <label for="password" *ngIf="!isRecuperarSenha">Senha</label>
+                <app-input id="password" [placeholder]="'Senha'" [type]="'password'" [placeholder]="'Digite sua senha'" formControlName="password" *ngIf="!isRecuperarSenha"></app-input>
+            </span>
+            <span class="span-remenber">
+                <app-button texto="Entrar" id="logar" type="submit" *ngIf="!isRecuperarSenha"></app-button>
+                <app-button texto="Enviar" id="logar" type="submit" *ngIf="isRecuperarSenha"></app-button>
+                <!-- <span>
+                    <label for="remember">Manter</label>
+                    <input id="remember" formControlName="remember" type="checkbox">
+                </span> -->
+            </span>
+            
+            <span class="span-links">
+                <a (click)="isRecuperarSenha = !isRecuperarSenha" (click)="exibeRecuperarSenha()">{{labelEsqueciSenha}}</a>
+                <a routerLink="/register">Não possui uma conta?</a>
+            </span>
+        </div>
     </form>
 </section>
 <app-footer></app-footer>
