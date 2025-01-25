@@ -13,7 +13,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 export const routes: Routes = [
-    {path:'home', component: HomeComponent},
+    {path: 'home', component: HomeComponent},
     {path: 'auth', component: AuthComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'app/home', component: HomeLumoappComponent,canActivate: [AuthGuard]},

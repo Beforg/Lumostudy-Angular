@@ -1,0 +1,43 @@
+#span-cronograma {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    height: 60px;
+}
+
+#span-cronograma p {
+    margin: 0;
+}
+
+#span-concluido {
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+    padding-left: 30px;
+}
+
+
+.concluido {
+    animation: completed 0.5s;
+    background-color: var(--verde-p);
+    color: var(--branco-p);
+}
+
+img {
+    margin: 0 5px;
+}
+
+input {
+    cursor: pointer;
+}
+
+@keyframes completed {
+    0% {
+        background-color: var(--laranja-p);
+    }
+    100% {
+        background-color: var(--verde-p);
+    }
+}
+

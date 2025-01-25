@@ -12,18 +12,22 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { Rees } from '../../models/rees';
 import { TransformaTempo } from '../../utils/transforma-tempo';
 import { FooterComponent } from "../../components/footer/footer.component";
+import { CardComponent } from "../../components/card/card.component";
+import { NavComponent } from "../../components/nav/nav.component";
 
 @Component({
   selector: 'app-home-lumoapp',
   standalone: true,
-  imports: [HeaderLumoappComponent, MenuLumoappComponent, InputComponent, CommonModule, FormsModule, FooterComponent],
+  imports: [HeaderLumoappComponent, MenuLumoappComponent, InputComponent, CommonModule, FormsModule, FooterComponent, CardComponent, NavComponent],
   providers: [AuthService, CronogramaService, ReesService],
   templateUrl: './home-lumoapp.component.html',
   styleUrl: './home-lumoapp.component.css'
 })
 export class HomeLumoappComponent implements OnInit {
   nome: string | undefined;
+  icoCheck: string = '/app/check.png';
   itensCronograma!: Cronograma[];
+  qtdTotalItensCronograma: number = 0;
   qtdeItensRegistroEstudo: number = 0;
   tempoDeEstudo: number = 0;
   tempoDeEstudoFormatado!: string;
@@ -41,8 +45,10 @@ export class HomeLumoappComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getCronogramaDoDia();
-    this.getEstudosRealizadosDoDia()
+    // this.getTotalItensCronograma();
+    // this.getCronogramaDoDia();
+    // this.getEstudosRealizadosDoDia()
+    this.atualizarComponente();
   }
 
 
@@ -55,6 +61,10 @@ export class HomeLumoappComponent implements OnInit {
 }
 
 trocarDia() {
+  this.atualizarComponente();
+}
+
+atualizarComponente() {
   this.getCronogramaDoDia();
   this.getEstudosRealizadosDoDia();
 }
@@ -77,7 +87,8 @@ getTempoDeEstudos(item: Rees[]): void {
 }
 
 voltarPagina(type: string): void {
-  if (type == 'rees') {
+  console.log(type);
+  if (type === 'rees') {
     if (this.pageRegistros > 1) {
       this.pageRegistros--;
       this.getEstudosRealizadosDoDia();
@@ -91,7 +102,7 @@ voltarPagina(type: string): void {
 }
 
 proximaPagina(type: string): void {
-  if (type == 'rees') {
+  if (type === 'rees') {
     if (this.qtdeItensRegistroEstudo == 5) {
       console.log(this.qtdeItensRegistroEstudo);
       this.pageRegistros++;
@@ -104,6 +115,14 @@ proximaPagina(type: string): void {
     }
   }
 }
+
+  getTotalItensCronograma(): void {
+    this.cronogramaService.listar().subscribe((cronograma: Cronograma[]) => {
+      this.itensCronograma = cronograma
+      this.qtdTotalItensCronograma= cronograma.length;
+    })
+
+  }
 
   getCronogramaDoDia(): void {
     this.cronogramaService.listarCronogramaPorData(this.page - 1, new Date(this.data).toISOString().split('T')[0]).subscribe((cronograma: Cronograma[]) => {

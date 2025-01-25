@@ -1,0 +1,11 @@
+<li class="card" [ngClass]="{'li concluido': item.concluido}">
+    <span id="span-cronograma">
+        <p id="titulo"><img [src]="item.concluido ? titleIcoDone : titleIco " alt="Icone do Título do cartão"><strong>{{item.conteudo}}</strong></p>
+
+        <p>{{ item.descricao ? item.descricao : 'Sem descrição' }}</p>
+    </span>
+    <span id="span-concluido">
+        <label for="checkbox-{{item.cod}}">Concluído</label>
+        <input type="checkbox" id="checkbox-{{item.cod}}" [checked]="item.concluido" (change)="onConcluirEstudo()">
+    </span>
+</li>

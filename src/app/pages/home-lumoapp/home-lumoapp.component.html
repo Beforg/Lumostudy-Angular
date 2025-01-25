@@ -2,20 +2,27 @@
 <section>
     <app-menu-lumoapp></app-menu-lumoapp>
     <div class="conteudo-principal">   
-        <span class="span-data">
-            <h2>Bem-Vindo, {{nome}}!</h2>
-            <h3 id="borda">{{data | date: 'EEEE, MMMM, dd/MM/yyyy'}}</h3>
-            <label for="data">Veja outros dias:</label>
-            <app-input id="data" type="date" [(ngModel)]="data" (change)="trocarDia()"></app-input>
-            <p>Você tem <strong>{{qtdeItensCronograma}}</strong> tarefas para hoje e Já realizou <strong>{{qtdeItensRegistroEstudo}}</strong> estudos.	</p>
-            <p id="borda">Tempo de estudo do dia:</p>
-            <p class="tempoEstudo">{{tempoDeEstudoFormatado}}</p>
-        </span>
+        <div>
+            <div id="info-estudo">
+                <h1>Bem-Vindo, {{nome}}! 👋</h1>
+                <h3 class="borda">{{data | date: "EEEE, dd 'de' MMMM 'de' yyyy"}}</h3>
+                <p id="info-estudo-tarefas">Você tem <strong>{{qtdTotalItensCronograma}}</strong> tarefa(s) para hoje e Já realizou <strong>{{qtdeItensRegistroEstudo}}</strong> estudo(s).	</p>
+                <label for="tempoEstudo" class="borda">Tempo de estudo do dia:</label>
+                <p id="tempoEstudo">{{tempoDeEstudoFormatado}}</p>
+            </div>
+            <div id="info-data">
+                <label for="data">Veja outros dias:</label>
+                <app-input id="data" type="date" [(ngModel)]="data" (change)="trocarDia()"></app-input>
+            </div>
+        </div>
         <div class="principal-atividades">
-            <h3 id="borda">Tarefas do dia</h3>
-            <h4 class="aviso" *ngIf="qtdeItensCronograma === 0">Não há estudos.</h4>
-                <ul *ngFor="let item of itensCronograma">
-                    <li [ngClass]="{'li concluido': item.concluido}">
+            <div>
+                <h3 class="borda">Tarefas do dia</h3>
+                <h4 class="aviso" *ngIf="qtdeItensCronograma === 0">Não há tarefas.</h4>
+                <app-card *ngFor="let item of itensCronograma" [item]="item" (concluir)="concluirEstudo($event)"></app-card>
+            </div>
+                <!-- <ul *ngFor="let item of itensCronograma">
+                    <li  class="card" [ngClass]="{'li concluido': item.concluido}">
                       <span class="span-cronograma">
                         <p class="conteudo"><strong>{{item.conteudo}}</strong></p>
                         <p class="descricao">{{item.descricao}}</p>    
@@ -25,34 +32,37 @@
                         <input type="checkbox" id="checkbox-{{item.cod}}" [checked]="item.concluido" (change)="concluirEstudo(item)">
                       </span>
                     </li>
-                  </ul>
-
-                <span class="span-bt">
+                 </ul> -->
+                <!-- <span class="span-bt">
                     <button type="button" (click)="voltarPagina('')"><</button>
                     <p>{{page}}</p>
                     <button type="button" (click)="proximaPagina('')">></button>
-                </span>
+                </span> -->
+            <app-nav [page]="page" (nextPageEvent)="proximaPagina($event)" (previousPageEvent)="voltarPagina($event)"></app-nav>
         </div>
         <div class="principal-atividades">
-            <h3 id="borda">Estudos realizados</h3>
-            <h4 *ngIf="qtdeItensRegistroEstudo == 0" class="aviso">Sem registros.</h4>
-            
-            <ul *ngFor="let item of registrosEstudo" >
-                <li class="registros">
-                    <span class="span-cronograma">
-                        <p class="conteudo"><strong>{{item.conteudo}}</strong></p>
-                        <span class="info">
-                            <p class="descricao">{{item.descricao}}</p>
-                            <p class="tempo">Tempo de Estudo: {{item.tempo}}</p>
+            <div>
+                <h3 class="borda">Estudos realizados</h3>
+                <h4 *ngIf="qtdeItensRegistroEstudo == 0" class="aviso">Sem registros.</h4>
+                
+                <ul *ngFor="let item of registrosEstudo" >
+                    <li class="card concluido">
+                        <span id="span-cronograma">
+                            <p class="conteudo"><img [src]="icoCheck" alt="Icone de Estudo Concluído"><strong>{{item.conteudo}}</strong></p>
+                            <span id="info">
+                                <p class="descricao">{{item.descricao}}</p>
+                                <p class="tempo">{{item.tempo}}</p>
+                            </span>
                         </span>
-                    </span>
-                </li>
-            </ul>
-            <span class="span-bt">
+                    </li>
+                </ul>
+            </div>
+            <!-- <span class="span-bt">
                 <button type="button" (click)="voltarPagina('rees')"><</button>
                 <p>{{pageRegistros}}</p>
                 <button type="button" (click)="proximaPagina('rees')">></button>
-            </span>
+            </span> -->
+            <app-nav [type]="'rees'" [page]="pageRegistros" (nextPageEvent)="proximaPagina($event)" (previousPageEvent)="voltarPagina($event)"></app-nav>
         </div>
     </div>
 </section>
