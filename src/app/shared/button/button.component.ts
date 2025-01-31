@@ -1,14 +1,16 @@
-import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { CommonModule, NgClass } from '@angular/common';
+import { Component, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.css'
 })
 export class ButtonComponent {
+  @Input() isDisabled: boolean = false;
+  @Input() customClass: string = "";
   @Input() texto: string = "";
   @Input() ico: string = "";
 

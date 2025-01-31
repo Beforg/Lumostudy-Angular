@@ -21,3 +21,9 @@ button:active {
     transform: scaleX(0.95);
     background-color: var(--laranja-p);
 }
+
+.button-on {
+    background-color: var(--laranja-p);
+    color: white;
+    cursor: pointer;
+}

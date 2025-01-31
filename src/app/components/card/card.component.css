@@ -32,6 +32,10 @@ input {
     cursor: pointer;
 }
 
+li {
+    animation: fadeInTab 0.5s ease-in-out;
+}
+
 @keyframes completed {
     0% {
         background-color: var(--laranja-p);

@@ -1,1 +1,4 @@
-<button><img [src]="ico">{{texto}}</button>
+<button [ngClass]="customClass" [disabled]="isDisabled">
+    <img [src]="ico"/>
+    {{texto}}
+</button>

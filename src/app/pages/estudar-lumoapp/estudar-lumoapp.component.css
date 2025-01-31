@@ -82,7 +82,14 @@ li {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    justify-content: space-between;
     width: 67vh;
+}
+
+.cronograma div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .cronograma h2 {
@@ -195,3 +202,4 @@ form {
     animation: fadeInTab 0.5s ease-in-out;
     color: var(--cinza-p);
 }
+

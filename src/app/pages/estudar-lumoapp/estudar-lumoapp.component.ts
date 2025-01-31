@@ -16,6 +16,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Cronograma } from '../../models/cronograma';
 import { CronogramaService } from '../../service/cronograma.service';
 import { TransformaTempo } from '../../utils/transforma-tempo';
+import { NavComponent } from "../../components/nav/nav.component";
+import { CardComponent } from "../../components/card/card.component";
+import { Estudar } from '../../utils/estudar';
 
 @Component({
   selector: 'app-estudar-lumoapp',
@@ -27,7 +30,10 @@ import { TransformaTempo } from '../../utils/transforma-tempo';
     ButtonComponent,
     RouterModule,
     CommonModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+    NavComponent,
+    CardComponent
+],
   providers: [MateriaService, ReesService, CronogramaService],
   templateUrl: './estudar-lumoapp.component.html',
   styleUrl: './estudar-lumoapp.component.css'
@@ -53,8 +59,11 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
   isSessaoAtiva: boolean = false;
   isEstudosAtrasados: boolean = false;
   isNovoConteudo: boolean = false;
-  isEstudarAtivo: boolean = true;
+  isEstudarAtivo: boolean = true; // para mostrar a aba de estudar
   isConfiguracoesAtivo: boolean = false;
+  isMateriaSelecionada: boolean = false // selecionar a materia pra liberar o cronometro
+
+  btAtivos: boolean[] = [false, false] // iniciar e pausar
 
   workerBreakEnd: string = 'breakEnd';
   workerBreak: string = 'break';
@@ -144,6 +153,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
           this.audio.play();
           this.isBreak = false;
           this.isEstudando = false;
+          this.btAtivos = [false, false];
           this.tempoPomodoroSegundos = this.pomodoroConfiguration[0] * 60;
           // this.tempoPomodoro = this.transofrmarTempo(this.tempoPomodoroSegundos);
           this.tempoPomodoro = TransformaTempo.transformaTempo(this.tempoPomodoroSegundos);
@@ -173,7 +183,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
 
   @HostListener('window:beforeunload', ['$event']) // mensagem de confirmação ao sair da página com uma sessão de estudo ativa
   unloadNotification($event: any): void {
-    if (this.isEstudando || this.isBreak) {
+    if (this.isEstudando || this.isBreak || this.isSessaoAtiva) {
       $event.returnValue = 'Você tem uma sessão de estudo em andamento. Tem certeza de que deseja sair?';
     }
   }
@@ -229,7 +239,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
   }
 
   proximaPagina(): void {
-    if (this.qtdeItensCronograma == 4) {
+    if (this.qtdeItensCronograma == 5) {
       this.page++;
       this.abaEscolhida();
     }
@@ -245,17 +255,15 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
     this.isEstudosAtrasados = false;
   }
 
-
-
-
-
   alterarConteudoPorMateria(): void { // altera o conteúdo de acordo com a matéria selecionada no input
     if (this.reesForm.get('codMateria')?.value === '') {
+      this.isMateriaSelecionada = false;
       this.reesForm.get('conteudo')?.setValue('');
       this.reesForm.get('conteudoTexto')?.setValue('');
       this.conteudo = [];
       return;
     } else {
+      this.isMateriaSelecionada = true;
       this.reesService.listarConteudo(this.reesForm.get('codMateria')?.value).subscribe((conteudo: string[]) => {
         this.conteudo = [{ value: '', label: 'Selecione o Conteúdo' }, ...conteudo.map(c => ({
           value: c,
@@ -319,6 +327,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
 
   iniciarPomodoro(): void { // inicia o pomodoro de acordo se está estudando ou em intervalo
     this.isSessaoAtiva = true;
+    this.btAtivos = [true, false];
     if (!this.isEstudando && !this.isBreak) {
       this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos + 1}`;
       this.isEstudando = true;
@@ -359,9 +368,11 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
         this.worker.postMessage({ action: this.workerPassarSessao });
       }
     }
+
   }
 
   pausarPomodoro(): void { // pausa o pomodoro de acordo se está estudando (workerStopStudy) ou em intervalo (workerStop)
+    this.btAtivos = [false, true];
     if (!this.isSessaoAtiva) {
       return
     }
@@ -379,7 +390,8 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
   }
 
   resetarPomodoro(): void { // reiniciar o timer do pomodoro
-    if (!this.isSessaoAtiva) {
+    this.btAtivos = [false, false];
+    if (!this.isSessaoAtiva || this.isBreak) {
       return
     }
     if (confirm("Deseja reiniciar o Timer?")) {
