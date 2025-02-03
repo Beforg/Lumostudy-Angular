@@ -203,3 +203,10 @@ form {
     color: var(--cinza-p);
 }
 
+#descricao {
+    height: 100px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+}

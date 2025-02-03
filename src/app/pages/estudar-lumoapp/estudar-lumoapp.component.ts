@@ -80,6 +80,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
   tempoPomodoro: string = '';
   pomodoroAtual: string = `Sessão do Pomodoro #${this.ciclos + 1}`;
   audioPath: string = '/app/timer.mp3'
+  clickPath: string = '/app/click.mp3'
   materias!: { value: string, label: string }[];
   conteudo!: { value: string, label: string }[];
 
@@ -90,6 +91,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
   pomodoroConfiguration: number[] = []; //configuracao do timer, shortBreak, longBreak, cycles
   qtdeItensCronograma: number = 0;
   private audio = new Audio(this.audioPath);
+  private audioCick = new Audio(this.clickPath);
   private worker: Worker | null = null;
 
   constructor(
@@ -329,6 +331,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
     this.isSessaoAtiva = true;
     this.btAtivos = [true, false];
     if (!this.isEstudando && !this.isBreak) {
+      this.audioCick.play();
       this.pomodoroAtual = `Sessão do Pomodoro #${this.ciclos + 1}`;
       this.isEstudando = true;
       if (this.worker) {
@@ -340,6 +343,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
       }
     } else {
       if (this.b) {
+        this.audioCick.play();
         this.b = false;
         this.despausarIntervalo();
         console.log(this.tempoIntervaloCurto);
@@ -458,6 +462,7 @@ export class EstudarLumoappComponent implements OnInit, OnDestroy {
           this.reesForm.reset();
           this.alterarConteudoPorMateria();
           this.toastr.success("Estudo registrado com sucesso!");
+          this.btAtivos = [false, false];
           if (this.worker) {
             this.worker.postMessage({
               action: this.workerFinalizarSessao,

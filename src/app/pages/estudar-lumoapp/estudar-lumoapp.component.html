@@ -26,8 +26,9 @@
                         <input id="checkbox" type="checkbox" (change)="novoConteudo()" formControlName="isNovoConteudo">
                     </div>
                     <label for="descricao">Observações (opcional)</label>
-                    <app-input id="descricao" [placeholder]="''" [type]="'text'"
-                        formControlName="descricao"></app-input>
+                    <!-- <app-input id="descricao" [placeholder]="''" [type]="'text'"
+                        formControlName="descricao"></app-input> -->
+                    <textarea id="descricao" formControlName="descricao"></textarea>
                     <span class="finalizar">
                         <app-button texto="Finalizar estudo" type="submit"></app-button>
                     </span>
