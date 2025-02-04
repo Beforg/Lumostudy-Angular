@@ -6,7 +6,10 @@
             <a (click)="alterarAba()" [ngClass]="{'aba-selecionada': !isNovaMateriaAtivo}">Minhas Matérias</a>
             <a (click)="alterarAba()" [ngClass]="{'aba-selecionada': isNovaMateriaAtivo}">Nova Matéria</a>
         </div>
-
+        <p *ngIf="!isNovaMateriaAtivo" class="conteudo-principal-info">Adicione novas matérias para organizar seus
+            estudos. Você pode editar os
+            detalhes, gerenciar os conteúdos associados a cada matéria ou excluí-las sempre que necessário.
+        </p>
         <div class="conteudo-tabela" *ngIf="isMateriaAtivo">
             <table>
                 <thead>
@@ -19,7 +22,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let materia of materias">
-                        <td ><strong>{{materia.nome}}</strong></td>
+                        <td><strong>{{materia.nome}}</strong></td>
                         <td>{{materia.categoria}}</td>
                         <td>{{materia.estudosRegistrados}} Registros</td>
                         <td>
@@ -27,7 +30,8 @@
                                 <img [src]="edit" alt="Icone para edição da matéria">
                             </button>
                             <button class="bt-acoes-materias">
-                                <img [src]="x" alt="Icone para exclusão da matéria" (click)="abrirModalExcluirMateria(materia)">
+                                <img [src]="x" alt="Icone para exclusão da matéria"
+                                    (click)="abrirModalExcluirMateria(materia)">
                             </button>
                         </td>
                     </tr>
@@ -35,29 +39,34 @@
             </table>
         </div>
         <span id="pagination" *ngIf="showPagination">
-            <button id="bt-nav" (click)="previousPage()"><</button>
+            <button id="bt-nav" (click)="previousPage()">&lt;</button>
             <p>{{pag}}</p>
             <button id="bt-nav" (click)="nextPage()">></button>
         </span>
         <div *ngIf="isNovaMateriaAtivo" class="conteudo-formulario">
             <form [formGroup]="materiasForm" (ngSubmit)="cadastrarMateria()">
-                <label for="nome" >Nome da Matéria</label>
-                <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
+                <label for="nome">Nome da Matéria</label>
+                <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text"
+                    formControlName="nome"></app-input>
                 <div *ngIf="materiasForm.get('nome')?.hasError('required') && materiasForm.get('nome')?.touched">
                     <small>O nome da matéria é obrigatório.</small>
                 </div>
                 <div *ngIf="!isNovaCategoria" @fadeInOut>
-                    <label for="categoria" >Selecione a categoria</label>
-                    <app-input id="categoria" [placeholder]="'Categoria'" type="choose" [options]="categoriasMaterias" formControlName="categoria"></app-input>
+                    <label for="categoria">Selecione a categoria</label>
+                    <app-input id="categoria" [placeholder]="'Categoria'" type="choose" [options]="categoriasMaterias"
+                        formControlName="categoria"></app-input>
                 </div>
-                <div *ngIf="materiasForm.get('categoria')?.hasError('required') && materiasForm.get('categoria')?.touched">
+                <div
+                    *ngIf="materiasForm.get('categoria')?.hasError('required') && materiasForm.get('categoria')?.touched">
                     <small>A categoria é obrigatória.</small>
                 </div>
                 <div *ngIf="isNovaCategoria" @fadeInOut>
                     <label for="novaCategoria">Nova Categoria</label>
-                    <app-input [placeholder]="'Insira a nova Categoria'" type="text" formControlName="categoriaTexto"></app-input>
+                    <app-input [placeholder]="'Insira a nova Categoria'" type="text"
+                        formControlName="categoriaTexto"></app-input>
                 </div>
-                <div *ngIf="materiasForm.get('categoriaTexto')?.hasError('required') && materiasForm.get('categoriaTexto')?.touched">
+                <div
+                    *ngIf="materiasForm.get('categoriaTexto')?.hasError('required') && materiasForm.get('categoriaTexto')?.touched">
                     <small>A categoria é obrigatória.</small>
                 </div>
                 <div class="div-checkbox">
@@ -67,10 +76,12 @@
                 <app-button texto="Cadastrar" type="submit"></app-button>
             </form>
             <div>
-                <p><strong>Adicione novas matérias para começar a estudar! você pode editar ou excluir matérias na aba "Minhas Matérias", de
-                    acordo com sua necessidade!</strong> 
+                <p><strong>Adicione novas matérias para começar a estudar! você pode editar ou excluir matérias na aba
+                        "Minhas Matérias", de
+                        acordo com sua necessidade!</strong>
                 </p>
-                <p>Escolha um nome e uma categoria para a sua Matéria, ao inserir uma nova categoria ela será salva para ser usada futuramente.</p>
+                <p>Escolha um nome e uma categoria para a sua Matéria, ao inserir uma nova categoria ela será salva para
+                    ser usada futuramente.</p>
                 <img [src]="materiabg" alt="Ilustração de Estudante" class="ilustracao">
             </div>
         </div>
@@ -79,10 +90,19 @@
         <form [formGroup]="materiasForm" class="editar-materia" (ngSubmit)="editarMateria()">
             <button (click)="fecharEdicao()" type="button">x</button>
             <h2>Editar Matéria</h2>
-            <label for="nome" >Nome da Matéria</label>
-            <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
-            <label for="novaCategoria" *ngIf="isNovaCategoria">Nova Categoria</label>
-            <app-input [placeholder]="'Insira a nova Categoria'" type="text" formControlName="categoria"></app-input>
+            <label for="nome">Nome da Matéria</label>
+            <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text"
+                formControlName="nome"></app-input>
+            <label for="categoria">Categoria</label>
+            <app-input id="categoria" [placeholder]="'Insira a nova Categoria'" type="text"
+                formControlName="categoria"></app-input>
+            <label for="conteudo">Conteúdos Relacionados</label>
+            <app-input *ngIf="!isEditarConteudoAtivo"type="choose" [placeholder]="'Selecione o Conteúdo'" [options]="conteudo"></app-input>
+            <app-input *ngIf="isEditarConteudoAtivo" type="text" [placeholder]="'Alterar conteúdo'"></app-input>
+            <button class="bt-acoes-materias" (click)="ativarEdicaoConteudo()" type="button">
+                Editar Matéria
+                <img [src]="edit" alt="Icone para edição da matéria">
+            </button>
             <app-button texto="Atualizar" type="submit"></app-button>
         </form>
     </div>
@@ -91,9 +111,10 @@
             <button (click)="fecharExclusao()" type="button">x</button>
             <h2>Excluir Matéria</h2>
             <p>Atenção! essa ação é irreversível e irá excluir todos os registros vinculados! <br>
-            Digite <strong>{{this.materiasForm.get('categoria')?.value}}</strong> para confirmar a exclusão.
+                Digite <strong>{{this.materiasForm.get('categoria')?.value}}</strong> para confirmar a exclusão.
             </p>
-            <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text" formControlName="nome"></app-input>
+            <app-input id="nome" [placeholder]="'Digite o nome da Matéria'" type="text"
+                formControlName="nome"></app-input>
             <app-button id="excluir" texto="Excluir" type="submit"></app-button>
         </form>
     </div>

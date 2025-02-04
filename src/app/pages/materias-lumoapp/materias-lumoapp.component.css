@@ -141,3 +141,13 @@ transition: transform 0.2s;
     width: 40%;
     margin-left: 300px;
 }
+
+.conteudo-principal-info {
+    margin-top: 10px;
+    text-align: left;
+    font-size: 18px;
+}
+
+table {
+    margin-top: 0;
+}

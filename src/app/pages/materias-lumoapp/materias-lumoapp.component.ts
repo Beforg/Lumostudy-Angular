@@ -10,6 +10,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CadastrarMateriaForm } from '../../models/cadastrar.materia.form';
 import { ButtonComponent } from "../../shared/button/button.component";
 import { trigger, transition, style, animate } from '@angular/animations';
+import { ReesService } from '../../service/rees.service';
 
 @Component({
   selector: 'app-materias-lumoapp',
@@ -20,7 +21,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
     CommonModule, InputComponent, 
     ReactiveFormsModule,
     ButtonComponent,],
-  providers: [MateriaService],
+  providers: [MateriaService, ReesService],
   animations: [
     trigger('fadeInOut', [
         transition(':enter', [
@@ -38,12 +39,14 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class MateriasLumoappComponent {
   materiasForm!: FormGroup<CadastrarMateriaForm>;
   materias: Materia[] = [];
+  conteudo!: { value: string, label: string }[];
 
   isMateriaAtivo: boolean = true;
   isNovaMateriaAtivo: boolean = false;
   isNovaCategoria: boolean = false;
   isEdicaoAtivo: boolean = false;
   isExclusaoAtivo: boolean = false;
+  isEditarConteudoAtivo: boolean = false;
   showPagination:boolean = true;
 
   materiabg: string = '/app/materias-bg.png';
@@ -57,7 +60,7 @@ export class MateriasLumoappComponent {
 
 
 
-  constructor(private service: MateriaService, private toastr: ToastrService) {
+  constructor(private service: MateriaService, private toastr: ToastrService, private reesService: ReesService) {
     this.atualizarMateriaEcategoria();
     this.materiasForm = new FormGroup<CadastrarMateriaForm>({
       nome: new FormControl('', Validators.required),
@@ -112,13 +115,27 @@ export class MateriasLumoappComponent {
     } 
   }
 
+  ativarEdicaoConteudo(): void {
+    this.isEditarConteudoAtivo = !this.isEditarConteudoAtivo;
+  }
+
   abrirModalEditarMateria(materia: Materia) {
     this.materiasForm.get('novaCategoria')?.setValue(false);
     this.isEdicaoAtivo = true;
     this.materiasForm.get('nome')?.setValue(materia.nome);
     this.materiasForm.get('categoria')?.setValue(materia.categoria);
     this.codMateriaSelecionada = materia.cod;
+    this.listarConteudos(this.codMateriaSelecionada);
 
+  }
+
+  listarConteudos(codMateria: string) {
+    this.reesService.listarConteudo(codMateria).subscribe((conteudo: string[]) => {
+      this.conteudo = [{ value: '', label: 'Selecione o Conteúdo' }, ...conteudo.map(c => ({
+        value: c,
+        label: c
+      }))];
+    });
   }
 
   abrirModalExcluirMateria(materia: Materia) {
