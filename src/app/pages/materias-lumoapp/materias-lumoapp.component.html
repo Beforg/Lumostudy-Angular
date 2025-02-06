@@ -96,11 +96,12 @@
             <label for="categoria">Categoria</label>
             <app-input id="categoria" [placeholder]="'Insira a nova Categoria'" type="text"
                 formControlName="categoria"></app-input>
-            <label for="conteudo">Conteúdos Relacionados</label>
-            <app-input *ngIf="!isEditarConteudoAtivo"type="choose" [placeholder]="'Selecione o Conteúdo'" [options]="conteudo"></app-input>
-            <app-input *ngIf="isEditarConteudoAtivo" type="text" [placeholder]="'Alterar conteúdo'"></app-input>
+            <label *ngIf="!isEditarConteudoAtivo" for="conteudo">Conteúdos Relacionados</label>
+            <label *ngIf="isEditarConteudoAtivo" for="conteudo">Editar: {{conteudoSelecionado}}</label>
+            <app-input *ngIf="!isEditarConteudoAtivo"type="choose" [placeholder]="'Selecione o Conteúdo'" [options]="conteudo" (change)="onConteudoChange($event)"></app-input>
+            <app-input *ngIf="isEditarConteudoAtivo" type="text" [placeholder]="'Insira o novo nome'" formControlName="conteudoNovo"></app-input>
             <button class="bt-acoes-materias" (click)="ativarEdicaoConteudo()" type="button">
-                Editar Matéria
+                Editar Conteúdo
                 <img [src]="edit" alt="Icone para edição da matéria">
             </button>
             <app-button texto="Atualizar" type="submit"></app-button>

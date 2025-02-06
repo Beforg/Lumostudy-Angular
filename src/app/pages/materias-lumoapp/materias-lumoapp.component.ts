@@ -6,7 +6,7 @@ import { InputComponent } from "../../shared/input/input.component";
 import { Materia } from '../../models/materia';
 import { MateriaService } from '../../service/materia.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, NgControl, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CadastrarMateriaForm } from '../../models/cadastrar.materia.form';
 import { ButtonComponent } from "../../shared/button/button.component";
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -20,7 +20,8 @@ import { ReesService } from '../../service/rees.service';
     MenuLumoappComponent,
     CommonModule, InputComponent, 
     ReactiveFormsModule,
-    ButtonComponent,],
+    ButtonComponent,
+    FormsModule],
   providers: [MateriaService, ReesService],
   animations: [
     trigger('fadeInOut', [
@@ -40,6 +41,8 @@ export class MateriasLumoappComponent {
   materiasForm!: FormGroup<CadastrarMateriaForm>;
   materias: Materia[] = [];
   conteudo!: { value: string, label: string }[];
+  conteudoSelecionado!: string;
+  conteudoNovo!: string;
 
   isMateriaAtivo: boolean = true;
   isNovaMateriaAtivo: boolean = false;
@@ -66,7 +69,8 @@ export class MateriasLumoappComponent {
       nome: new FormControl('', Validators.required),
       categoria: new FormControl('', Validators.required),
       categoriaTexto: new FormControl(''),
-      novaCategoria: new FormControl(false)
+      novaCategoria: new FormControl(false),
+      conteudoNovo: new FormControl(''),
     })
     this.materiasForm.get('novaCategoria')?.valueChanges.subscribe((value) => {
       if (value) {
@@ -81,6 +85,12 @@ export class MateriasLumoappComponent {
     })
   }
 
+
+  onConteudoChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.conteudoSelecionado = inputElement.value;
+    console.log('Conteúdo selecionado:', this.conteudoSelecionado);
+  }
 
   atualizarMateriaEcategoria() { // carrega de acordo com a página
     this.materias = [];
@@ -160,13 +170,28 @@ export class MateriasLumoappComponent {
       return;
     }
 
+    if (this.isEditarConteudoAtivo && this.materiasForm.get('conteudoNovo')?.value != '') {
+      this.reesService.editarConteudo(this.codMateriaSelecionada, this.conteudoSelecionado, this.materiasForm.get('conteudoNovo')?.value).subscribe({
+        next: () => {
+          this.materiasForm.reset();
+          this.isEditarConteudoAtivo = false;
+          console.log('Conteúdo editado');
+        },
+        error: (error) => {
+          console.error('Erro ao editar conteúdo.', error);
+        }
+      });
+    } else {
+      this.toastr.error('O conteúdo não pode ficar vazio!');
+      return;
+    }
     this.service.atualizarMateria(
       this.materiasForm.get('nome')?.value,
       this.materiasForm.get('categoria')?.value,
       this.codMateriaSelecionada
     ).subscribe({
       next: () => {
-        this.toastr.success('Matéria atualizada com sucesso!');
+        this.toastr.success('Dados da matéria atualizados com sucesso!');
         this.materiasForm.reset();
         this.atualizarMateriaEcategoria();
 
@@ -176,6 +201,7 @@ export class MateriasLumoappComponent {
         console.error('Erro ao atualizar matéria.', error);
         this.toastr.error('Erro ao atualizar matéria.');
       }
+    
     });
   }
 

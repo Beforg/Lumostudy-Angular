@@ -76,4 +76,10 @@ export class ReesService {
         console.log("Estudo registrado.", response);
       }) );
   }
+
+  editarConteudo(codMateria: string, oldName: string, newName: string): Observable<void> {
+    return this.http.put<void>(`${this.APIURL}/editar/conteudo`, {cod: codMateria, oldName: oldName, newName: newName}, { headers: this.headers }).pipe(tap(response => {
+      console.log("Conteúdo editado.", response);
+    }));
+  }
 }

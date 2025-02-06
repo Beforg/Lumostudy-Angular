@@ -5,4 +5,5 @@ export interface CadastrarMateriaForm {
     categoria: FormControl;
     categoriaTexto: FormControl;
     novaCategoria: FormControl;
+    conteudoNovo: FormControl;
 }
