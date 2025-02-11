@@ -41,7 +41,7 @@ export class MateriasLumoappComponent {
   materiasForm!: FormGroup<CadastrarMateriaForm>;
   materias: Materia[] = [];
   conteudo!: { value: string, label: string }[];
-  conteudoSelecionado!: string;
+  conteudoSelecionado: string = '';
   conteudoNovo!: string;
 
   isMateriaAtivo: boolean = true;
@@ -53,6 +53,7 @@ export class MateriasLumoappComponent {
   showPagination:boolean = true;
 
   materiabg: string = '/app/materias-bg.png';
+  icoMateria: string = '/app/materia.png';  
   categoriasMaterias: { value: string, label: string }[] = [];
   edit: string = '/app/edit.png';
   x: string = '/app/x.png';
@@ -126,6 +127,10 @@ export class MateriasLumoappComponent {
   }
 
   ativarEdicaoConteudo(): void {
+    if (this.conteudoSelecionado == '') {
+      this.toastr.warning('Selecione um conteúdo para editar.');
+      return;
+    }
     this.isEditarConteudoAtivo = !this.isEditarConteudoAtivo;
   }
 

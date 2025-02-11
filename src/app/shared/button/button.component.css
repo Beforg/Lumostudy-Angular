@@ -1,19 +1,26 @@
 button {
     background-color: var(--branco-p);
     border-radius: 8px;
-    padding: 10px 20px;
+    padding: 10px 5px;
     border-style: none;
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     font-weight: bold;
-    margin: 0 10px;
+    margin: 10px 0;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, color 0.2s, background-color 0.2s;
+    width: 100%;
+}
+
+.excluir {
+    color: red;
 }
 
 button:hover {
     transition: transform 0.2s;
-    transform: scaleX(1.05);
+    transform: scaleX(1.03);
+    color: white;
+    background-color: var(--laranja-p);
 }
 
 button:active {

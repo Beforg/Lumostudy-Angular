@@ -166,6 +166,7 @@ table {
     margin-top: 20px;
     animation: fadeInTab 0.5s ease-in-out;
     transition: transform 0.2s;
+    border-radius: 10px;
     
 }
 

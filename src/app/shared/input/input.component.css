@@ -1,5 +1,6 @@
 input {
     min-width: 300px;
+    width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -18,6 +19,7 @@ select {
     padding: 12px 20px;
     margin: 8px 0;
     min-width: 300px;
+    width: 100%;
     display: inline-block;
     box-sizing: border-box;
     border-radius: 5px;
@@ -25,14 +27,7 @@ select {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     background-color: white;
-    appearance: none;
-    -webkit-appearance: none; 
-    -moz-appearance: none; 
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><path d="M6 9l6 6 6-6"/></svg>');
-    background-repeat: no-repeat;
-    background-position: calc(100% - 15px) center; /* Ajuste a posição do background */
-    background-size: 16px;
-    padding-right: 30px; /* Adicione espaço extra para a flecha */
+    padding-right: 30px; 
     cursor: pointer;
     transition: transform 0.2s;
 }

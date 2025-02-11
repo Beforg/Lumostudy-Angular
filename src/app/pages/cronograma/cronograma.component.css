@@ -69,6 +69,7 @@ ul {
     display: flex;
     flex-direction: row;
     margin-top: 15px;
+    gap: 10px;
     justify-content: space-between;
     justify-items: space-between;
 }

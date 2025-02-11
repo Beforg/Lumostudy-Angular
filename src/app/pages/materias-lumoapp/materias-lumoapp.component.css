@@ -18,6 +18,15 @@ section {
 }
 
 
+.formulario-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    padding: 0 10px;
+    border-right: 1px solid var(--cinza-borda);
+    height: 100%;
+}
 
 
 .registros {
@@ -27,13 +36,11 @@ section {
 
 
 
-form {
-    margin-top: 20px;
+.formulario {
     display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: center;
-    align-items: left;
     
     
 }
@@ -42,7 +49,7 @@ form {
     display: flex;
     flex-direction: row;
     align-items:baseline;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
     animation: fadeInTab 0.5s ease-in-out;
 }
@@ -71,6 +78,17 @@ form {
     transform: scale(1.06);
 }
 
+.bt-editar-conteudo {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.bt-excluir {
+    background-color: red;
+    color: red;
+}
 
 .editar-materia {
     position: fixed;
@@ -93,6 +111,7 @@ form {
         border: none;
         font-size: 20px;
         margin-left: auto;
+        margin-top: 0;
         cursor: pointer;
         transition: transform 0.2s;
     }
@@ -102,6 +121,25 @@ form {
         transform: scale(1.1);
     }
 
+}   
+
+.formulario a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+    transition: transform 0.2s;
+    margin-bottom: auto;
+}
+
+.formulario a:hover {
+    transition: transform 0.2s;
+    transform: scale(1.04);
+}
+
+
+.formulario h2 {
+    margin: 0;
+    text-align: center;
 }
 
 .excluir {
@@ -115,6 +153,14 @@ form {
     align-items: center;
     gap: 10px;
     margin-top: auto;
+}
+
+.formulario-add-texto {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 10px;
+    width: 80%;
 }
 
 #bt-nav {
@@ -138,8 +184,9 @@ transition: transform 0.2s;
 }
 
 .ilustracao {
-    width: 40%;
-    margin-left: 300px;
+    width: 240px;
+    height: 240px;
+    margin: auto;
 }
 
 .conteudo-principal-info {

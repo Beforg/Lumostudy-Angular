@@ -3,7 +3,7 @@ header {
     justify-content: space-between;
     border-bottom: solid 1px var(--cinza-borda);
     color: var(--laranja-p);
-    padding: 0 1%;
+    padding: 0.5% 1%;
     align-items: center;
     text-align: center;
     font-size: 1.5em;
@@ -21,6 +21,7 @@ div {
 h1 {
     border-left: solid 1px var(--cinza-borda);
     padding-left: 5%;
+    margin: 0;
 }
 
 .profile {

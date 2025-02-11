@@ -10,6 +10,7 @@ import { Component, input, Input } from '@angular/core';
 })
 export class ButtonComponent {
   @Input() isDisabled: boolean = false;
+  @Input() typeClass: string = "";
   @Input() customClass: string = "";
   @Input() texto: string = "";
   @Input() ico: string = "";
