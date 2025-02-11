@@ -17,10 +17,22 @@
         <div class="conteudo-principal">
             <div class="conteudo-semanal" *ngFor=" let dia of semana">
                 <span class="conteudo-semanal-item">
-                    <h3>{{dia | date: 'dd/MM/yyyy'}}</h3>
+                    <h3>{{dia | date: 'EE, dd/MM/yyyy'}}</h3>
                     <ul>
-                        <li *ngFor="let item of getItensPorDia(dia)" (click)="visualizarItem(item)" [ngClass]="{'li concluido': item.concluido}">
-                            {{ item.conteudo}}
+                        <li *ngFor="let item of getItensPorDia(dia)" (click)="visualizarItem(item)" [ngClass]="{'li concluido': item.concluido, 'li atrasado': verificaItemCronogramaAtrasado(item) == true}">
+                            <span class="span-item-title">
+                                <img [src]="item.concluido !== true ? materiaIcon : materiaIconConcluido" alt="Ícone da Matéria"
+                                *ngIf="verificaItemCronogramaAtrasado(item) == false">
+                                <img [src]="materiaIconConcluido" alt="Ícone da Matéria"
+                                *ngIf="verificaItemCronogramaAtrasado(item) == true">
+                                <h2>
+                                    {{ getMateriaCard(item.conteudo) }}
+                                </h2>
+                            </span>
+                            <p>
+                                {{ getConteudoCard(item.conteudo) }}
+                            </p>
+
                         </li>
                     </ul>
                 </span>
@@ -36,15 +48,17 @@
 
     <div class="overlay" *ngIf="isAdicionarAtivo || isVisualizarItemAtivo || isEditarItem">
         <form [formGroup]="cronogramaForm" (ngSubmit)="cadastrarAoCronograma()" *ngIf="isAdicionarAtivo">
-            <button (click)="adicionarAoCronograma()" type="button" *ngIf="isAdicionarAtivo">x</button>
-            <h2>Adicionar ao Cronograma</h2>
+            <span class="span-form-title">
+                <h2>Adicionar ao Cronograma</h2>
+                <button (click)="adicionarAoCronograma()" type="button" *ngIf="isAdicionarAtivo">x</button>
+            </span>
             <label for="materia">Matéria</label>
             <app-input  id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="materiaCod" (change)="alterarConteudoPorMateria()"></app-input>
             <label for="conteudo" *ngIf="!isNovoConteudo">Conteúdo</label>
             <app-input id="conteudo" [placeholder]="'Selecione o Conteúdo'" [type]="'choose'" [options]="conteudo" formControlName="conteudo" *ngIf="!isNovoConteudo"></app-input>
             <label for="novoConteudo" *ngIf="isNovoConteudo">Digite o conteúdo</label>
             <app-input id="novoConteudo" [placeholder]="'Insira o conteúdo'" [type]="'text'" formControlName="conteudoNovo" *ngIf="isNovoConteudo"></app-input>
-            <span>
+            <span class="span-form-checkbox">
                 <label for="checkbox">Inserir outro conteúdo</label>
                 <input id="checkbox" type="checkbox" (change)="exibirNovoConteudo()" formControlName="isNovoConteudo">
             </span>
@@ -52,15 +66,44 @@
             <app-input id="data" [placeholder]="'Data'" [type]="'date'" formControlName="data"></app-input>
             <label for="descricao">Descrição</label>
             <app-input id="descricao" [placeholder]="'Descrição'" [type]="'text'" formControlName="descricao"></app-input>
+            <span class="span-form-checkbox">
+                <label for="checkbox">Continuar adicionando</label>
+                <input id="checkbox" type="checkbox" (change)="continuarAdicionando()">
+            </span>
             <app-button texto="Adicionar" type="submit"></app-button>
         </form>
-        <div *ngIf="isVisualizarItemAtivo" class="item-detalhes">
-            <button (click)="fecharItem()" type="button" *ngIf="isVisualizarItemAtivo">x</button>
-            <h2>Título: {{itemSelecionado?.conteudo}}</h2>
-            <p>Descrição: {{itemSelecionado?.descricao}}</p>
+        <div *ngIf="isVisualizarItemAtivo" [ngClass]="{
+            'item-detalhes': true,
+            'concluido': itemSelecionado?.concluido == true && verificaItemCronogramaAtrasado(itemSelecionado!) == false,
+            'atrasado': verificaItemCronogramaAtrasado(itemSelecionado!) == true,
+            'emdia' : verificaItemCronogramaAtrasado(itemSelecionado!) == false
+          }">
+            <span class="span-item-title">
+                <h2>Visualizando: {{itemSelecionado?.conteudo}}</h2>
+                <button (click)="fecharItem()" type="button" *ngIf="isVisualizarItemAtivo">x</button>
+            </span>
+            <p>{{itemSelecionado?.descricao === "" ? "Sem Descrição" : itemSelecionado?.descricao }}
+
+            </p>
+
             <span class="span-acao-item">
-                <button class="acao-item"><img [src]="edit" alt="Editar" (click)="editarItemSelecionado()"></button>
-                <button class="acao-item"><img [src]="x" alt="Excluir" (click)="excluirDoCronograma()"></button>
+                <span>
+                    <p *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == true">Item atrasado</p>
+                </span>
+                <span>
+                    <button class="acao-item"> 
+                        <img [src]="editWhite" alt="Icone para Edição" (click)="editarItemSelecionado()">
+                    </button>
+                    <button class="acao-item">
+                        <img [src]="itemSelecionado?.concluido === true ? removerConcluidoIconWhite : concluidoIconWhite">
+                    </button>
+                    <button class="acao-item">
+                        <img [src]="x" alt="Excluir" (click)="excluirDoCronograma()"
+                        *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == false">
+                        <img [src]="xWhite" alt="Icone para Edição" (click)="excluirDoCronograma()"
+                        *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == true">
+                    </button>
+                </span>
             </span>
         </div>
         <form [formGroup]="cronogramaForm" *ngIf="isEditarItem" @fadeInOut>

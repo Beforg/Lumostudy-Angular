@@ -19,7 +19,7 @@ section {
 }
 
 .conteudo-principal {
-    padding: 1%;
+    padding: 5px 10px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -27,6 +27,9 @@ section {
     border-bottom: 1px solid var(--cinza-borda);
     border-top: 1px solid var(--cinza-borda);
     height: 500px;
+    width: 100%;
+    gap: 20px;
+    
 } 
 
 .conteudo-acoes {
@@ -53,11 +56,19 @@ section {
     align-items: center;
 }
 
+.conteudo-semanal-item h3 {
+    margin: 0 ;
+    font-size: 18px;
+}
+
 ul {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 3px;
+    padding: 0;
+
 }
 
 .titulo {
@@ -76,27 +87,38 @@ ul {
 
 li {
     list-style-type: none;
-    margin: 0px 3px 5px 0px;
-    background-color: var(--laranja-p);
+    background: linear-gradient(135deg, #ffeb3b, #ffc107);
     box-shadow: var(--box-shadow);
-    border-radius: 10px;   
-    padding: 5%;
+    border-radius: 8px;   
+    padding: 4%;
     font-weight: bold;
     font-size: 14px;
     height: 50px;
-    width: 180px;
-    transition: transform 0.2s;
+    margin-top: 5px;
+    width: 200px;
+    transition: transform 0.4s;
     align-items: center;
     cursor: pointer;
 }
 
 .concluido {
-    background-color: var(--verde-p);
+    color: var(--branco-p);
+    background: linear-gradient(135deg, #00cf5d, #2d9235 );
+}
+
+.atrasado {
+    color: var(--branco-p);
+    background: linear-gradient(135deg, #ff3d00, #bf360c);
+}
+
+.emdia {
+    background: linear-gradient(135deg, #b3b3b3, #8a8a8a);
+    color: var(--preto-p);
 }
 
 li:hover {
-    transition: transform 0.2s;
-    transform: scale(1.1);
+    transition: transform 0.4s;
+    transform: scale(1.02);
 }
 
 h3 {
@@ -122,10 +144,11 @@ form {
     position: fixed;
     display: flex;
     flex-direction: column;
-    padding: 2%;
+    padding: 1%;
     border-radius: 10px;
     top: 50%;
     left: 50%;
+    gap: 3px;
     transform: translate(-50%, -50%);
     background-color: white;
     border: 2px solid var(--cinza-borda);
@@ -133,8 +156,26 @@ form {
     animation: fadeIn 0.5s ease-in-out;
 }
 
+.span-form-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+}
+
+.span-form-checkbox {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    gap: 5px;
+    padding: 2px 0;
+}
+
+.span-form-title button {
+    font-weight: 700;
+}
+
 button {
-    background-color: white;
+    background-color: transparent;
     border: none;
     font-size: 20px;
     margin-left: auto;
@@ -151,28 +192,46 @@ button:hover {
     position: fixed;
     display: flex;
     flex-direction: column;
-    padding: 2%;
+    padding: 1%;
     border-radius: 10px;
     top: 50%;
     left: 50%;
+    width: 500px;
     transform: translate(-50%, -50%);
-    background-color: white;
-    color: var(--cinza-p);
     font-weight: bold;
     border: 2px solid var(--cinza-borda);
     filter: blur(50%);
     animation: fadeIn 0.5s ease-in-out;
 }
 
+
+.item-detalhes p {
+    margin: 3px 0;
+}
+
 .span-acao-item {
-    margin-left: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.span-acao-item p{
+    font-weight: 400;
 }
 
 .acao-item {
-    background-color: white;
+    background-color: transparent;
     cursor: pointer;
     transition: transform 0.2s;
     border: none;
+    font-size: 14px;
+}
+
+.acao-item img {
+    width: 20px;
+    height: 20px;
+    vertical-align: center ;
 }
 
 .acao-item:hover {
@@ -200,4 +259,24 @@ button:hover {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.span-item-title {
+    display: flex;
+    
+}
+
+.span-item-title img {
+    vertical-align: center;
+}
+
+.span-item-title h2 {
+    margin: 0;
+    font-size: 14px;
+}
+
+.conteudo-semanal-item p {
+    margin: 1px 0 0 0;
+    font-size: 13px;
+    font-weight: 500;
 }
