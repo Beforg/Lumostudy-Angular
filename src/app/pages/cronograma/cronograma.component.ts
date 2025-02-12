@@ -14,6 +14,7 @@ import { ReesService } from '../../service/rees.service';
 import { Materia } from '../../models/materia';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StringFormatter } from '../../utils/string-formatter';
+import { CardComponent } from "../../components/card/card.component";
 
 @Component({
   selector: 'app-cronograma',
@@ -25,7 +26,8 @@ import { StringFormatter } from '../../utils/string-formatter';
     CommonModule,
     ReactiveFormsModule,
     InputComponent,
-  ],
+    CardComponent
+],
   providers: [CronogramaService, MateriaService, ReesService],
   animations: [
     trigger('fadeInOut', [
@@ -57,6 +59,7 @@ export class CronogramaComponent implements OnInit {
   hoje = new Date();
   semana: Date[] = [];
   itens: Cronograma[] = [];
+  itensCronogramaDia: Cronograma[] = [];
   materias: { value: string; label: string }[] = [];
   conteudo: { value: string; label: string }[] = [];
   itemSelecionado: Cronograma | null = null;
@@ -66,6 +69,7 @@ export class CronogramaComponent implements OnInit {
   isEditarItem: boolean = false;
   isContinuarAdicionando: boolean = false;
   isVisualizarItemAtivo: boolean = false;
+  isVerTodosItens: boolean = false;
 
   constructor(
     private cronogramaService: CronogramaService,
@@ -131,6 +135,25 @@ export class CronogramaComponent implements OnInit {
     }
   }
 
+  switchClassCronograma(item: Cronograma): string {
+    // alterna a classe do item do cronograma de acordo com o status de conclusão
+    const dataItem = new Date(item.data);
+    if (
+      new Date(item.data).toISOString().split('T')[0] ===
+      this.hoje.toISOString().split('T')[0] && !item.concluido
+    ) {
+      return "emdia";
+    } else if (dataItem < this.hoje && item.concluido) {
+      return "concluido";
+    } else if (dataItem < this.hoje && !item.concluido) {
+      return "atrasado";
+    } else if (item.concluido) {
+      return "concluido";
+    } else {
+      return "emdia";
+    }
+  }
+
   verificaItemCronogramaAtrasado(item: Cronograma): boolean {
     // verifica se o item do cronograma está atrasado
     const dataItem = new Date(item.data);
@@ -152,14 +175,56 @@ export class CronogramaComponent implements OnInit {
     this.itemSelecionado = item;
   }
 
+  concluirEstudo(item: Cronograma) { // altera o status de concluido do estudo
+    this.cronogramaService.concluirItemCronograma(item.cod, !item.concluido).subscribe(() => {
+      this.getItensCronograma();
+      this.isVisualizarItemAtivo = false;
+      this.toastr.success('Estudo atualizado!');
+      if (this.isVerTodosItens) {
+        console.log("Teria que atualizar.");
+        this.exibirTodosItensDoDia(new Date(item.data));
+      }
+    })
+
+  }
+
+  exibirTodosItensDoDia(dia: Date): void {
+    this.isVerTodosItens = !this.isVerTodosItens;
+    if (this.isVerTodosItens) {
+      this.getCronogramaPorDia(dia)
+    }
+  }
+
+  getCronogramaPorDia(dia: Date): void {
+    // retorna os itens do cronograma de acordo com a data
+    this.itensCronogramaDia = this.itens.filter((item) => {
+      const itemData = new Date(item.data + 'T00:00:00');
+      return itemData.toISOString().split('T')[0] === dia.toISOString().split('T')[0];
+    });
+    console.log(this.itensCronogramaDia);
+  }
+
   editarItemSelecionado() {
     // abre para edição do item do cronograma
     this.isVisualizarItemAtivo = false;
     this.isEditarItem = true;
-    this.cronogramaForm.get('data')?.setValue(this.itemSelecionado?.data);
-    this.cronogramaForm
-      .get('descricao')
-      ?.setValue(this.itemSelecionado?.descricao);
+    const conteudo = this.getConteudoCard(this.itemSelecionado?.conteudo || '');
+    console.log(this.itemSelecionado);
+    console.log(conteudo);
+    if (this.itemSelecionado) {
+    this.cronogramaForm.patchValue({
+      materiaCod: this.itemSelecionado.materiaCod,
+      conteudo: conteudo,
+      data: this.itemSelecionado.data,
+      descricao: this.itemSelecionado.descricao
+    });
+  }
+    // this.cronogramaForm.get('materiaCod')?.setValue(this.itemSelecionado?.materiaCod);
+    // this.cronogramaForm.get('conteudo')?.setValue(conteudo);
+    // this.cronogramaForm.get('data')?.setValue(this.itemSelecionado?.data);
+    // this.cronogramaForm
+    //   .get('descricao')
+    //   ?.setValue(this.itemSelecionado?.descricao);
   }
 
   fecharItem() {
@@ -312,6 +377,7 @@ export class CronogramaComponent implements OnInit {
     } else {
       this.isAdicionarAtivo = true;
     }
+    this.cronogramaForm.reset();
   }
 
   setSemanaAtual(data: Date): void {

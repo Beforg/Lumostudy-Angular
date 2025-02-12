@@ -19,7 +19,7 @@
                 <span class="conteudo-semanal-item">
                     <h3>{{dia | date: 'EE, dd/MM/yyyy'}}</h3>
                     <ul>
-                        <li *ngFor="let item of getItensPorDia(dia)" (click)="visualizarItem(item)" [ngClass]="{'li concluido': item.concluido, 'li atrasado': verificaItemCronogramaAtrasado(item) == true}">
+                        <li *ngFor="let item of getItensPorDia(dia) | slice:0:5" (click)="visualizarItem(item)" [ngClass]="{'li concluido': item.concluido, 'li atrasado': verificaItemCronogramaAtrasado(item) == true}">
                             <span class="span-item-title">
                                 <img [src]="item.concluido !== true ? materiaIcon : materiaIconConcluido" alt="Ícone da Matéria"
                                 *ngIf="verificaItemCronogramaAtrasado(item) == false">
@@ -35,18 +35,26 @@
 
                         </li>
                     </ul>
+                    <button class="bt-ver-todos" *ngIf="getItensPorDia(dia).length >= 5" (click)="exibirTodosItensDoDia(dia)">Ver todos itens</button>
                 </span>
             </div>
         </div>
         <div class="bt-semana">
-
                 <app-button texto="Semana Anterior" (click)="semanaAnterior()"></app-button>
                 <app-button texto="Semana Atual" (click)="ngOnInit()"></app-button>
                 <app-button texto="Próxima Semana"(click)="proximaSemana()"></app-button>
-
         </div>
-
-    <div class="overlay" *ngIf="isAdicionarAtivo || isVisualizarItemAtivo || isEditarItem">
+    <div class="overlay" *ngIf="isAdicionarAtivo || isVisualizarItemAtivo || isEditarItem || isVerTodosItens">
+        <div *ngIf="isVerTodosItens" class="itens-detalhes-dia">
+            <span class="span-form-title">
+                <h2>
+                    Estudos do Dia
+                </h2>
+                <button (click)="isVerTodosItens = false" type="button">x</button>
+            </span>
+            <app-card *ngFor="let item of itensCronogramaDia" [item]="item"
+                        (concluir)="concluirEstudo($event)"></app-card>
+        </div>
         <form [formGroup]="cronogramaForm" (ngSubmit)="cadastrarAoCronograma()" *ngIf="isAdicionarAtivo">
             <span class="span-form-title">
                 <h2>Adicionar ao Cronograma</h2>
@@ -74,9 +82,9 @@
         </form>
         <div *ngIf="isVisualizarItemAtivo" [ngClass]="{
             'item-detalhes': true,
-            'concluido': itemSelecionado?.concluido == true && verificaItemCronogramaAtrasado(itemSelecionado!) == false,
-            'atrasado': verificaItemCronogramaAtrasado(itemSelecionado!) == true,
-            'emdia' : verificaItemCronogramaAtrasado(itemSelecionado!) == false
+            'concluido': switchClassCronograma(itemSelecionado!) == 'concluido',
+            'atrasado': switchClassCronograma(itemSelecionado!) == 'atrasado',
+            'emdia' : switchClassCronograma(itemSelecionado!) == 'emdia'
           }">
             <span class="span-item-title">
                 <h2>Visualizando: {{itemSelecionado?.conteudo}}</h2>
@@ -88,28 +96,36 @@
 
             <span class="span-acao-item">
                 <span>
-                    <p *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == true">Item atrasado</p>
+                    <p *ngIf="switchClassCronograma(itemSelecionado!) == 'atrasado'">Item atrasado</p>
+                    <p *ngIf="switchClassCronograma(itemSelecionado!) == 'emdia'">Pendente</p>
+                    <p  *ngIf="switchClassCronograma(itemSelecionado!) == 'concluido'">Item Concluído</p>
                 </span>
                 <span>
                     <button class="acao-item"> 
                         <img [src]="editWhite" alt="Icone para Edição" (click)="editarItemSelecionado()">
                     </button>
                     <button class="acao-item">
-                        <img [src]="itemSelecionado?.concluido === true ? removerConcluidoIconWhite : concluidoIconWhite">
+                        <img [src]="itemSelecionado?.concluido === true ? concluidoIconWhite : removerConcluidoIconWhite"
+                        (click)="concluirEstudo(itemSelecionado!)" alt="Concluir Estudo">
                     </button>
                     <button class="acao-item">
                         <img [src]="x" alt="Excluir" (click)="excluirDoCronograma()"
-                        *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == false">
+                        *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == false" alt="Excluir">
                         <img [src]="xWhite" alt="Icone para Edição" (click)="excluirDoCronograma()"
-                        *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == true">
+                        *ngIf="verificaItemCronogramaAtrasado(itemSelecionado!) == true" alt="Excluir">
                     </button>
                 </span>
             </span>
         </div>
         <form [formGroup]="cronogramaForm" *ngIf="isEditarItem" @fadeInOut>
-            <button (click)="isEditarItem = false" type="button">x</button>
-            <h2>Editando</h2>
-            <p><strong>{{itemSelecionado?.conteudo}}</strong></p>
+            <span class="span-form-title">
+                <h2>Editar Item</h2>
+                <button (click)="isEditarItem = false" type="button">x</button>
+            </span>
+            <span class="span-item-title-edit">
+                <p>Matéria: <strong>{{getMateriaCard(itemSelecionado!.conteudo)}}</strong></p>
+                <p>Conteúdo: <strong>{{getConteudoCard(itemSelecionado!.conteudo)}}</strong></p>
+            </span>
             <label for="materia">Alterar Matéria</label>
             <app-input  id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="materiaCod" (change)="alterarConteudoPorMateria()"></app-input>
             <label for="conteudo" *ngIf="!isNovoConteudo">Alterar Conteúdo</label>

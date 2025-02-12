@@ -113,7 +113,7 @@ small {
     flex-direction: row;
     align-items: center;
     padding: 7px;
-    background-color: var(--laranja-p);
+    background: linear-gradient(135deg, #ffeb3b, #ffc107);
     border-radius: 8px;
     max-height: 60px;
     transition: transform 0.2s;

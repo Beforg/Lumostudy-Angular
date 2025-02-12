@@ -1,4 +1,7 @@
-<li class="card" [ngClass]="{'li concluido': item.concluido}">
+<li class="card" 
+[ngClass]="{'li concluido': item.concluido,
+'atrasado': verificaItemCronogramaAtrasado(item)
+}">
     <span id="span-cronograma">
         <p id="titulo"><img [src]="item.concluido ? titleIcoDone : titleIco " alt="Icone do Título do cartão"><strong>{{item.conteudo}}</strong></p>
 

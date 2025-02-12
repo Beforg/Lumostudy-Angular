@@ -20,8 +20,14 @@
 
 .concluido {
     animation: completed 0.5s;
-    background-color: var(--verde-p);
     color: var(--branco-p);
+    background: linear-gradient(135deg, #00cf5d, #2d9235 );
+    border: 1px solid var(--cinza-borda);
+}
+
+.atrasado {
+    background: linear-gradient(135deg, #ff3d00, #bf360c);
+    border: 1px solid var(--cinza-borda);
 }
 
 img {
@@ -34,6 +40,7 @@ input {
 
 li {
     animation: fadeInTab 0.5s ease-in-out;
+    max-width: 100%;
 }
 
 @keyframes completed {

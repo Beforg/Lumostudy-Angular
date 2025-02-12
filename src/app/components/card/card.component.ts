@@ -19,4 +19,20 @@ export class CardComponent {
   onConcluirEstudo() {
     this.concluir.emit(this.item);
   }
+
+  verificaItemCronogramaAtrasado(item: any): boolean {
+      // verifica se o item do cronograma está atrasado
+      const dataItem = new Date(item.data);
+      const hoje = new Date();
+      if (
+        new Date(item.data).toISOString().split('T')[0] ===
+        hoje.toISOString().split('T')[0]
+      ) {
+        return false;
+      } else if (dataItem < hoje && item.concluido) {
+        return false;
+      } else {
+        return dataItem < hoje && !item.concluido;
+      }
+    }
 }
