@@ -18,9 +18,78 @@ section {
     
 }
 
+.span-form-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+}
+.span-form-title button {
+    font-weight: 700;
+}
+
+.detalhes-registro {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1.1%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 10px;
+}
+
+.estatisticas-line {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.span-estatisticas-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.span-estatisticas-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
 .span-estatisticas {
     display: flex;
     flex-direction: row;
+}
+
+.span-estatisticas h2 {
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+.estatisticas-modal {
+    min-width: 400px;
+}
+
+.span-estatisticas h2:hover {
+    color: var(--laranja-p);
+}
+
+.span-item-title-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 5px;
+    align-items: left;
+}
+.span-item-title-edit p {
+   margin: 0;
 }
 
 .img {

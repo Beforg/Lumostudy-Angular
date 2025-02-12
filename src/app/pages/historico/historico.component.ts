@@ -28,15 +28,19 @@ import { TransformaTempo } from '../../utils/transforma-tempo';
 export class HistoricoComponent implements OnInit {
   registros!: Rees[]; 
   reesForm!: FormGroup<ReesForm>;
+  registroSelecionado!: Rees;
 
   isEditarOpen: boolean = false;
   isNovoConteudo: boolean = false;
+  isVisualizar: boolean = false;
+  isEstatisticasOpen: boolean = false;
 
   materias: { value: string, label: string }[] = [];
   conteudo: { value: string, label: string }[] = [];
   codRegistroSelecionado!: string;
   readingImg: string = '/app/reading.png';
   x: string = '/app/x.png';
+  edit: string = '/app/edit.png';
   tempoEstudadoString: string = '';
 
   totalSessoes: number = 0;
@@ -137,7 +141,15 @@ export class HistoricoComponent implements OnInit {
     }
   }
 
-  abrirEdicaoRegistroEstudo(item: Rees): void {
+  abrirVisualizacaoRegistroEstudo(item: Rees): void {
+    this.registroSelecionado = item;
+    this.isVisualizar = true;
+  }
+
+  abrirEdicaoRegistroEstudo(item: Rees, event: Event): void {
+      event.stopPropagation();
+      this.registroSelecionado = item;
+      this.isVisualizar = false;
       this.getMaterias();
       this.codRegistroSelecionado = item.codRegistro;
       this.reesForm.get('descricao')?.setValue(item.descricao);
@@ -187,13 +199,7 @@ export class HistoricoComponent implements OnInit {
 
   getHistorico(): void {
     this.registros = [];
-    this.reesService.listarRegistrosDeEstudo(this.page - 1).pipe(
-      map(dados => dados.map(registro => ({
-        ...registro,
-        data: this.datePipe.transform(registro.data, 'dd/MM/yyyy')
-        
-      })))
-    ).subscribe(dados => {
+    this.reesService.listarRegistrosDeEstudo(this.page - 1).pipe().subscribe(dados => {
       this.registros = dados;
       this.itensPageSize = dados.length;
     });

@@ -10,7 +10,8 @@
             </span>
             <div class="estatisticas">
                 <span class="span-estatisticas">
-                    <h2>Estatísticas Gerais</h2>
+                     <!-- <app-button texto="Estatísticas Gerais" (click)="isEstatisticasOpen = true"></app-button> -->
+                      <h2>Estatísticas</h2>
                 </span>
                 <p >Tempo total de estudo:<strong class="destaque">{{tempoEstudadoString}}</strong> <br> Total de sessões de Estudos: <strong class="destaque">{{totalSessoes}}</strong></p>
             </div>
@@ -23,18 +24,17 @@
                     <th>Matéria</th>
                     <th>Conteúdo</th>
                     <th>Tempo de Estudo</th>
-                    <th>Descrição</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let registro of registros" (click)="abrirEdicaoRegistroEstudo(registro)">
-                    <td>{{registro.data}}</td>
+                <tr *ngFor="let registro of registros | slice:0:8" (click)="abrirVisualizacaoRegistroEstudo(registro)">
+                    <td>{{registro.data | date: "dd/MM/yyyy" }}</td>
                     <td>{{registro.nomeMateria}}</td>
                     <td>{{registro.conteudo}}</td>
                     <td>{{registro.tempo}}</td>
-                    <td>{{registro.descricao}}</td>
                     <td>
+                        <button type="button" (click)="abrirEdicaoRegistroEstudo(registro, $event )"><img [src]="edit"></button>
                         <button type="button" (click)="excluirRegistroDeEstudo(registro, $event)"><img [src]="x"></button>
                     </td>
                 </tr>
@@ -46,23 +46,108 @@
             <button type="button" (click)="proximaPagina()" class="btNav">></button>
         </span>
     </div>
-    <div class="overlay" *ngIf="isEditarOpen">
-        
-        <form [formGroup]="reesForm" (ngSubmit)="editarRegistroDeEstudos()">
-            <button type="button" (click)="fecharEdicaoRegistroEstudo()">x</button>
-            <h2>Editar Registro de Estudo</h2>
-            <hr>
-            <label for="materia">Matéria*</label>
+    <div class="overlay" *ngIf="isEditarOpen || isVisualizar || isEstatisticasOpen">
+        <div *ngIf="isEstatisticasOpen" class="detalhes-registro estatisticas-modal">
+            <span class="span-form-title">
+                <h2>Estatísticas</h2>
+                <button (click)="isEstatisticasOpen = false" type="button">x</button>
+            </span>
+            <div class="estatisticas-line">
+                <span class="span-estatisticas-line">
+                    <app-button texto="Semana"></app-button>
+                    <app-button texto="Mês"></app-button>
+                    <app-button texto="Ano"></app-button>
+                </span>
+            </div>
+            <div class="estatisticas-line">
+                <span class="span-estatisticas-col">
+                    <label for="">Tempo total</label>
+                    <p>12:43:23</p>
+                </span>
+                <span class="span-estatisticas-col">
+                    <label for="">Sessões totais</label>
+                    <p>12</p>
+                </span>
+            </div>
+            <div class="estatisticas-line">
+                <span class="estatisticas-line">
+                    <label for="">Estatísticas por Matéria</label>
+                    <select ></select>
+                </span>
+            </div>
+            <div class="estatisticas-line">
+                <span class="span-estatisticas-col">
+                    <label for="">Tempo total</label>
+                    <p>12:43:23</p>
+                </span>
+                
+                <span class="span-estatisticas-col">
+                    <label for="">Sessões totais</label>
+                    <p>12</p>
+                </span>
+            </div>
+            <div class="estatisticas-line">
+
+                <span class="estatisticas-line">
+                    <label for="">Estatísticas por Conteúdo</label>
+                    <select></select>
+                </span>
+            </div>
+            <div class="estatisticas-line">
+                <span class="span-estatisticas-col">
+                    <label for="">Tempo total</label>
+                    <p>12:43:23</p>
+                </span>
+                
+                <span class="span-estatisticas-col">
+                    <label for="">Sessões totais</label>
+                    <p>12</p>
+                </span>
+            </div>
+            <div class="estatisticas-line">
+                <span class="estatisticas-line">
+                    <label for="">Pontos totais:</label>
+                    <p>1233,43</p>
+                </span>
+                <span class="estatisticas-line">
+                    <label for="">Tempo total:</label>
+                    <p>12:43:23, 240 sessões</p>
+                </span>
+            </div>
+        </div>
+        <div *ngIf="isVisualizar" class="detalhes-registro">
+            <span class="span-form-title">
+                <h2>Detalhes do Registro</h2>
+                <button (click)="isVisualizar = false" type="button">x</button>
+            </span>
+            <div class="detalhes">
+                <p><strong>Data:</strong> {{registroSelecionado.data}}</p>
+                <p><strong>Matéria:</strong> {{registroSelecionado.nomeMateria}}</p>
+                <p><strong>Conteúdo:</strong> {{registroSelecionado.conteudo}}</p>
+                <p><strong>Tempo de Estudo:</strong> {{registroSelecionado.tempo}}</p>
+                <p><strong>Descrição:</strong> {{registroSelecionado.descricao ? registroSelecionado.descricao : 'Sem descrição'}}</p>
+            </div>
+        </div>
+        <form [formGroup]="reesForm" (ngSubmit)="editarRegistroDeEstudos()" *ngIf="isEditarOpen">
+            <span class="span-form-title">
+                <h2>Editar Registro de Estudo</h2>
+                <button (click)="isEditarOpen = false" type="button">x</button>
+            </span>
+            <span class="span-item-title-edit">
+                <p>Matéria: <strong>{{registroSelecionado.nomeMateria}}</strong></p>
+                <p>Conteúdo: <strong>{{registroSelecionado.conteudo}}</strong></p>
+            </span>
+            <label for="materia">Alterar Matéria</label>
             <app-input id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias" formControlName="codMateria" (change)="alterarConteudoPorMateria()"></app-input>
-            <label for="conteudo" *ngIf="!isNovoConteudo">Conteúdo*</label>
+            <label for="conteudo" *ngIf="!isNovoConteudo">Alterar Conteúdo</label>
             <app-input *ngIf="!isNovoConteudo" id="conteudo" [placeholder]="'Selecione o Conteúdo'" [type]="'choose'" [options]="conteudo" formControlName="conteudo"></app-input>
-            <label for="conteudo-tf" *ngIf="isNovoConteudo">Novo Conteúdo*</label>
+            <label for="conteudo-tf" *ngIf="isNovoConteudo">Novo Conteúdo</label>
             <app-input id="conteudo-tf" [placeholder]="'Insira o novo conteúdo'" [type]="'text'" formControlName="conteudoTexto" *ngIf="isNovoConteudo"></app-input>
             <div class="div-checkbox">
                 <label for="checkbox" >Novo conteúdo</label>
                 <input id="checkbox" type="checkbox" (change)="novoConteudo()" formControlName="isNovoConteudo">
             </div>
-            <label for="descricao">Observações (opcional)</label>
+            <label for="descricao">Descrição (opcional)</label>
             <app-input id="descricao" [placeholder]="''" [type]="'text'" formControlName="descricao" ></app-input>
             <span class="finalizar">
                 <app-button texto="Finalizar" type="submit"></app-button>
