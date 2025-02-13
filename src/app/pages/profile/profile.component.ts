@@ -11,11 +11,12 @@ import { CommonModule } from '@angular/common';
 import { UpdateUserForm } from '../../models/updateUser.form';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputComponent } from "../../shared/input/input.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [HeaderLumoappComponent, MenuLumoappComponent, ButtonComponent, CommonModule, ReactiveFormsModule, InputComponent],
+  imports: [HeaderLumoappComponent, MenuLumoappComponent, ButtonComponent, CommonModule, ReactiveFormsModule, InputComponent, FooterComponent],
   providers: [ContaService, AuthService],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'

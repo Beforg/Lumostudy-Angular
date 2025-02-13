@@ -15,6 +15,7 @@ import { Materia } from '../../models/materia';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StringFormatter } from '../../utils/string-formatter';
 import { CardComponent } from "../../components/card/card.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-cronograma',
@@ -26,7 +27,8 @@ import { CardComponent } from "../../components/card/card.component";
     CommonModule,
     ReactiveFormsModule,
     InputComponent,
-    CardComponent
+    CardComponent,
+    FooterComponent
 ],
   providers: [CronogramaService, MateriaService, ReesService],
   animations: [
@@ -268,6 +270,7 @@ export class CronogramaComponent implements OnInit {
         next: () => {
           this.toastr.success('Item cadastrado com sucesso.');
           this.getItensCronograma();
+          console.log(this.isContinuarAdicionando);
           if (!this.isContinuarAdicionando) {
             this.isNovoConteudo = false;
             this.cronogramaForm.reset();

@@ -2,7 +2,7 @@ header {
     display: flex;
     justify-content: space-between;
     border-bottom: solid 1px var(--cinza-borda);
-    color: var(--laranja-p);
+    color: var(--preto-p);
     padding: 0.5% 1%;
     align-items: center;
     text-align: center;

@@ -1,5 +1,5 @@
 button {
-    background-color: var(--branco-p);
+    background: var(--degrade-p);
     border-radius: 8px;
     padding: 10px 5px;
     border-style: none;
@@ -19,7 +19,6 @@ button {
 button:hover {
     transition: transform 0.2s;
     transform: scaleX(1.03);
-    color: white;
     background-color: var(--laranja-p);
 }
 
@@ -30,7 +29,6 @@ button:active {
 }
 
 .button-on {
-    background-color: var(--laranja-p);
-    color: white;
+    color: #ffc107;
     cursor: pointer;
 }

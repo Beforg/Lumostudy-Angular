@@ -13,17 +13,18 @@ import { FooterComponent } from "../../components/footer/footer.component";
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [InputComponent, ReactiveFormsModule, CommonModule, RouterModule, ButtonComponent, RouterLink, FooterComponent],
+  imports: [InputComponent, ReactiveFormsModule, CommonModule, RouterModule, ButtonComponent, RouterLink],
   providers: [AuthService],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
 })
 export class AuthComponent implements OnInit{
   authForm!: FormGroup<AuthForm>;
-  logo: string = '/logo_2.png';
+  logo: string = '/logo4.png';
+  banner: string = '/app/materias-bg.png';
   logo2: string = '/logo.png';
   isRecuperarSenha: boolean = false;
-  title: string = 'Login';
+  title: string = 'Entrar';
   labelEmail: string = 'Email';
   labelEsqueciSenha: string = 'Esqueci minha senha';
 
@@ -48,7 +49,7 @@ export class AuthComponent implements OnInit{
       this.labelEmail = 'Insira seu email para recuperar a senha';
       this.labelEsqueciSenha = 'Voltar para login';
     } else {
-      this.title = 'Login';
+      this.title = 'Entrar';
       this.labelEmail = 'Email';
       this.labelEsqueciSenha = 'Esqueci minha senha';
     }

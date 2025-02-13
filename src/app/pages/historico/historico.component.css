@@ -1,20 +1,21 @@
 section {
     display: flex;
     flex-direction: row;
+    padding-bottom: 43px;
 }
 
 .conteudo-principal {
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 1%;
+    padding: 0.1% 1%;
     margin: 0 1%;
     border: solid 1px var(--cinza-borda);
     border-radius: 10px;
     background-color: white;
     animation: fadeInTab 0.5s ease-in-out;
     margin: 10px 10px 0 10px;
-    height: 760px;
+    height: 633px;
     
 }
 
@@ -119,6 +120,7 @@ section {
 
 .span-titulo p {
     font-size: 20px;
+    margin: 0;
 }
 
 .infos {

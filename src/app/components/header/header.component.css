@@ -24,6 +24,7 @@
         margin-top: 3%;
         text-align: left;
         font-size: 50px;
+        color: var(--preto-p);
     }
     
     .botoes {
@@ -35,10 +36,28 @@
     
     .banner {
         position: absolute;
-        margin-top: 200px;
-        margin-left: 65%;
+        margin-top: 100px;
+        margin-left: 60%;
         width: 318px;
         height: 369px;
         
     }
+}
+
+.ico {
+    vertical-align: middle;
+}
+
+button {
+    background: var(--laranja-p);
+    border: none;
+    padding: 10px;
+    font-size: 25px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
 }

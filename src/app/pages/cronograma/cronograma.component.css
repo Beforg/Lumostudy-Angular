@@ -1,18 +1,19 @@
 section {
     display: flex;
     flex-direction: row;
+    padding-bottom: 23px;
 }
 
 .conteudo-conteiner {
     background-color: white;
-    height: 700px;
+    height: 660px;
     width: 82%;
     margin: 10px 10px 0 10px; /* Adicione margin-top */
     display: flex;
     flex-direction: column;
     justify-items: flex-start;
     align-items: center;
-    padding: 1%;
+    padding: 0.1% 1%;
     border: solid 1px var(--cinza-borda);
     border-radius: 10px;
     animation: fadeInTab 0.5s ease-in-out;
@@ -26,7 +27,7 @@ section {
     align-items: center;
     border-bottom: 1px solid var(--cinza-borda);
     border-top: 1px solid var(--cinza-borda);
-    height: 500px;
+    height: 435px;
     width: 100%;
     gap: 20px;
     
@@ -76,10 +77,21 @@ ul {
     border-right: 1px solid var(--cinza-borda);
 }
 
+.titulo h2 {
+    font-size: 30px;
+    color: var(--cinza-p);
+    margin: 5px 0;
+}
+
+.titulo p {
+    margin: 0;
+    font-size: 18px;
+    color: var(--preto-p);
+}
+
 .bt-semana {
     display: flex;
     flex-direction: row;
-    margin-top: 15px;
     gap: 10px;
     justify-content: space-between;
     justify-items: space-between;
@@ -87,9 +99,10 @@ ul {
 
 li {
     list-style-type: none;
-    background: linear-gradient(135deg, #ffeb3b, #ffc107);
+    background: var(--degrade-card);
     box-shadow: var(--box-shadow);
     border-radius: 8px;   
+ 
     padding: 4%;
     font-weight: bold;
     font-size: 14px;
@@ -311,6 +324,13 @@ button:hover {
 .span-item-title {
     display: flex;
     
+}
+
+.titulo-card {
+    text-overflow: clip;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
 }
 
 .span-item-title img {

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=M+PLUS+Rounded+1c:wght@400;800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 :root {
-    --laranja-p: #ffc117;
+    --laranja-p: #f9f1b4;
     --preto-p: #131313;
     --branco-p: #f7f7f7;
     --cinza-sec: #F6F6F6;
@@ -12,11 +12,15 @@
     --laranja-s: #ffecaf;
     --vermelho-p: #dc3545;
     --borda-foto: #bdbdbd;
+    /* --ativo: #ffc107; */
+    --ativo: #ffef76;
+    --degrade-p: linear-gradient(135deg, #f9f1b4, #f8ffbd );
+    --degrade-card: linear-gradient(135deg, #ffed47, #ffd363);
 }
 
 body {
     font-family: 'Montserrat', sans-serif;
-    height: 100vh;
+    height: 100%;
     margin: 0;
     padding: 0;
     background-color: #FBF4F4;
@@ -69,12 +73,16 @@ small {
 .pagAtivo {
     display: flex;
     flex-direction: row;
-    height: 10px;
-    align-items: left;
-    width: 225px;
-    margin-left: 1%;
-    border-left: 6px solid var(--laranja-p);
+    align-items: center;
+    width: 98%;
+    background: var(--degrade-p);
+    border-left: 6px solid var(--ativo);
     animation: abaSelecionada 0.2s ease-in-out;;
+}
+
+.pagAtivo a {
+    margin: 0;
+    padding: 0;
 }
 
 .aba-opcoes {
@@ -101,7 +109,7 @@ small {
 }
 
 .aba-selecionada {
-    border-bottom: 4px solid var(--laranja-p);
+    border-bottom: 4px solid var(--ativo);
     border-radius: 2px;
     color: var(--laranja-p);
     animation: abaSelecionada 0.2s ease-in-out;
@@ -113,7 +121,7 @@ small {
     flex-direction: row;
     align-items: center;
     padding: 7px;
-    background: linear-gradient(135deg, #ffeb3b, #ffc107);
+    background: var(--degrade-card);
     border-radius: 8px;
     max-height: 60px;
     transition: transform 0.2s;
@@ -163,7 +171,6 @@ table {
     width: 100%;
     border-collapse: collapse;
     border-bottom: 1px solid var(--cinza-borda);
-    margin-top: 20px;
     animation: fadeInTab 0.5s ease-in-out;
     transition: transform 0.2s;
     border-radius: 10px;
@@ -174,13 +181,16 @@ table {
 table th {
     background-color: var(--cinza-sec);
     color: var(--cinza-p);
-    padding: 2%;
+    padding: 1.5%;
+    text-align: left;
+
     
 }
 
 table td {
-    padding: 1%;
+    padding: 0.8%;
     border-bottom: 1px solid var(--cinza-borda);
+    max-width: fit-content;
     text-align: left;
     animation: fadeInTab 0.5s ease-in-out;
     
@@ -200,6 +210,7 @@ table td {
         border: none;
         transition: transform 0.2s;
         cursor: pointer;
+        padding: 0;
     }
 
     button:hover {

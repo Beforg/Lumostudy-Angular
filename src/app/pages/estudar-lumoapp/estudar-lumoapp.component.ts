@@ -19,6 +19,7 @@ import { TransformaTempo } from '../../utils/transforma-tempo';
 import { NavComponent } from "../../components/nav/nav.component";
 import { CardComponent } from "../../components/card/card.component";
 import { Estudar } from '../../utils/estudar';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-estudar-lumoapp',
@@ -32,7 +33,8 @@ import { Estudar } from '../../utils/estudar';
     CommonModule,
     ReactiveFormsModule,
     NavComponent,
-    CardComponent
+    CardComponent,
+    FooterComponent
 ],
   providers: [MateriaService, ReesService, CronogramaService],
   templateUrl: './estudar-lumoapp.component.html',

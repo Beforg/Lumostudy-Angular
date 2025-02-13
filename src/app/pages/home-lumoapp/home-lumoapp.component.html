@@ -1,12 +1,12 @@
 <app-header-lumoapp></app-header-lumoapp>
 <section>
     <app-menu-lumoapp></app-menu-lumoapp>
-    <div class="conteudo-principal">   
+    <div class="conteudo-principal">
         <div>
             <div id="info-estudo">
                 <h1>Bem-Vindo, {{nome}}! 👋</h1>
-                <h3 class="borda">{{data | date: "EEEE, dd 'de' MMMM 'de' yyyy"}}</h3>
-                <p id="info-estudo-tarefas">Você tem <strong>{{qtdTotalItensCronograma}}</strong> tarefa(s) para hoje e Já realizou <strong>{{qtdeItensRegistroEstudo}}</strong> estudo(s).	</p>
+                <h3 class="data">{{data| date: "EEEE, dd 'de' MMMM 'de' yyyy"}}</h3>
+                <!-- <p id="info-estudo-tarefas">Você tem <strong>{{qtdTotalItensCronograma}}</strong> tarefa(s) para hoje e Já realizou <strong>{{qtdeItensRegistroEstudo}}</strong> estudo(s).	</p> -->
                 <label for="tempoEstudo" class="borda">Tempo de estudo do dia:</label>
                 <p id="tempoEstudo">{{tempoDeEstudoFormatado}}</p>
             </div>
@@ -14,14 +14,26 @@
                 <label for="data">Veja outros dias:</label>
                 <app-input id="data" type="date" [(ngModel)]="data" (change)="trocarDia()"></app-input>
             </div>
+            <div class="mensagem">
+                <blockquote>
+                    📖 Pequenos hábitos geram grandes conquistas!<br />
+                    Continue avançando — seu futuro eu vai te agradecer! 💡<br/>
+
+                </blockquote>
+                <blockquote>
+                    ⏳ A melhor hora para começar é agora! <br/>
+                    Uma pequena sessão já faz toda a diferença.<br/>Vamos nessa? 🚀
+                </blockquote>
+            </div>
         </div>
         <div class="principal-atividades">
             <div>
                 <h3 class="borda">Tarefas do dia</h3>
                 <h4 class="aviso" *ngIf="qtdeItensCronograma === 0">Não há tarefas.</h4>
-                <app-card *ngFor="let item of itensCronograma" [item]="item" (concluir)="concluirEstudo($event)"></app-card>
+                <app-card *ngFor="let item of itensCronograma" [item]="item"
+                    (concluir)="concluirEstudo($event)"></app-card>
             </div>
-                <!-- <ul *ngFor="let item of itensCronograma">
+            <!-- <ul *ngFor="let item of itensCronograma">
                     <li  class="card" [ngClass]="{'li concluido': item.concluido}">
                       <span class="span-cronograma">
                         <p class="conteudo"><strong>{{item.conteudo}}</strong></p>
@@ -33,22 +45,24 @@
                       </span>
                     </li>
                  </ul> -->
-                <!-- <span class="span-bt">
+            <!-- <span class="span-bt">
                     <button type="button" (click)="voltarPagina('')"><</button>
                     <p>{{page}}</p>
                     <button type="button" (click)="proximaPagina('')">></button>
                 </span> -->
-            <app-nav [page]="page" (nextPageEvent)="proximaPagina($event)" (previousPageEvent)="voltarPagina($event)"></app-nav>
+            <app-nav [page]="page" (nextPageEvent)="proximaPagina($event)"
+                (previousPageEvent)="voltarPagina($event)"></app-nav>
         </div>
         <div class="principal-atividades">
             <div>
                 <h3 class="borda">Estudos realizados</h3>
                 <h4 *ngIf="qtdeItensRegistroEstudo == 0" class="aviso">Sem registros.</h4>
-                
-                <ul *ngFor="let item of registrosEstudo" >
+
+                <ul *ngFor="let item of registrosEstudo">
                     <li class="card concluido">
                         <span id="span-cronograma">
-                            <p class="conteudo"><img [src]="icoCheck" alt="Icone de Estudo Concluído"><strong>{{item.conteudo}}</strong></p>
+                            <p class="conteudo"><img [src]="icoCheck"
+                                    alt="Icone de Estudo Concluído"><strong>{{item.conteudo}}</strong></p>
                             <span id="info">
                                 <p class="descricao">{{item.descricao}}</p>
                                 <p class="tempo">{{item.tempo}}</p>
@@ -62,7 +76,10 @@
                 <p>{{pageRegistros}}</p>
                 <button type="button" (click)="proximaPagina('rees')">></button>
             </span> -->
-            <app-nav [type]="'rees'" [page]="pageRegistros" (nextPageEvent)="proximaPagina($event)" (previousPageEvent)="voltarPagina($event)"></app-nav>
+            <app-nav [type]="'rees'" [page]="pageRegistros" (nextPageEvent)="proximaPagina($event)"
+                (previousPageEvent)="voltarPagina($event)"></app-nav>
         </div>
     </div>
+
 </section>
+<app-footer></app-footer>

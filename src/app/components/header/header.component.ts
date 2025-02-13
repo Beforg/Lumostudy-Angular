@@ -5,11 +5,12 @@ import { RouterLink, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ButtonComponent, RouterLink, RouterModule, RouterLink],
+  imports: [RouterLink, RouterModule, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  logo: string = '/logo.png';
+  logo: string = '/logo4.png';
   banner: string = '/banner.png';
+  signin: string = '/sign-in.png';
 }

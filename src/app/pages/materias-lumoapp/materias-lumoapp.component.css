@@ -1,13 +1,13 @@
 section {
     display: flex;
     flex-direction: row;
+    padding-bottom: 43px;
 }
-
 .conteudo-principal {
     border: 1px solid var(--cinza-borda);
     width: 80%;
     height: 600px;
-    padding: 2%;
+    padding: 1%;
     margin-left: 10px;
     border-radius: 10px;
     display: flex;

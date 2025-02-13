@@ -1,21 +1,25 @@
 section {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 81.5vh;
+    height: 100vh;
     background-color:var(--branco-p)
 }
 
-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--laranja-p);
+.span-bannner {
+    margin: auto;
 }
 
-header h1 {
+.banner {
+
+    width: 700px;
+    height: 700px;
+    margin: auto;
+}
+
+
+h1 {
     color: var(--preto-p);
+    font-size: 40px;
+    text-align: center;
 }
 
 img {
@@ -23,8 +27,9 @@ img {
 }
 
 h1 {
-    color: var(--cinza-p);
+    color: var(--preto-p);
     font-size: 40px;
+    margin: 10px 0;
 }
 /* tirar repetição */
 form { 
@@ -32,28 +37,32 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 16px;
-    border: 1px solid #FFF;
     background: var(--laranja-p);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 400px;
-    height: 450px;
-    padding: 2%;
+    height: 100%;
+    padding: 0 30px;
+    margin-bottom: 1000px;
+}
+
+.texto-login {
+    color: var(--preto-p);
+    font-size: 20px;
+    margin: 10px 0;
 }
 
 form div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin: 10px 0;
+    align-items: left;
+    margin-bottom: 20px;
 }
 
 .span-inputs {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: left;
     margin-bottom: 10px;
 }
 
@@ -63,6 +72,7 @@ form div {
     align-items: center;
     justify-content: space-between;
     margin: 20px 0;
+    width: 100%;
 }
 
 .span-links {
@@ -77,7 +87,7 @@ form div {
     a {
         text-decoration: none;
         cursor: pointer;
-        color: var(--cinza-p);
+        color: var(--preto-p);
         transition: transform 0.2s;
         font-weight: bold;
     }
@@ -86,4 +96,10 @@ form div {
         transition: transform 0.2s;
         transform: scale(1.1);
     }
+}
+
+label {
+    font-size: 15px;
+    color: var(--preto-p);
+    font-weight: 500;
 }

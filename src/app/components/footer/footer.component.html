@@ -1,11 +1,11 @@
 <footer>
-        <span>
-            <img [src]="logo" alt="Logo do Lumostudy" class="logo">
-        </span>
+    <div class="conteiner">
         <div class="infos">
-            <p class="version" ><strong >Lumostudy v0.1.242</strong>,  Desenvolvido por Bruno Forgiarini</p>
             <span>
-                <img [src]="github" alt="Logo do Github" class="github">
+                <img [src]="logo" alt="Logo do Lumostudy" id="logo">
+            </span>
+            <span>
+                <img class="imgGh" [src]="github" alt="Logo do Github" class="github" (click)="openLink('https://github.com/Beforg/Lumostudy-Angular')">
             </span>
         </div>
         <div class="creditos">
@@ -14,6 +14,10 @@
                 <a href="https://storyset.com/people">People illustrations by Storyset</a>
                 <a href="www.freepik.com">Designed by Freepik</a>
             </span>
+            <span>
+                <p class="version" ><strong (click)="openLink('https://www.linkedin.com/in/beforg/')">Lumostudy v0.2.251, Desenvolvido por Bruno Forgiarini</strong></p>
+            </span>
         </div>
+    </div>
 </footer>
 

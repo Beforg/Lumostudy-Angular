@@ -51,7 +51,7 @@
                 <div *ngIf="materiasForm.get('nome')?.hasError('required') && materiasForm.get('nome')?.touched">
                     <small>O nome da matéria é obrigatório.</small>
                 </div>
-                <div *ngIf="!isNovaCategoria" @fadeInOut>
+                <div *ngIf="!isNovaCategoria">
                     <label for="categoria">Selecione a categoria</label>
                     <app-input id="categoria" [placeholder]="'Categoria'" type="choose" [options]="categoriasMaterias"
                         formControlName="categoria"></app-input>
@@ -60,8 +60,8 @@
                     *ngIf="materiasForm.get('categoria')?.hasError('required') && materiasForm.get('categoria')?.touched">
                     <small>A categoria é obrigatória.</small>
                 </div>
-                <div *ngIf="isNovaCategoria" @fadeInOut>
-                    <label for="novaCategoria">Nova Categoria</label>
+                <div *ngIf="isNovaCategoria">
+                    <label for="novaCategoria">Selecione a categoria</label>
                     <app-input [placeholder]="'Insira a nova Categoria'" type="text"
                         formControlName="categoriaTexto"></app-input>
                 </div>
@@ -134,3 +134,4 @@
         </form>
     </div>
 </section>
+<app-footer></app-footer>

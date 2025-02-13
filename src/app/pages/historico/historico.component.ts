@@ -14,13 +14,14 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { MateriaService } from '../../service/materia.service';
 import { Materia } from '../../models/materia';
 import { TransformaTempo } from '../../utils/transforma-tempo';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 
 
 @Component({
   selector: 'app-historico',
   standalone: true,
-  imports: [HeaderLumoappComponent, MenuLumoappComponent, CommonModule, ReactiveFormsModule, InputComponent, ButtonComponent],
+  imports: [HeaderLumoappComponent, MenuLumoappComponent, CommonModule, ReactiveFormsModule, InputComponent, ButtonComponent, FooterComponent],
   providers: [ReesService, DatePipe, MateriaService, FormsModule],
   templateUrl: './historico.component.html',
   styleUrl: './historico.component.css'
@@ -88,7 +89,7 @@ export class HistoricoComponent implements OnInit {
   }
 
   proximaPagina() {
-    if (this.itensPageSize == 8) 
+    if (this.itensPageSize == 7) 
     {
       this.page++
       this.getHistorico();

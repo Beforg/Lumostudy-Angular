@@ -1,13 +1,14 @@
 section {
     display: flex;
     flex-direction: row;
+    padding-bottom: 42px;
 }
 
 .container-profile {
     border: 1px solid var(--cinza-borda);
     width: 80%;
-    height: 400px;
-    padding: 2%;
+    height: 635px;
+    padding: 0.1% 2%;
     border-radius: 10px;
     margin: 10px 10px 0 10px;
     display: flex;
@@ -52,10 +53,16 @@ section {
     border-bottom: 1px solid var(--cinza-borda);
 }
 
+.seguranca {
+    margin-top: auto;
+}
+
 .container-conteudo {
     display: flex;
     flex-direction: row;
-    justify-content: space-between
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 600px;
 }
 
 .infos {
@@ -63,9 +70,13 @@ section {
 
 }
 
+.infos h2 {
+    margin: 10px;
+}
+
 .foto-usuario {
-    width: 150px;
-    height: 150px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     border: 6px solid var(--borda-foto);
     margin: 0 10px 0 0;
@@ -79,11 +90,6 @@ section {
     gap: 15px;
 }
 
-.seguranca {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 .conteudo-seguranca {
     display: flex;
@@ -96,15 +102,30 @@ section {
     color: red;
     text-decoration: none;
     cursor: pointer;
-    margin-top: auto;
 }
 
+.conteudo-dados a {
+    cursor: pointer;
+    text-align: center  ;
+    transition:  transform 0.2s;
+    background-color: var(--cinza-borda);
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.conteudo-dados a:hover {
+    transform: scale(1.05);
+}
 
 .dados-item {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 10px;
+}
+
+.button-div {
+    width: 100%;
 }
 
 .dados-item img {

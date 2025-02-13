@@ -9,5 +9,9 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
   github: string = '/logo-github.png';
-  logo: string = '/logo.png';
+  logo: string = '/logo4.png';
+  
+   openLink = (link: string) => {
+    window.open(link, '_blank');
+  }
 }

@@ -14,14 +14,15 @@ import { FooterComponent } from '../../components/footer/footer.component';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RouterModule, FooterComponent],
+  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, RouterModule],
   providers: [AuthService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   registerForm!: FormGroup<RegisterForm>;
-  logo: string = '/logo.png';
+  logo: string = '/logo4.png';
+  banner: string = '/app/materias-bg.png';
   isLoading: boolean = false;
 
   constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {

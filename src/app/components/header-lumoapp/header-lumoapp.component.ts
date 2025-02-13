@@ -16,7 +16,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./header-lumoapp.component.css']
 })
 export class HeaderLumoappComponent implements OnInit {
-  logo: string = '/logo_3.png';
+  logo: string = '/logo4.png';
   titulo: string = 'Início';
   profile!: SafeUrl | undefined;
   profileExpire!: string | null;

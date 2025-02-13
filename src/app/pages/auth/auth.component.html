@@ -2,21 +2,18 @@
 <section>
     <form [formGroup]="authForm" (ngSubmit)="login()">
         <img [src]="logo" alt="Logo do Lumostudy" id="logo" routerLink="/home">
-        <h1>{{title}}</h1>
         <div>
+            <h1>{{title}}</h1>
+            <p *ngIf="!isRecuperarSenha" class="texto-login">Por favor insira seus dados </p>
             <span class="span-inputs">
                 <label for="email">{{labelEmail}}</label>
                 <app-input id="email" [placeholder]="'Email'" [type]="'text'" [placeholder]="'Digite seu Email'" formControlName="email"></app-input>
                 <label for="password" *ngIf="!isRecuperarSenha">Senha</label>
                 <app-input id="password" [placeholder]="'Senha'" [type]="'password'" [placeholder]="'Digite sua senha'" formControlName="password" *ngIf="!isRecuperarSenha"></app-input>
             </span>
-            <span class="span-remenber">
+            <span class="span-botoes">
                 <app-button texto="Entrar" id="logar" type="submit" *ngIf="!isRecuperarSenha"></app-button>
                 <app-button texto="Enviar" id="logar" type="submit" *ngIf="isRecuperarSenha"></app-button>
-                <!-- <span>
-                    <label for="remember">Manter</label>
-                    <input id="remember" formControlName="remember" type="checkbox">
-                </span> -->
             </span>
             
             <span class="span-links">
@@ -24,6 +21,7 @@
                 <a routerLink="/register">Não possui uma conta?</a>
             </span>
         </div>
+        
     </form>
+    <img [src]="banner" alt="Banner do Lumostudy" class="banner">
 </section>
-<app-footer></app-footer>

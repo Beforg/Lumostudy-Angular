@@ -38,11 +38,11 @@
                 <small *ngIf="registerForm.get('confirmPassword')?.errors?.['required']">Confirmação de senha é obrigatória.</small>
             </div>
         </span>
-        <span class="botoes">
+        <div class="botoes">
             <a routerLink="/auth">Voltar</a>
             <app-button texto="Registrar" type="submit"></app-button>
-        </span>
+        </div>
 
     </form>
+    <img [src]="banner" alt="Banner do Lumostudy" class="banner">
 </section>
-<app-footer></app-footer>

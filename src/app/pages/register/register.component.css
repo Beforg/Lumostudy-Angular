@@ -1,29 +1,34 @@
 section {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 85.5vh;
+    height: 100vh;
     background-color:var(--branco-p)
 }
 
+
 h1 {
-    color: var(--branco-p);
+    color: var(--preto-p);
     font-size: 40px;
 }
 
-form {
+form { 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 16px;
-    border: 1px solid #FFF;
     background: var(--laranja-p);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     width: 400px;
-    min-height: 550px;
-    padding: 2%;
+    height: 100%;
+    padding: 0 30px;
+    margin-bottom: 1000px;
 }
+
+.banner {
+
+    width: 700px;
+    height: 700px;
+    margin: auto;
+}
+
 
 
 .span-inputs {
@@ -39,8 +44,17 @@ a {
     text-decoration: none;
     color: var(--preto-p);
     transition: transform 0.2s;
-    font-weight: bold;
+    font-weight: 500;
+    font-size: 15px;
     cursor: pointer;
+}
+
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    gap: 140px;
 }
 
 a:hover {

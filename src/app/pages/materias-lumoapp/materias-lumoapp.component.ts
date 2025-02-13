@@ -11,17 +11,20 @@ import { CadastrarMateriaForm } from '../../models/cadastrar.materia.form';
 import { ButtonComponent } from "../../shared/button/button.component";
 import { trigger, transition, style, animate } from '@angular/animations';
 import { ReesService } from '../../service/rees.service';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-materias-lumoapp',
   standalone: true,
   imports: [
-    HeaderLumoappComponent, 
+    HeaderLumoappComponent,
     MenuLumoappComponent,
-    CommonModule, InputComponent, 
+    CommonModule, InputComponent,
     ReactiveFormsModule,
     ButtonComponent,
-    FormsModule],
+    FormsModule,
+    FooterComponent
+],
   providers: [MateriaService, ReesService],
   animations: [
     trigger('fadeInOut', [
@@ -174,22 +177,6 @@ export class MateriasLumoappComponent {
       this.toastr.error('Preencha todos os campos corretamente.');
       return;
     }
-
-    if (this.isEditarConteudoAtivo && this.materiasForm.get('conteudoNovo')?.value != '') {
-      this.reesService.editarConteudo(this.codMateriaSelecionada, this.conteudoSelecionado, this.materiasForm.get('conteudoNovo')?.value).subscribe({
-        next: () => {
-          this.materiasForm.reset();
-          this.isEditarConteudoAtivo = false;
-          console.log('Conteúdo editado');
-        },
-        error: (error) => {
-          console.error('Erro ao editar conteúdo.', error);
-        }
-      });
-    } else {
-      this.toastr.error('O conteúdo não pode ficar vazio!');
-      return;
-    }
     this.service.atualizarMateria(
       this.materiasForm.get('nome')?.value,
       this.materiasForm.get('categoria')?.value,
@@ -208,6 +195,24 @@ export class MateriasLumoappComponent {
       }
     
     });
+    console.log(this.isEditarConteudoAtivo);
+    if (this.isEditarConteudoAtivo) {
+      if (this.materiasForm.get('conteudoNovo')?.value !== '') {
+        this.toastr.error('O conteúdo não pode ficar vazio!');
+        return;
+      }
+      console.log(this.isEditarConteudoAtivo && this.materiasForm.get('conteudoNovo')?.value !== '');
+      this.reesService.editarConteudo(this.codMateriaSelecionada, this.conteudoSelecionado, this.materiasForm.get('conteudoNovo')?.value).subscribe({
+        next: () => {
+          this.materiasForm.reset();
+          this.isEditarConteudoAtivo = false;
+          console.log('Conteúdo editado');
+        },
+        error: (error) => {
+          console.error('Erro ao editar conteúdo.', error);
+        }
+      });
+    }
   }
 
   excluirMateria() {

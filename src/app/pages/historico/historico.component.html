@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let registro of registros | slice:0:8" (click)="abrirVisualizacaoRegistroEstudo(registro)">
+                <tr *ngFor="let registro of registros | slice:0:7" (click)="abrirVisualizacaoRegistroEstudo(registro)">
                     <td>{{registro.data | date: "dd/MM/yyyy" }}</td>
                     <td>{{registro.nomeMateria}}</td>
                     <td>{{registro.conteudo}}</td>
@@ -155,3 +155,4 @@
         </form>
     </div>
 </section>
+<app-footer></app-footer>

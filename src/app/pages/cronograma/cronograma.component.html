@@ -5,8 +5,8 @@
         <div class="conteudo-acoes">
                 <span class="titulo">
                     <h2>Organize seus estudos</h2>
-                    <h4>Adicione os conteúdos que você deseja estudar ao seu cronograma semanal. Os estudos do dia estarão disponíveis
-                        na sessão Estudar.</h4>
+                    <p>Adicione os conteúdos que você deseja estudar ao seu cronograma semanal. Os estudos do dia estarão disponíveis
+                        na sessão Estudar.</p>
                 </span>
                 <span class="adicionar-cronograma">
                     <p>Adicione novos itens ao seu cronograma!</p>
@@ -25,7 +25,7 @@
                                 *ngIf="verificaItemCronogramaAtrasado(item) == false">
                                 <img [src]="materiaIconConcluido" alt="Ícone da Matéria"
                                 *ngIf="verificaItemCronogramaAtrasado(item) == true">
-                                <h2>
+                                <h2 class="titulo-card">
                                     {{ getMateriaCard(item.conteudo) }}
                                 </h2>
                             </span>
@@ -75,8 +75,8 @@
             <label for="descricao">Descrição</label>
             <app-input id="descricao" [placeholder]="'Descrição'" [type]="'text'" formControlName="descricao"></app-input>
             <span class="span-form-checkbox">
-                <label for="checkbox">Continuar adicionando</label>
-                <input id="checkbox" type="checkbox" (change)="continuarAdicionando()">
+                <label for="checkbox2">Continuar adicionando</label>
+                <input id="checkbox2" type="checkbox" (change)="continuarAdicionando()">
             </span>
             <app-button texto="Adicionar" type="submit"></app-button>
         </form>
@@ -145,3 +145,4 @@
     </div>
 </div>
 </section>
+<app-footer></app-footer>
