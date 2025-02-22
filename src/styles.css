@@ -15,6 +15,7 @@
     /* --ativo: #ffc107; */
     --ativo: #ffef76;
     --degrade-p: linear-gradient(135deg, #f9f1b4, #f8ffbd );
+    --degrade-concluido: linear-gradient(135deg, #00cf5d, #2d9235 );
     --degrade-card: linear-gradient(135deg, #ffed47, #ffd363);
 }
 

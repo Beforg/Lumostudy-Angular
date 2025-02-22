@@ -1,0 +1,14 @@
+<ul>
+    <li *ngFor="let item of registrosEstudo">
+        <span class="card-done">
+            <p class="card-done__conteudo"><img [src]="titleIcoDone"
+                    alt="Icone de Estudo Concluído"><strong>{{item.conteudo}}</strong></p>
+            <span class="card-done__info">
+                <p class="card-done__descricao">{{item.descricao}}</p>
+            </span>
+            <span class="card-done__tempo">
+                <p>{{item.tempo}}</p>
+            </span>
+        </span>
+    </li>
+</ul>
