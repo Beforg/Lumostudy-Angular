@@ -1,5 +1,5 @@
 <app-header-lumoapp></app-header-lumoapp>
-<section>
+<section class="home">
     <app-menu-lumoapp></app-menu-lumoapp>
     <div class="conteudo-principal">
         <div>
@@ -57,8 +57,8 @@
             <div>
                 <h3 class="borda">Estudos realizados</h3>
                 <h4 *ngIf="qtdeItensRegistroEstudo == 0" class="aviso">Sem registros.</h4>
-
-                <ul *ngFor="let item of registrosEstudo">
+                <app-card-done [registrosEstudo]="registrosEstudo"></app-card-done>
+                <!-- <ul *ngFor="let item of registrosEstudo">
                     <li class="card concluido">
                         <span id="span-cronograma">
                             <p class="conteudo"><img [src]="icoCheck"
@@ -69,7 +69,7 @@
                             </span>
                         </span>
                     </li>
-                </ul>
+                </ul> -->
             </div>
             <!-- <span class="span-bt">
                 <button type="button" (click)="voltarPagina('rees')"><</button>
