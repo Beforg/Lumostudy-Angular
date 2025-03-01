@@ -19,7 +19,6 @@
 
 
 .concluido {
-    animation: completed 0.5s;
     color: var(--branco-p);
     background: linear-gradient(135deg, #00cf5d, #2d9235 );
     border: 1px solid var(--cinza-borda);
@@ -42,13 +41,3 @@ li {
     animation: fadeInTab 0.5s ease-in-out;
     max-width: 100%;
 }
-
-@keyframes completed {
-    0% {
-        background-color: var(--laranja-p);
-    }
-    100% {
-        background-color: var(--verde-p);
-    }
-}
-

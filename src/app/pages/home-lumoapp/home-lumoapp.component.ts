@@ -14,18 +14,18 @@ import { TransformaTempo } from '../../utils/transforma-tempo';
 import { FooterComponent } from "../../components/footer/footer.component";
 import { CardComponent } from "../../components/card/card.component";
 import { NavComponent } from "../../components/nav/nav.component";
+import { CardDoneComponent } from "../../components/card-done/card-done.component";
 
 @Component({
   selector: 'app-home-lumoapp',
   standalone: true,
-  imports: [HeaderLumoappComponent, MenuLumoappComponent, InputComponent, CommonModule, FormsModule, FooterComponent, CardComponent, NavComponent],
+  imports: [HeaderLumoappComponent, MenuLumoappComponent, InputComponent, CommonModule, FormsModule, FooterComponent, CardComponent, NavComponent, CardDoneComponent],
   providers: [AuthService, CronogramaService, ReesService],
   templateUrl: './home-lumoapp.component.html',
   styleUrl: './home-lumoapp.component.css'
 })
 export class HomeLumoappComponent implements OnInit {
   nome: string | undefined;
-  icoCheck: string = '/app/check.png';
   itensCronograma!: Cronograma[];
   qtdTotalItensCronograma: number = 0;
   qtdeItensRegistroEstudo: number = 0;
