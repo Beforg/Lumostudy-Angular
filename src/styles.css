@@ -19,7 +19,7 @@
     --degrade-card: linear-gradient(135deg, #ffed47, #ffd363);
 }
 
-body {
+body, html {
     font-family: 'Montserrat', sans-serif;
     height: 100%;
     margin: 0;
@@ -71,20 +71,7 @@ small {
     font-weight: bold;
   }
 
-.pagAtivo {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 98%;
-    background: var(--degrade-p);
-    border-left: 6px solid var(--ativo);
-    animation: abaSelecionada 0.2s ease-in-out;;
-}
 
-.pagAtivo a {
-    margin: 0;
-    padding: 0;
-}
 
 .aba-opcoes {
     display: flex;
@@ -131,6 +118,23 @@ small {
 
 .card:hover {
    transform: scale(1.03);
+}
+
+@media (min-width: 1024px) {
+    .pagAtivo {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 98%;
+        background: var(--degrade-p);
+        border-left: 6px solid var(--ativo);
+        animation: abaSelecionada 0.2s ease-in-out;;
+    }
+    
+    .pagAtivo a {
+        margin: 0;
+        padding: 0;
+    }
 }
 
 @keyframes abaSelecionada {

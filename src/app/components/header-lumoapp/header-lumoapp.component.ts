@@ -17,11 +17,12 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class HeaderLumoappComponent implements OnInit {
   logo: string = '/logo4.png';
+  logoMobile: string = '/app/lsico.jpg';
   titulo: string = 'Início';
   profile!: SafeUrl | undefined;
   profileExpire!: string | null;
   isProfileClicked: boolean = false;
-
+  isShowLogo: boolean = true;
 
   constructor(private router: Router, private titleService: TitleService, private authService: AuthService, private contaService: ContaService, private sanitizer: DomSanitizer) { 
     this.carregaFotoUsuario();

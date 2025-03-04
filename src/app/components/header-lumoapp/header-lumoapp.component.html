@@ -1,6 +1,11 @@
 <header>
     <div>
-        <img routerLink="/home" [src]="logo" alt="Logo do Lumostudy">
+        <!-- <img routerLink="/home" [src]="logo" alt="Logo do Lumostudy"> -->
+        <picture>
+          <source media="(max-width: 600px)" [srcset]="logoMobile">
+          <source media="(min-width: 768px) and (max-width: 1200px)" [srcset]="logo">
+          <img routerLink="/home" [src]="logo" alt="Logo do Lumostudy">
+      </picture>
         <h1>{{ titulo }}</h1>
     </div>  
     <nav>
