@@ -34,7 +34,7 @@
                     </span>
                 </form>
             </div>
-            <div class="timers">
+            <!-- <div class="timers">
                 <h2 class="titulo">Cronometros</h2>
                 <p>Selecione a Matéria e o Conteúdo para registrar a sua sessão de estudos.
                     Você pode alterar as configurações do cronometro na aba <strong>"Configurações do Pomodoro"</strong>
@@ -51,12 +51,12 @@
                 <span class="timers-botoes">
                     <app-button texto="Iniciar" (click)="iniciarPomodoro()" [customClass]="btAtivos[0] ? 'button-on' : ''" [isDisabled]="!isMateriaSelecionada"></app-button>                   
                     <app-button texto="Pausar" (click)="pausarPomodoro()" [isDisabled]="!isSessaoAtiva || !isMateriaSelecionada" [customClass]="btAtivos[1] ? 'button-on' : ''"></app-button>
-                    <!-- <app-button texto="Reiniciar" (click)="resetarPomodoro()"
-                        [isDisabled]="!isSessaoAtiva || isBreak" ></app-button>--> 
                     <app-button texto="Pular" (click)="passarSessao()" [isDisabled]="!isSessaoAtiva || !isMateriaSelecionada"></app-button>
                 </span>
-
-            </div>
+            </div> -->
+            <app-timer [pomodoroAtual]="pomodoroAtual" [tempoPomodoro]="tempoPomodoro" [tempoTotal]="tempoTotal"
+                [btAtivos]="btAtivos" [isMateriaSelecionada]="isMateriaSelecionada" [isSessaoAtiva]="isSessaoAtiva" (iniciarSessao)="iniciarPomodoro()"
+                (pausarSessao)="pausarPomodoro()" (passarSessao)="passarSessao()"></app-timer>
             <div class="cronograma">
                 <div>
                     <span class="aba-opcoes">

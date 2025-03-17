@@ -1,0 +1,20 @@
+<div class="timers">
+    <h2 class="titulo">Cronometros</h2>
+    <p>Selecione a Matéria e o Conteúdo para registrar a sua sessão de estudos.
+        Você pode alterar as configurações do cronometro na aba <strong>"Configurações do Pomodoro"</strong>
+    </p>
+    <label for="pomodoro" class="label-timer">{{pomodoroAtual}}</label>
+
+    <div class="span-timers">
+        <h2 id="pomodoro" class="pomodoro">{{tempoPomodoro}}</h2>
+    </div>
+    <label for="total" class="label-timer">Tempo total</label>
+    <div>
+        <p id="total" class="total">{{tempoTotal}}</p>
+    </div>
+    <span class="timers-botoes">
+        <app-button texto="Iniciar" (click)="handleIniciarSessao()" [customClass]="btAtivos[0] ? 'button-on' : ''" [isDisabled]="!isMateriaSelecionada"></app-button>                   
+        <app-button texto="Pausar" (click)="handlePausarSessao()" [isDisabled]="!isSessaoAtiva || !isMateriaSelecionada" [customClass]="btAtivos[1] ? 'button-on' : ''"></app-button>
+        <app-button texto="Pular" (click)="handlePassarSessao()" [isDisabled]="!isSessaoAtiva || !isMateriaSelecionada"></app-button>
+    </span>
+</div>
