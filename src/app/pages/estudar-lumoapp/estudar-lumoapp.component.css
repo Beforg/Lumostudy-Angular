@@ -35,7 +35,7 @@ section {
     
 }
 
-.timers {
+/* .timers {
     display: flex;
     flex-direction: column;
 
@@ -45,7 +45,7 @@ section {
     margin: 0;
     border-right: solid 1px var(--cinza-borda);
     height: 580px;
-}
+} */
 
 ul {
     list-style-type: none;
@@ -67,7 +67,7 @@ li {
     margin: 10px;
     padding: 0;
     color: var(--cinza-p);
-
+/* :: */
 }
 
 .concluido {
@@ -106,7 +106,7 @@ li {
     align-items: center;
 }
 
-.timers-botoes {
+/* .timers-botoes {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -115,21 +115,21 @@ li {
     padding: 2%;
     border: 1px solid var(--cinza-borda);
     border-radius: 10px;
-}
-
-.pomodoro {
+} */
+/* ^ */
+/* .pomodoro {
     font-size: 45px;
     padding: 1%;
-}
+} */
 
 .finalizar {
     margin-left: auto;
 }
 
-.total {
+/* .total {
     font-size: 34px;
     padding: 1%;
-}
+} */
 
 .label-timer {
     margin-right: auto;
