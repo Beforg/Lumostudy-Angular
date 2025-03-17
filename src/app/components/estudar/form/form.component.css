@@ -1,0 +1,19 @@
+.inputs {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--cinza-borda);
+    padding-right: 1%;
+    margin: auto;
+    height: 580px;
+    
+}
+
+.titulo {
+    margin: 10px;
+    padding: 0;
+    color: var(--cinza-p);
+}
+
+.finalizar {
+    margin-left: auto;
+}
