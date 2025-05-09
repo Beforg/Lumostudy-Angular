@@ -95,3 +95,109 @@ img:hover {
     font-size: 14px;
     margin-bottom: a;
 }
+
+@media (min-width: 1024px) {
+    footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        color: var(--preto-p);
+        border-top: 1px solid var(--cinza-borda);
+        padding: 20px 0 20px 0;
+        text-align: center;
+        font-family: 'Montserrat', sans-serif;
+        height: 100px;
+    
+    }
+    
+    .infos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        margin-bottom: 25px;
+    
+    }
+    
+    .imgGh {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .infos span {
+        display: flex;
+        justify-content: center;
+    
+        align-items: center;
+    
+    }
+    
+    .infos p {
+        border-right: 1px solid var(--preto-p);
+        padding-right: 10px;
+    }
+    
+    strong {
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    strong:hover {
+        cursor: pointer;
+        color: var(--cinza-p);
+    }
+    
+    img {
+        vertical-align: middle;
+    }
+    
+    img:hover {
+        cursor: pointer;
+    }
+    
+    .creditos {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    
+    }
+    
+    .creditos p {
+        margin: 2px;
+    }
+    
+    .creditos a {
+        text-decoration: none;
+        color: var(--preto-p);
+        font-weight: bold;
+        transition: color 0.2s;
+        border-left: 1px solid var(--preto-p);
+        padding-left: 5px ;
+        padding-right: 5px;
+        
+    }
+    
+    .creditos span {
+        padding-right: 3px;
+    }
+    #logo {
+        width: 259px;
+        height: 42px;
+    }
+    
+    .creditos a:hover {
+        color: var(--cinza-p);
+        transition: color 0.2s;
+    }
+    
+    .version {
+        font-size: 14px;
+        margin-bottom: a;
+    }
+    
+}
+

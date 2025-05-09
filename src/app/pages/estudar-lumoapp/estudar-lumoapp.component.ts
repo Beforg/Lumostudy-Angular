@@ -20,6 +20,8 @@ import { NavComponent } from "../../components/nav/nav.component";
 import { CardComponent } from "../../components/card/card.component";
 import { Estudar } from '../../utils/estudar';
 import { FooterComponent } from "../../components/footer/footer.component";
+import { TimerComponent } from '../../components/estudar/timer/timer.component';
+import { FormComponent } from '../../components/estudar/form/form.component';
 
 @Component({
   selector: 'app-estudar-lumoapp',
@@ -34,7 +36,9 @@ import { FooterComponent } from "../../components/footer/footer.component";
     ReactiveFormsModule,
     NavComponent,
     CardComponent,
-    FooterComponent
+    FooterComponent,
+    TimerComponent,
+    FormComponent
 ],
   providers: [MateriaService, ReesService, CronogramaService],
   templateUrl: './estudar-lumoapp.component.html',

@@ -9,7 +9,7 @@
                 Pomodoro</a>
         </div>
         <div class="display" *ngIf="isEstudarAtivo">
-            <div class="inputs">
+            <!-- <div class="inputs">
                 <h2 class="titulo">O que vai estudar?</h2>
                 <form [formGroup]="reesForm" (ngSubmit)="registrarEstudo()">
                     <label for="materia">Matéria*</label>
@@ -26,15 +26,16 @@
                         <input id="checkbox" type="checkbox" (change)="novoConteudo()" formControlName="isNovoConteudo">
                     </div>
                     <label for="descricao">Observações (opcional)</label>
-                    <!-- <app-input id="descricao" [placeholder]="''" [type]="'text'"
-                        formControlName="descricao"></app-input> -->
                     <textarea id="descricao" formControlName="descricao"></textarea>
                     <span class="finalizar">
                         <app-button texto="Finalizar estudo" type="submit"></app-button>
                     </span>
                 </form>
-            </div>
-            <div class="timers">
+            </div> -->
+            <app-form [materias]="materias" [conteudo]="conteudo" [isNovoConteudo]="isNovoConteudo" [reesForm]="reesForm"
+                (alterarConteudoPorMateria)="alterarConteudoPorMateria()" (novoConteudo)="novoConteudo()"
+                (registrarEstudo)="registrarEstudo()"></app-form>
+            <!-- <div class="timers">
                 <h2 class="titulo">Cronometros</h2>
                 <p>Selecione a Matéria e o Conteúdo para registrar a sua sessão de estudos.
                     Você pode alterar as configurações do cronometro na aba <strong>"Configurações do Pomodoro"</strong>
@@ -51,12 +52,12 @@
                 <span class="timers-botoes">
                     <app-button texto="Iniciar" (click)="iniciarPomodoro()" [customClass]="btAtivos[0] ? 'button-on' : ''" [isDisabled]="!isMateriaSelecionada"></app-button>                   
                     <app-button texto="Pausar" (click)="pausarPomodoro()" [isDisabled]="!isSessaoAtiva || !isMateriaSelecionada" [customClass]="btAtivos[1] ? 'button-on' : ''"></app-button>
-                    <!-- <app-button texto="Reiniciar" (click)="resetarPomodoro()"
-                        [isDisabled]="!isSessaoAtiva || isBreak" ></app-button>--> 
                     <app-button texto="Pular" (click)="passarSessao()" [isDisabled]="!isSessaoAtiva || !isMateriaSelecionada"></app-button>
                 </span>
-
-            </div>
+            </div> -->
+            <app-timer [pomodoroAtual]="pomodoroAtual" [tempoPomodoro]="tempoPomodoro" [tempoTotal]="tempoTotal"
+                [btAtivos]="btAtivos" [isMateriaSelecionada]="isMateriaSelecionada" [isSessaoAtiva]="isSessaoAtiva" (iniciarSessao)="iniciarPomodoro()"
+                (pausarSessao)="pausarPomodoro()" (passarSessao)="passarSessao()"></app-timer>
             <div class="cronograma">
                 <div>
                     <span class="aba-opcoes">

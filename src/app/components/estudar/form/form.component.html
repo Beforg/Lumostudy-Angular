@@ -1,0 +1,23 @@
+<div class="inputs">
+    <h2 class="titulo">O que vai estudar?</h2>
+    <form [formGroup]="reesForm" (ngSubmit)="registrarEstudo()">
+        <label for="materia">Matéria*</label>
+        <app-input id="materia" [placeholder]="'Selecione a Matéria'" [type]="'choose'" [options]="materias"
+            formControlName="codMateria" (change)="alterarConteudoPorMateria()"></app-input>
+        <label for="conteudo" *ngIf="!isNovoConteudo">Conteúdo*</label>
+        <app-input *ngIf="!isNovoConteudo" id="conteudo" [placeholder]="'Selecione o Conteúdo'"
+            [type]="'choose'" [options]="conteudo" formControlName="conteudo"></app-input>
+        <label for="conteudo-tf" *ngIf="isNovoConteudo">Novo Conteúdo*</label>
+        <app-input id="conteudo-tf" [placeholder]="'Insira o novo conteúdo'" [type]="'text'"
+            formControlName="conteudoTexto" *ngIf="isNovoConteudo"></app-input>
+        <div class="div-checkbox">
+            <label for="checkbox">Novo conteúdo</label>
+            <input id="checkbox" type="checkbox" (change)="novoConteudo()" formControlName="isNovoConteudo">
+        </div>
+        <label for="descricao">Observações (opcional)</label>
+        <textarea id="descricao" formControlName="descricao"></textarea>
+        <span class="finalizar">
+            <app-button texto="Finalizar estudo" type="submit"></app-button>
+        </span>
+    </form>
+</div>

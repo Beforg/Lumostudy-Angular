@@ -1,85 +1,156 @@
+.foto-usuario {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid var(--borda-foto);
+  margin: 0 10px 0 0;
+}
+
 header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: solid 1px var(--cinza-borda);
-    color: var(--preto-p);
-    padding: 0.5% 1%;
-    align-items: center;
-    text-align: center;
-    font-size: 1.5em;
-    font-weight: bold;
-    background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+  border-bottom: solid 1px var(--cinza-borda);
+  color: var(--preto-p);
+  padding: 0.2% 0.5%;
+  align-items: center;
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: bold;
+  background-color: rgb(255, 255, 255);
 }
 
 div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 h1 {
-    border-left: solid 1px var(--cinza-borda);
-    padding-left: 5%;
-    margin: 0;
-}
-
-.profile {
-    transition: transform 0.2s;
-}
-
-.profile:hover {
-    cursor: pointer;
-    transition: transform 0.2s;
-    transform: scale(1.1);
+  padding-left: 20px;
+  margin: 0;
 }
 
 .profile-opcoes {
-    position: absolute;
-    top: 92px; 
-    right: 30px; 
-    background-color: var(--branco-p);
-    border: 1px solid var(--cinza-borda);
-    border-radius: 5px;
-    box-shadow: var(--box-shadow);
-    z-index: 1000;
+  position: absolute;
+  top: 68px;
+  right: 5px;
+  background-color: var(--branco-p);
+  border: 1px solid var(--cinza-borda);
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  z-index: 1000;
 
-    animation: fadeInTab 0.5s ease-in-out;
-  }
-  
-  .opcoes {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-  }
-  
-  .opcoes button {
-    background: none;
-    border: none;
-    padding: 10px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: left;
-    color: var(--preto-p);
-    cursor: pointer;
-    transition: transform 0.2s;
-    
-  }
-  
-  .opcoes button:hover {
-    transition: transform 0.2s;
-    transform: scale(1.1);
-  }
-
-  img {
-    cursor: pointer;
-  }
-
-  .foto-usuario {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 3px solid var(--borda-foto);
-    margin: 0 10px 0 0;
+  animation: fadeInTab 0.5s ease-in-out;
 }
+
+.opcoes {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.opcoes button {
+  background: none;
+  border: none;
+  padding: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  color: var(--preto-p);
+  cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+
+  /* ==================================================== */
+
+  @media (min-width: 1024px) {
+    header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: solid 1px var(--cinza-borda);
+      color: var(--preto-p);
+      padding: 0.5% 1%;
+      align-items: center;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      background-color: rgb(255, 255, 255);
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    img {
+      cursor: pointer;
+    }
+
+
+    h1 {
+      border-left: solid 1px var(--cinza-borda);
+      padding-left: 5%;
+      margin: 0;
+    }
+
+    .profile {
+      transition: transform 0.2s;
+    }
+
+    .profile:hover {
+      cursor: pointer;
+      transition: transform 0.2s;
+      transform: scale(1.1);
+    }
+
+    .profile-opcoes {
+      position: absolute;
+      top: 92px;
+      right: 30px;
+      background-color: var(--branco-p);
+      border: 1px solid var(--cinza-borda);
+      border-radius: 5px;
+      box-shadow: var(--box-shadow);
+      z-index: 1000;
+
+      animation: fadeInTab 0.5s ease-in-out;
+    }
+
+    .opcoes {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    .opcoes button {
+      background: none;
+      border: none;
+      padding: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: left;
+      color: var(--preto-p);
+      cursor: pointer;
+      transition: transform 0.2s;
+
+    }
+
+    .opcoes button:hover {
+      transition: transform 0.2s;
+      transform: scale(1.1);
+    }
+
+    .foto-usuario {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid var(--borda-foto);
+      margin: 0 10px 0 0;
+    }
+  }
